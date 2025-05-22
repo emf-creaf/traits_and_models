@@ -54,7 +54,7 @@ Any given script should have the following sections:
   1) Read database from *raw-data/raw_trait_data/[source]*.
   2) Variable harmonization (notation, units), according to `HarmonizedTraitDefinition`.
   3) Taxonomic harmonization, using function `traits4models::harmonize_taxonomy_WFO()`.
-  4) Checking data base, using function `traits4models::harmonize_taxonomy_WFO()`.
+  4) Checking data base, using function `traits4models::check_harmonized_trait()`.
   5) Storing in folder *data/harmonized_trait_sources/[source]*.
 
 If a data base contains more than one trait, steps [1-5] can be conducted as shown. Alternatively, steps [2-5] can be conducted repeatedly for different traits. This can be more efficient to avoid large amounts of missing values when processing large data bases.

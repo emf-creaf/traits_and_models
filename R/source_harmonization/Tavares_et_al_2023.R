@@ -3,10 +3,10 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-db <- readr::read_csv(paste0(DB_path, "Sources/Tavares_et_al_2023/Data_package_Tavares_et_al_2023/Data/Hydraulic_traits_dataset_TAVARES_et_al_2023.csv"))
+db <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Tavares_et_al_2023/Data_package_Tavares_et_al_2023/Data/Hydraulic_traits_dataset_TAVARES_et_al_2023.csv"))
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
@@ -20,6 +20,7 @@ db_var <- db |>
                 VCstem_P88 = as.numeric(VCstem_P88),
                 WoodDensity = as.numeric(WoodDensity),
                 Reference = "Tavares et al. (2023). Basin-wide variation in tree hydraulic safety margins predicts the carbon balance of Amazon forests. Nature 617: 111-116",
+                DOI = "10.1038/s41586-023-05971-3",
                 Priority = 1)|>
   tibble::as_tibble()
 
@@ -30,4 +31,4 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 
 # Storing -----------------------------------------------------------------
-saveRDS(db_post, "Products/harmonized/Tavares_et_al_2023.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavares_et_al_2023.rds")

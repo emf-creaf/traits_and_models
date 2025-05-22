@@ -3,10 +3,10 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-db <- readr::read_csv(paste0(DB_path, "Sources/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"))
+db <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"))
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
@@ -23,6 +23,7 @@ db_var <- db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""),
                 originalName = stringr::str_replace(originalName, "Erigoonum", "Eriogonum"))|>
   dplyr::mutate(Reference = "Bartlett et al. (2016)",
+                DOI = "10.1073/pnas.1604088113",
                 Priority = 3)|>
   tibble::as_tibble()
 
@@ -33,4 +34,4 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 
 # Storing -----------------------------------------------------------------
-saveRDS(db_post, "Products/harmonized/Bartlett_et_al_2016.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Bartlett_et_al_2016.rds")

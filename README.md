@@ -89,7 +89,7 @@ Any given script should have the following sections:
 3)  Taxonomic harmonization, using function
     `traits4models::harmonize_taxonomy_WFO()`.
 4)  Checking data base, using function
-    `traits4models::harmonize_taxonomy_WFO()`.
+    `traits4models::check_harmonized_trait()`.
 5)  Storing in folder *data/harmonized_trait_sources/\[source\]*.
 
 If a data base contains more than one trait, steps \[1-5\] can be
