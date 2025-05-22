@@ -5,19 +5,60 @@
 
 ### About this repository
 
-Scripts and data in this repository are intended to be used to harmonize
-trait information previously to model parameter estimation.
+This repository aims to facilitate the task of estimating functional
+parameters in process-based models of forest function and dynamics from
+plant trait data sources.
 
-### Required package
+It contains different sections that can be useful independently:
+
+- **Harmonization of trait data sources**: Bringing species names to
+  accepted taxon entities and harmonizing trait definitions and units.
+  Later these harmonized sources can be used to fill parameter values
+  for a large number of species.
+- **Trait-trait relationships**: Compiling published relationships
+  between traits, to be later used in parameter imputation strategies
+  when information is missing.
+- **Traits and model parameterization assumptions**: This tries to bring
+  awareness on the assumptions made by modellers when adopting parameter
+  estimation strategies, and whether these assumptions are met or not
+  for different plant traits.
+
+The repository intends to support the collaborative work started in a
+PsiHub workshop held in Avignon (9-11th April 2025).
+
+### How to contribute to this repository
+
+People interested in contributing with information to any of the three
+sections of the repository should adhere to the following protocol:
+
+1.  **Fork** the *emf-creaf/traits_and_models* repository into his/her
+    own GitHub account and create a local copy. This should be done only
+    once.
+2.  **Make changes** on the local copy of the forked repository
+    (e.g. adding new scripts for harmonization of a new source or
+    modifying repository excel files in `data-raw`).
+3.  **Push changes** in the local repository to the forked one.
+4.  Create a **pull request** of the forked repository so that
+    changes/additions can be integrated to the main repository in
+    *emf-creaf/traits_and_models*.
+5.  Subsequent work should be preceded by a **re-synchronization** of
+    the forked repository, so that changes made by other users are
+    available.
+
+### Related package
 
 Package [**traits4models**](https://emf-creaf.github.io/traits4models)
 is being developed to assist harmonization. This package should be
-installed for the correct use of the scripts in this repository. Note
-that package **trait4models** has also the table
-`HarmonizedTraitDefinition` which contains the definitions and required
-notation and units for all traits to be harmonized.
+installed for the correct use of the scripts in this repository.
+
+Package **trait4models** has also the table `HarmonizedTraitDefinition`,
+which contains the definitions and required notation and units for all
+traits to be harmonized.
 
 ## Trait source harmonization
+
+This sections aims to help in the collective effort of gathering and
+harmonizing trait data sources.
 
 ### Raw trait data
 
@@ -41,17 +82,17 @@ set. R scripts are located in a sub-folder of *R/source_harmonization*
 
 Any given script should have the following sections:
 
-1.  Read database from *raw-data/raw_trait_data/\[source\]*.
-2.  Variable harmonization (notation, units), according to
+1)  Read database from *raw-data/raw_trait_data/\[source\]*.
+2)  Variable harmonization (notation, units), according to
     `HarmonizedTraitDefinition`.
-3.  Taxonomic harmonization, using function
+3)  Taxonomic harmonization, using function
     `traits4models::harmonize_taxonomy_WFO()`.
-4.  Checking data base, using function
+4)  Checking data base, using function
     `traits4models::harmonize_taxonomy_WFO()`.
-5.  Storing in folder *data/harmonized_trait_sources/\[source\]*.
+5)  Storing in folder *data/harmonized_trait_sources/\[source\]*.
 
-If a data base contains more than one trait, steps \[a-e\] can be
-conducted as shown. Alternatively, steps \[b-e\] can be repeated
+If a data base contains more than one trait, steps \[1-5\] can be
+conducted as shown. Alternatively, steps \[2-5\] can be conducted
 repeatedly for different traits. This can be more efficient to avoid
 large amounts of missing values when processing large data bases.
 
@@ -60,9 +101,12 @@ large amounts of missing values when processing large data bases.
 The output of harmonization should be stored as an *.rds* or *.csv* file
 in *data/harmonized_trait_sources*
 (e.g. *data/harmonized_trait_sources/Bartlett_et_al_2016.rds*).
-**IMPORTANT**: Harmonized trait data not be stored in the GitHub
+
+**IMPORTANT NOTE**: Harmonized trait data not be stored in the GitHub
 repository (i.e. *data-raw/raw_trait_data* is listed in the *.gitignore*
-file).
+file). They are meant to be stored locally but can be exchanged between
+users of the repository by contacting the person who performed the
+harmonization.
 
 ## Trait-trait relationships
 
