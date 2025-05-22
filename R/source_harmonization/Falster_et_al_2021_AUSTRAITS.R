@@ -7,8 +7,8 @@ DB_path <- "./"
 WFO_path <- "./"
 
 # Read database -----------------------------------------------------------
-aus_db <- readr::read_csv(paste0(DB_path,"Sources/Falster_et_al_2021_AusTraits/austraits-5.0.0/traits.csv"))
-methods_db <- readr::read_csv(paste0(DB_path,"Sources/Falster_et_al_2021_AusTraits/austraits-5.0.0/methods.csv"))
+aus_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Falster_et_al_2021_AusTraits/austraits-5.0.0/traits.csv"))
+methods_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Falster_et_al_2021_AusTraits/austraits-5.0.0/methods.csv"))
 
 traits <- sort(unique(aus_db$trait_name))
 
@@ -44,7 +44,7 @@ db_var <- aus_db |>
   dplyr::left_join(db_methods, by = "dataset_id")|>
   dplyr::select(-dataset_id)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LifeForm.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LifeForm.rds")
 
 
 # # LeafShape --------------------------------------------------
@@ -82,7 +82,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LifeForm.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafShape.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafShape.rds")
 
 # # LeafDuration --------------------------------------------------
 # db_methods <- methods_db |>
@@ -106,7 +106,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LifeForm.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafDuration.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafDuration.rds")
 
 
 # # LeafArea --------------------------------------------------
@@ -131,7 +131,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LifeForm.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafArea.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafArea.rds")
 
 
 # LeafAngle --------------------------------------------------
@@ -156,7 +156,7 @@ db_var <- aus_db |>
   dplyr::left_join(db_methods, by = "dataset_id")|>
   dplyr::select(-dataset_id)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafAngle.rds")
 
 # # SRL --------------------------------------------------
 # db_methods <- methods_db |>
@@ -180,7 +180,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_SRL.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_SRL.rds")
 
 # # Ks - Stem-specific conductivity --------------------------------------------------
 # db_methods <- methods_db |>
@@ -200,7 +200,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_Ks.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Ks.rds")
 # 
 # # StemEPS - Stem modulus of elasticity --------------------------------------------------
 # db_methods <- methods_db |>
@@ -220,7 +220,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_StemEPS.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_StemEPS.rds")
 # 
 # # Wood density --------------------------------------------------
 # db_methods <- methods_db |>
@@ -240,7 +240,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_WoodDensity.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_WoodDensity.rds")
 # 
 # # Leaf density --------------------------------------------------
 # db_methods <- methods_db |>
@@ -260,7 +260,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafDensity.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafDensity.rds")
 
 # # Leaf width --------------------------------------------------
 # db_methods <- methods_db |>
@@ -285,7 +285,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafWidth.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafWidth.rds")
 # 
 # 
 # 
@@ -311,7 +311,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_SeedMass.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_SeedMass.rds")
 # 
 
 # # SLA/LMA --------------------------------------------------
@@ -337,7 +337,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_SLA.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_SLA.rds")
 # 
 # 
 
@@ -364,7 +364,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_Hact.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Hact.rds")
 
 # # StemEPS --------------------------------------------------
 # db_methods <- methods_db |>
@@ -388,7 +388,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_StemEPS.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_StemEPS.rds")
 # 
 # # Al2As --------------------------------------------------
 # db_methods <- methods_db |>
@@ -412,7 +412,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_Al2As.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Al2As.rds")
 # # VCstem_P50 --------------------------------------------------
 # db_methods <- methods_db |>
 #   dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
@@ -435,7 +435,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_VCstem_P50.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_VCstem_P50.rds")
 # 
 # # VCstem_P12 --------------------------------------------------
 # db_methods <- methods_db |>
@@ -459,7 +459,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_VCstem_P12.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_VCstem_P12.rds")
 # 
 # 
 # # VCstem_P88 --------------------------------------------------
@@ -484,7 +484,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_VCstem_P88.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_VCstem_P88.rds")
 # 
 # 
 # # Nsapwood --------------------------------------------------
@@ -509,7 +509,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_Nsapwood.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Nsapwood.rds")
 # 
 # # LeafPI0 --------------------------------------------------
 # db_methods <- methods_db |>
@@ -533,7 +533,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafPI0.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafPI0.rds")
 # 
 # # LeafEPS --------------------------------------------------
 # db_methods <- methods_db |>
@@ -557,7 +557,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafEPS.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafEPS.rds")
 
 # # Vmax --------------------------------------------------
 # db_methods <- methods_db |>
@@ -581,7 +581,7 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_Vmax.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Vmax.rds")
 # 
 # # Jmax --------------------------------------------------
 # db_methods <- methods_db |>
@@ -605,5 +605,5 @@ saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_LeafAngle.rds")
 #   dplyr::left_join(db_methods, by = "dataset_id")|>
 #   dplyr::select(-dataset_id)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Falster_et_al_2021_Jmax.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Jmax.rds")
 

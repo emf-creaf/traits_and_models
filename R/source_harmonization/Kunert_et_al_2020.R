@@ -3,11 +3,11 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-db <- openxlsx::read.xlsx(paste0(DB_path, "Sources/Kunert_Tomaskova_2020/Kunert_TLP_DB2020.xlsx"), sheet = 1)
-ref <- openxlsx::read.xlsx(paste0(DB_path, "Sources/Kunert_Tomaskova_2020/Kunert_TLP_DB2020.xlsx"), sheet = 2)
+db <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Kunert_Tomaskova_2020/Kunert_TLP_DB2020.xlsx"), sheet = 1)
+ref <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Kunert_Tomaskova_2020/Kunert_TLP_DB2020.xlsx"), sheet = 2)
 db <- db |>
   dplyr::left_join(ref)
 # Variable harmonization --------------------------------------------------
@@ -28,4 +28,4 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 
 # Storing -----------------------------------------------------------------
-saveRDS(db_post, "Products/harmonized/Kunert_Tomaskova_2020.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Kunert_Tomaskova_2020.rds")

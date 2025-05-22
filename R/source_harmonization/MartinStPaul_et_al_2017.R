@@ -3,10 +3,10 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-db <- readxl::read_excel(paste0(DB_path,"Sources/MartinStPaul_et_al_2017/DataBase.xlsx"), sheet = "ALL")
+db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/MartinStPaul_et_al_2017/DataBase.xlsx"), sheet = "ALL")
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
@@ -21,6 +21,7 @@ db_var <- db |>
   tibble::as_tibble()
 
 db_var$Reference <- "Martin-StPaul et al. 2017"
+db_var$DOI <- "10.1111/ele.12851"
 db_var$Priority <- 1
 
 # Taxonomic harmonization -----------------------------------------------
@@ -30,4 +31,4 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 
 # Storing ----------------------------------
-saveRDS(db_post, "Products/harmonized/MartinStPaul_et_al_2017.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017.rds")

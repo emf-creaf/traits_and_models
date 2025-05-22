@@ -8,7 +8,7 @@ WFO_path <- "./"
 
 
 # GrowthForm - TRY 3400 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_3400.rds")) |>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3400.rds")) |>
 #   dplyr::rename(
 #     GrowthForm = OrigValueStr
 #   ) |>
@@ -35,12 +35,12 @@ WFO_path <- "./"
 #   dplyr::arrange(originalName)
 # 
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_GrowthForm.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_GrowthForm.rds")
 # 
 
 # # LifeForm - TRY 343 -----------------------------------------------------------------
 # 
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_343.rds"))  |>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_343.rds"))  |>
 #   dplyr::mutate(
 #     LifeForm = OrigValueStr
 #    ) |>
@@ -109,10 +109,10 @@ WFO_path <- "./"
 #   dplyr::arrange(originalName)
 # 
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LifeForm.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LifeForm.rds")
 # 
 # # DispersalMode - TRY 28 ------------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_28.rds")) |>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_28.rds")) |>
 #    dplyr::mutate(
 #      DispersalType = OrigValueStr
 #    )  |>
@@ -159,12 +159,12 @@ WFO_path <- "./"
 #   dplyr::arrange(originalName)
 # 
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_DispersalMode.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_DispersalMode.rds")
 # 
 # 
 # 
 # # LeafShape - TRY 43 ------------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_43.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_43.rds"))|>
 #   dplyr::mutate(
 #     LeafShape = OrigValueStr
 #   ) |>
@@ -193,12 +193,12 @@ WFO_path <- "./"
 #   dplyr::arrange(originalName)
 # 
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LeafShape.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafShape.rds")
 # 
 # 
 # 
 # # LeafArea - TRY_3110 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_3110.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3110.rds"))|>
 #   dplyr::mutate(
 #     LeafArea = StdValue) |>
 #   dplyr::filter(
@@ -220,12 +220,12 @@ WFO_path <- "./"
 #   dplyr::arrange(originalName)
 # 
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LeafArea.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafArea.rds")
 # 
 # 
 # 
 # # PhenologyType - TRY 37 ------------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_37.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_37.rds"))|>
 #   dplyr::mutate(
 #     PhenologyType = OrigValueStr
 #   ) |>
@@ -269,11 +269,11 @@ WFO_path <- "./"
 #   dplyr::arrange(originalName)
 # 
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_PhenologyType.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_PhenologyType.rds")
 # 
 # 
 # # Hact - TRY 3106 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_3106.rds")) |>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3106.rds")) |>
 #   dplyr::select(
 #     AccSpeciesName,
 #     DatasetID,
@@ -305,11 +305,11 @@ WFO_path <- "./"
 #   dplyr::arrange(originalName)
 # 
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_Hact.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Hact.rds")
 # 
 # 
 # # LeafDuration - TRY_12 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_12.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_12.rds"))|>
 #   dplyr::mutate(
 #     LeafDuration = StdValue) |>
 #   dplyr::filter(
@@ -333,11 +333,11 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LeafDuration.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafDuration.rds")
 # 
 # 
 # # Z95 - TRY_12 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_6.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_6.rds"))|>
 #   dplyr::mutate(
 #     Z95 = StdValue) |>
 #   dplyr::filter(
@@ -361,11 +361,11 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_Z95.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Z95.rds")
 # 
 # 
 # # SLA - TRY_3117 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_3117.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3117.rds"))|>
 #   dplyr::mutate(
 #     SLA = StdValue) |>
 #   dplyr::filter(
@@ -389,10 +389,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_SLA.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_SLA.rds")
 # 
 # # LeafDensity - TRY_48 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_48.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_48.rds"))|>
 #   dplyr::mutate(
 #     LeafDensity = StdValue) |>
 #   dplyr::filter(
@@ -416,11 +416,11 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LeafDensity.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafDensity.rds")
 # 
 # 
 # # WoodDensity - TRY_4 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_4.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_4.rds"))|>
 #   dplyr::mutate(
 #     WoodDensity = StdValue) |>
 #   dplyr::filter(
@@ -446,7 +446,7 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_WoodDensity.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_WoodDensity.rds")
 
 # Al2As NOT DONE - TRY_171 ----------------------------------------------------------------
 # TRY_Al2As$StdValue[TRY_Al2As$OriglName=="Huber value"]<-1/as.numeric(TRY_Al2As$OrigValueStr[TRY_Al2As$OriglName=="Huber value"])
@@ -457,7 +457,7 @@ WFO_path <- "./"
 # TRY_Al2As$StdValue[TRY_Al2As$OriglName=="values at breast height, m2/cm2"]<-10000*as.numeric(TRY_Al2As$OrigValueStr[TRY_Al2As$OriglName=="values at breast height, m2/cm2"])
 # TRY_Al2As <- TRY_Al2As[TRY_Al2As$ErrorRisk <3, c("AccSpeciesName", "StdValue")]
 # 
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_171.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_171.rds"))|>
 #   dplyr::mutate(Al2As = dplyr::case_when(
 #     OriglName == "Huber value" ~ 1/as.numeric(OrigValueStr),
 #     OriglName == "leaf.area.per.sapwood.area" ~ 100as.numeric(StdValue),
@@ -485,11 +485,11 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_WoodDensity.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_WoodDensity.rds")
 
 
 # # LeafWidth - TRY_145 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_145.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_145.rds"))|>
 #   dplyr::mutate(
 #     LeafWidth = StdValue) |>
 #   dplyr::filter(
@@ -515,10 +515,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LeafWidth.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafWidth.rds")
 
 # # SRL - TRY_614 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_614.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_614.rds"))|>
 #   dplyr::mutate(
 #     SRL = StdValue) |>
 #   dplyr::filter(
@@ -544,10 +544,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_SRL.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_SRL.rds")
 # 
 # # LeafPI0 - TRY_188 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_188.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_188.rds"))|>
 #   dplyr::mutate(
 #     LeafPI0 = StdValue) |>
 #   dplyr::filter(
@@ -574,10 +574,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LeafPI0.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafPI0.rds")
 # 
 # # LeafEPS - TRY_190 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_190.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_190.rds"))|>
 #   dplyr::mutate(
 #     LeafEPS = as.numeric(OrigValueStr)) |>
 #   dplyr::filter(
@@ -601,10 +601,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LeafEPS.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafEPS.rds")
 
 # # LigninPercent - TRY_87 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_87.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_87.rds"))|>
 #   dplyr::mutate(
 #     LigninPercent = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -630,10 +630,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LigninPercent.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LigninPercent.rds")
 
 # # Nleaf - TRY_14 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_14.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_14.rds"))|>
 #   dplyr::mutate(
 #     Nleaf = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -658,10 +658,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_Nleaf.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Nleaf.rds")
 
 # # Nsapwood - TRY_1229 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_1229.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_1229.rds"))|>
 #   dplyr::mutate(
 #     Nsapwood = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -686,10 +686,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_Nsapwood.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Nsapwood.rds")
 
 # # Nfineroot- TRY_475 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_475.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_475.rds"))|>
 #   dplyr::mutate(
 #     Nfineroot = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -714,10 +714,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_Nfineroot.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Nfineroot.rds")
 # 
 # # Vmax- TRY_186 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_186.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_186.rds"))|>
 #   dplyr::mutate(
 #     Vmax = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -742,10 +742,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_Vmax.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Vmax.rds")
 # 
 # # Jmax- TRY_269 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_269.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_269.rds"))|>
 #   dplyr::mutate(
 #     Jmax = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -770,11 +770,11 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_Jmax.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Jmax.rds")
 
 # 
 # # WoodC- TRY_407 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_407.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_407.rds"))|>
 #   dplyr::mutate(
 #     WoodC = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -800,11 +800,11 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_WoodC.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_WoodC.rds")
 # 
 # 
 # # RERleaf- TRY_407 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_41.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_41.rds"))|>
 #   dplyr::mutate(
 #     RERleaf = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -831,11 +831,11 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_RERleaf.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_RERleaf.rds")
 # 
 # 
 # # SeedMass- TRY_26 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_26.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_26.rds"))|>
 #   dplyr::mutate(
 #     SeedMass = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -860,10 +860,10 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_SeedMass.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_SeedMass.rds")
 
 # # LeafAngle- TRY_3 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_3.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3.rds"))|>
 #   dplyr::filter(
 #     !is.na(as.numeric(OrigValueStr)),
 #   ) |>
@@ -887,12 +887,12 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_LeafAngle.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafAngle.rds")
 # 
 
 # 
 # # SeedLongevity- TRY_26 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_33.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_33.rds"))|>
 #   dplyr::mutate(
 #     SeedLongevity = as.numeric(StdValue)) |>
 #   dplyr::filter(
@@ -917,11 +917,11 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_SeedLongevity.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_SeedLongevity.rds")
 # 
 
 # ShadeTolerance- TRY_603 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "Sources/Kattge_et_al_2020_TRY/TRY_traits/TRY_603.rds"))|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_603.rds"))|>
 #   dplyr::filter(DatasetID == 49) |>
 #   dplyr::mutate(
 #     ShadeTolerance = as.numeric(OrigValueStr)) |>
@@ -944,6 +944,6 @@ WFO_path <- "./"
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
 #   dplyr::arrange(originalName)
 # db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-# saveRDS(db_post, "Products/harmonized/Kattge_et_al_2020_ShadeTol.rds")
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_ShadeTol.rds")
 
 

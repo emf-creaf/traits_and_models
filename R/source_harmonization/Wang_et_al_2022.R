@@ -3,13 +3,13 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-chem <- readr::read_csv(paste0(DB_path,"Sources/Wang_et_al_2022_CPTD/CPTD/Chemical traits.csv"))
-photo <- readr::read_csv(paste0(DB_path,"Sources/Wang_et_al_2022_CPTD/CPTD/Photosynthetic traits.csv"))
-morpho <- readr::read_csv(paste0(DB_path,"Sources/Wang_et_al_2022_CPTD/CPTD/Morphometric traits.csv"))
-hydra <- readr::read_csv(paste0(DB_path,"Sources/Wang_et_al_2022_CPTD/CPTD/Hydraulic Trait.csv"))
+chem <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Wang_et_al_2022_CPTD/CPTD/Chemical traits.csv"))
+photo <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Wang_et_al_2022_CPTD/CPTD/Photosynthetic traits.csv"))
+morpho <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Wang_et_al_2022_CPTD/CPTD/Morphometric traits.csv"))
+hydra <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Wang_et_al_2022_CPTD/CPTD/Hydraulic Trait.csv"))
 
 # Variable harmonization --------------------------------------------------
 chem_var <- chem |>
@@ -55,7 +55,7 @@ db_var$Reference <- "Wang et al. 2022"
 db_var$Priority <- 3
 
 # Taxonomic harmonization -----------------------------------------------
-species <- readr::read_csv(paste0(DB_path,"Sources/Wang_et_al_2022_CPTD/CPTD/Species translations.csv"))
+species <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Wang_et_al_2022_CPTD/CPTD/Species translations.csv"))
 species_2 <- species |>
   dplyr::rename(oriGenus = `Field-identified Genus`) |>
   dplyr::rename(oriSpecies = `Field-identified Species`)
@@ -80,4 +80,4 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var2, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 
 # Storing -----------------------------------------------------------------
-saveRDS(db_post, "Products/harmonized/Wang_et_al_2022_CPTD.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Wang_et_al_2022_CPTD.rds")

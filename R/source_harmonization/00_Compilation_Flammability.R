@@ -7,8 +7,8 @@ DB_path <- "./"
 WFO_path <- "./"
 
 # Read database -----------------------------------------------------------
-db <- readxl::read_excel(paste0(DB_path,"Sources/00_compilation_Flammability/Flammability.xlsx"), sheet =1)
-biblio <- readxl::read_excel(paste0(DB_path,"Sources/00_compilation_Flammability/Flammability.xlsx"), sheet =2)
+db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/00_compilation_Flammability/Flammability.xlsx"), sheet =1)
+biblio <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/00_compilation_Flammability/Flammability.xlsx"), sheet =2)
 
 # HeatContent --------------------------------------------------
 db_var <- db |>
@@ -21,7 +21,7 @@ db_var <- db |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/00_compilation_Flammability_HeatContent.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/00_compilation_Flammability_HeatContent.rds")
 
 # SAV --------------------------------------------------
 db_var <- db |>
@@ -34,5 +34,5 @@ db_var <- db |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/00_compilation_Flammability_SAV.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/00_compilation_Flammability_SAV.rds")
 

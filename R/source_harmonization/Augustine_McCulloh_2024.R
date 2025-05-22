@@ -3,11 +3,11 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-fn <- file.path(DB_path, "Sources/Augustine_McCulloh_2024/Finaldata.csv")
-db <- readr::read_csv("Sources/Augustine_McCulloh_2024/Finaldata.csv", na = "N/A")
+fn <- file.path(DB_path, "data-raw/raw_trait_data/Augustine_McCulloh_2024/Finaldata.csv")
+db <- readr::read_csv("data-raw/raw_trait_data/Augustine_McCulloh_2024/Finaldata.csv", na = "N/A")
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
@@ -44,4 +44,4 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 
 # Storing -----------------------------------------------------------------
-saveRDS(db_post, "Products/harmonized/Augustine_McCulloh_2024.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Augustine_McCulloh_2024.rds")

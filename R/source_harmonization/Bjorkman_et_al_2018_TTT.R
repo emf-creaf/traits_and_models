@@ -3,10 +3,10 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-ttt_db <- readr::read_csv(paste0(DB_path,"Sources/Bjorkman_et_al_2018_TTT/TTT_cleaned_dataset_v1.csv"))
+ttt_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Bjorkman_et_al_2018_TTT/TTT_cleaned_dataset_v1.csv"))
 
 # LDMC --------------------------------------------------
 db_var <- ttt_db |>
@@ -21,7 +21,7 @@ db_var <- ttt_db |>
                 Priority = 3)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
-saveRDS(db_post, "Products/harmonized/Bjorkman_et_al_2018_LDMC.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LDMC.rds")
 
 # SeedMass --------------------------------------------------
 db_var <- ttt_db |>
@@ -36,7 +36,7 @@ db_var <- ttt_db |>
                 Priority = 3)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
-saveRDS(db_post, "Products/harmonized/Bjorkman_et_al_2018_SeedMass.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_SeedMass.rds")
 
 # RootingDepth --------------------------------------------------
 db_var <- ttt_db |>
@@ -50,7 +50,7 @@ db_var <- ttt_db |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Thomas et al. 2022")
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Bjorkman_et_al_2018_Z95.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Z95.rds")
 
 # Hact --------------------------------------------------
 db_var <- ttt_db |>
@@ -64,7 +64,7 @@ db_var <- ttt_db |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Thomas et al. 2022")
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Bjorkman_et_al_2018_Hact.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Hact.rds")
 
 # Nleaf --------------------------------------------------
 db_var <- ttt_db |>
@@ -77,7 +77,7 @@ db_var <- ttt_db |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Thomas et al. 2022")
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Bjorkman_et_al_2018_Nleaf.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Nleaf.rds")
 
 # LeafArea --------------------------------------------------
 db_var <- ttt_db |>
@@ -90,7 +90,7 @@ db_var <- ttt_db |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Thomas et al. 2022")
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Bjorkman_et_al_2018_LeafArea.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LeafArea.rds")
 
 # SLA --------------------------------------------------
 db_var <- ttt_db |>
@@ -103,5 +103,5 @@ db_var <- ttt_db |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Thomas et al. 2022")
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Bjorkman_et_al_2018_SLA.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_SLA.rds")
 

@@ -3,10 +3,10 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-db <- readxl::read_xls(paste0(DB_path, "Sources/Huang_et_al_2024/Huang_et_al.__2024-Journal_of_ecology_Supplementary_Data.xls"), 
+db <- readxl::read_xls(paste0(DB_path, "data-raw/raw_trait_data/Huang_et_al_2024/Huang_et_al.__2024-Journal_of_ecology_Supplementary_Data.xls"), 
                        sheet="Table 3", na = c("—"))
 
 # Variable harmonization --------------------------------------------------
@@ -31,4 +31,4 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 
 # Storing -----------------------------------------------------------------
-saveRDS(db_post, "Products/harmonized/Huang_et_al_2024.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Huang_et_al_2024.rds")

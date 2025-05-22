@@ -7,7 +7,7 @@ DB_path <- "./"
 WFO_path <- "./"
 
 # Read database -----------------------------------------------------------
-XFT <- readr::read_csv(paste0(DB_path, "Sources/Choat_et_al_2012_XFT/XFT_full_database_download_20230926-154837.csv"))
+XFT <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Choat_et_al_2012_XFT/XFT_full_database_download_20230926-154837.csv"))
 
 # Variable harmonization --------------------------------------------------
 XFT_all <- XFT |>
@@ -67,4 +67,4 @@ XFT_var <- XFT_all |>
 
 # Taxonomic harmonization -----------------------------------------------
 XFT_post <- harmonize_taxonomy_WFO(XFT_var, WFO_path)
-saveRDS(XFT_post, "Products/harmonized/Choat_et_al_2012_XFT.rds")
+saveRDS(XFT_post, "data/harmonized_trait_sources/Choat_et_al_2012_XFT.rds")

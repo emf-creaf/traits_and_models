@@ -7,7 +7,7 @@ DB_path <- "./"
 WFO_path <- "./"
 
 # Read database -----------------------------------------------------------
-brot_db <- readr::read_delim(paste0(DB_path,"Sources/Tavsanoglu_Pausas_2018_BROT2/BROT2_dat.csv"), 
+brot_db <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu_Pausas_2018_BROT2/BROT2_dat.csv"), 
                              delim = ";", escape_double = FALSE, trim_ws = TRUE)
 
 # LDMC --------------------------------------------------
@@ -24,7 +24,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_LDMC.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LDMC.rds")
 
 # SLA --------------------------------------------------
 db_var <- brot_db |>
@@ -40,7 +40,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_SLA.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_SLA.rds")
 
 # Hact --------------------------------------------------
 db_var <- brot_db |>
@@ -57,7 +57,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_Hact.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_Hact.rds")
 
 # SeedMass --------------------------------------------------
 db_var <- brot_db |>
@@ -74,7 +74,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_SeedMass.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_SeedMass.rds")
 
 # WoodDensity --------------------------------------------------
 db_var <- brot_db |>
@@ -90,7 +90,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_WoodDensity.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_WoodDensity.rds")
 
 # RootingDepth --------------------------------------------------
 db_var <- brot_db |>
@@ -107,7 +107,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_Z95.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_Z95.rds")
 
 # LeafDuration --------------------------------------------------
 db_var <- brot_db |>
@@ -124,7 +124,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_LeafDuration.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafDuration.rds")
 
 # LeafArea --------------------------------------------------
 db_var <- brot_db |>
@@ -141,7 +141,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_LeafArea.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafArea.rds")
 
 # pDead --------------------------------------------------
 db_var <- brot_db |>
@@ -159,7 +159,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_pDead.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_pDead.rds")
 
 # LifeForm --------------------------------------------------
 db_var <- brot_db |>
@@ -185,7 +185,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_LifeForm.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LifeForm.rds")
 
 # LeafShape --------------------------------------------------
 db_var <- brot_db |>
@@ -210,7 +210,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_LeafShape.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafShape.rds")
 
 # PhenologyType --------------------------------------------------
 db_var <- brot_db |>
@@ -233,4 +233,4 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Tavsanoglu_Pausas_2018_PhenologyType.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_PhenologyType.rds")

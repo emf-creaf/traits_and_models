@@ -7,9 +7,9 @@ DB_path <- "./"
 WFO_path <- "./"
 
 # Read database -----------------------------------------------------------
-flamits_db <- readr::read_delim(paste0(DB_path,"Sources/Ocampo_Zuleta_Pausas_Paula_et_al_2023_FLAMITS/data_file.csv"), 
+flamits_db <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Ocampo_Zuleta_Pausas_Paula_et_al_2023_FLAMITS/data_file.csv"), 
                              delim = ";", escape_double = FALSE, trim_ws = TRUE)
-biblio <- readr::read_delim(paste0(DB_path,"Sources/Ocampo_Zuleta_Pausas_Paula_et_al_2023_FLAMITS/source_file.csv"), 
+biblio <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Ocampo_Zuleta_Pausas_Paula_et_al_2023_FLAMITS/source_file.csv"), 
                             delim = ";", escape_double = FALSE, trim_ws = TRUE)
 
 traits <-sort(unique(flamits_db$var_name))
@@ -30,4 +30,4 @@ db_var <- flamits_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS_HeatContent.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS_HeatContent.rds")

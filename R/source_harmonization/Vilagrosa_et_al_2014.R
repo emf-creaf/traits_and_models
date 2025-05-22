@@ -3,7 +3,7 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
 db <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Villagrosa_et_al_2014/villagrosa2014.xlsx"))

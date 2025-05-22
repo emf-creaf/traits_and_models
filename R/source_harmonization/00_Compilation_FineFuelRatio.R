@@ -7,7 +7,7 @@ DB_path <- "./"
 WFO_path <- "./"
 
 # Read database -----------------------------------------------------------
-db <- readxl::read_excel(paste0(DB_path,"Sources/00_compilation_FineFuelRatio/FineFuelRatio.xlsx"), sheet =1)
+db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/00_compilation_FineFuelRatio/FineFuelRatio.xlsx"), sheet =1)
 
 # r635 --------------------------------------------------
 db_var <- db |>
@@ -16,4 +16,4 @@ db_var <- db |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
 db_post <- harmonize_taxonomy_WFO(db_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/00_compilation_FineFuelRatio.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/00_compilation_FineFuelRatio.rds")

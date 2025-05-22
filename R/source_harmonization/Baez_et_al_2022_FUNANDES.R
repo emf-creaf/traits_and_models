@@ -7,7 +7,7 @@ DB_path <- "./"
 WFO_path <- "./"
 
 # Read database -----------------------------------------------------------
-fun_db <- readr::read_csv(paste0(DB_path,"Sources/Baez_et_al_2022_FUNANDES/fundb_TRY_open_20220428.csv"))
+fun_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Baez_et_al_2022_FUNANDES/fundb_TRY_open_20220428.csv"))
 
 # Stem-specific conductivity --------------------------------------------------
 ks_var <- fun_db |>
@@ -23,7 +23,7 @@ ks_var <- fun_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
 db_post <- harmonize_taxonomy_WFO(ks_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Baez_et_al_2022_Ks.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_Ks.rds")
 
 # Bark thickness --------------------------------------------------
 bt_var <- fun_db |>
@@ -39,7 +39,7 @@ bt_var <- fun_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
 db_post <- harmonize_taxonomy_WFO(bt_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Baez_et_al_2022_BarkThickness.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_BarkThickness.rds")
 
 # Nleaf --------------------------------------------------
 nl_var <- fun_db |>
@@ -55,7 +55,7 @@ nl_var <- fun_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
 db_post <- harmonize_taxonomy_WFO(nl_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Baez_et_al_2022_Nleaf.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_Nleaf.rds")
 
 # WoodDensity --------------------------------------------------
 wd_var <- fun_db |>
@@ -72,7 +72,7 @@ wd_var <- fun_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
 db_post <- harmonize_taxonomy_WFO(wd_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Baez_et_al_2022_WoodDensity.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_WoodDensity.rds")
 
 # LDMC --------------------------------------------------
 ldmc_var <- fun_db |>
@@ -88,7 +88,7 @@ ldmc_var <- fun_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
 db_post <- harmonize_taxonomy_WFO(ldmc_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Baez_et_al_2022_LDMC.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_LDMC.rds")
 
 # SLA --------------------------------------------------
 sla_var <- fun_db |>
@@ -104,7 +104,7 @@ sla_var <- fun_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
 db_post <- harmonize_taxonomy_WFO(sla_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Baez_et_al_2022_SLA.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_SLA.rds")
 
 # LeafArea --------------------------------------------------
 la_var <- fun_db |>
@@ -120,7 +120,7 @@ la_var <- fun_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
 db_post <- harmonize_taxonomy_WFO(la_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Baez_et_al_2022_LeafArea.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_LeafArea.rds")
 
 # GrowthForm --------------------------------------------------
 gf_var <- fun_db |>
@@ -144,4 +144,4 @@ gf_var <- fun_db |>
                                   GrowthForm == "P" ~ "Other")
   )
 db_post <- harmonize_taxonomy_WFO(gf_var, WFO_path)
-saveRDS(db_post, "Products/harmonized/Baez_et_al_2022_GrowthForm.rds")
+saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_GrowthForm.rds")
