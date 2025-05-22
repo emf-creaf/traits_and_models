@@ -5,26 +5,27 @@
 
 ### About this repository
 
-This repository aims to facilitate the task of estimating functional
-parameters in process-based models of forest function and dynamics from
-plant trait data sources.
+**Origin**: This repository intends to support the collaborative work
+started in a PsiHub workshop held in Avignon (9-11th April 2025).
 
-It contains different sections that can be useful independently:
+**Aim**: By drawing knowledge from experts in measuring plant traits,
+the repository aims to facilitate the task of estimating functional
+parameters in process-based forest models from plant trait data sources.
 
-- **Harmonization of trait data sources**: Bringing species names to
+**Sections**: The repository contains three different sections that can
+be useful independently:
+
+- **I. Harmonization of trait data sources**: Bringing species names to
   accepted taxon entities and harmonizing trait definitions and units.
   Later these harmonized sources can be used to fill parameter values
   for a large number of species.
-- **Trait-trait relationships**: Compiling published relationships
+- **II. Trait-trait relationships**: Compiling published relationships
   between traits, to be later used in parameter imputation strategies
   when information is missing.
-- **Traits and model parameterization assumptions**: This tries to bring
-  awareness on the assumptions made by modellers when adopting parameter
-  estimation strategies, and whether these assumptions are met or not
-  for different plant traits.
-
-The repository intends to support the collaborative work started in a
-PsiHub workshop held in Avignon (9-11th April 2025).
+- **III. Traits and model parameterization assumptions**: This tries to
+  bring awareness on the assumptions made by modellers when adopting
+  parameter estimation strategies, and whether these assumptions are met
+  or not for different plant traits.
 
 ### How to contribute to this repository
 
@@ -55,12 +56,12 @@ Package **trait4models** has also the table `HarmonizedTraitDefinition`,
 which contains the definitions and required notation and units for all
 traits to be harmonized.
 
-## Trait source harmonization
+## I. Trait source harmonization
 
 This sections aims to help in the collective effort of gathering and
 harmonizing trait data sources.
 
-### Raw trait data
+### I.1 Raw trait data
 
 File *data-raw/trait_data_source_list.xlsx* contains a list of trait
 database sources currently considered for harmonization.
@@ -74,7 +75,7 @@ repository (i.e. *data-raw/raw_trait_data* is listed in the *.gitignore*
 file). They are meant to be downloaded from online data repositories
 (supplementary material, Zenodo databases, …) and stored locally.
 
-### Harmonizing scripts
+### I.2 Harmonizing scripts
 
 Each script is used to process the harmonization of a different data
 set. R scripts are located in a sub-folder of *R/source_harmonization*
@@ -96,7 +97,7 @@ conducted as shown. Alternatively, steps \[2-5\] can be conducted
 repeatedly for different traits. This can be more efficient to avoid
 large amounts of missing values when processing large data bases.
 
-### Harmonized trait data
+### I.3 Harmonized trait data
 
 The output of harmonization should be stored as an *.rds* or *.csv* file
 in *data/harmonized_trait_sources*
@@ -108,6 +109,28 @@ file). They are meant to be stored locally but can be exchanged between
 users of the repository by contacting the person who performed the
 harmonization.
 
-## Trait-trait relationships
+## II. Trait-trait relationships
 
-## Traits and hypotheses
+This section is meant to provide a compilation of trait-trait
+relationships, including their scope (taxonomic, bioclimatic, etc.) of
+validity, their statistical support and physiological interpretation.
+
+A data base of trait-trait relationships is stored in file
+*data-raw/trait_relationships.xlsx*.
+
+This information should be useful for modellers to devise imputation
+strategies for missing data, while taking into account the limitations
+of the relationship employed.
+
+## III. Traits and assumptions in parameter estimation
+
+This section tries to raise awareness on the assumptions made by
+modellers when adopting parameter estimation strategies, and whether
+these assumptions are met or not for different plant traits. It will
+contain:
+
+- Definitions of the assumptions most commonly made by modellers (either
+  explicitly or implicitly).
+- A database of bibliographic sources regarding the empirical evidence
+  to support these assumptions. This is stored in file
+  *data-raw/trait_hypothesis_support.xlsx*.
