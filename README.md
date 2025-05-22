@@ -1,0 +1,69 @@
+
+# Traits and models
+
+## Introduction
+
+### About this repository
+
+Scripts and data in this repository are intended to be used to harmonize
+trait information previously to model parameter estimation.
+
+### Required package
+
+Package [**traits4models**](https://emf-creaf.github.io/traits4models)
+is being developed to assist harmonization. This package should be
+installed for the correct use of the scripts in this repository. Note
+that package **trait4models** has also the table
+`HarmonizedTraitDefinition` which contains the definitions and required
+notation and units for all traits to be harmonized.
+
+## Trait source harmonization
+
+### Raw trait data
+
+File *data-raw/trait_data_source_list.xlsx* contains a list of trait
+database sources currently considered for harmonization.
+
+Raw trait databases are expected to be located in sub-folders of
+*data-raw/raw_trait_data*
+(e.g. *data-raw/raw_trait_data/Bartlett_et_al_2016*).
+
+**IMPORTANT NOTE**: Trait sources should not be stored in the GitHub
+repository (i.e. *data-raw/raw_trait_data* is listed in the *.gitignore*
+file). They are meant to be downloaded from online data repositories
+(supplementary material, Zenodo databases, …) and stored locally.
+
+### Harmonizing scripts
+
+Each script is used to process the harmonization of a different data
+set. R scripts are located in a sub-folder of *R/source_harmonization*
+(e.g. *R/source_harmonization/Bartlett_et_al_2016.R*).
+
+Any given script should have the following sections:
+
+1.  Read database from *raw-data/raw_trait_data/\[source\]*.
+2.  Variable harmonization (notation, units), according to
+    `HarmonizedTraitDefinition`.
+3.  Taxonomic harmonization, using function
+    `traits4models::harmonize_taxonomy_WFO()`.
+4.  Checking data base, using function
+    `traits4models::harmonize_taxonomy_WFO()`.
+5.  Storing in folder *data/harmonized_trait_sources/\[source\]*.
+
+If a data base contains more than one trait, steps \[a-e\] can be
+conducted as shown. Alternatively, steps \[b-e\] can be repeated
+repeatedly for different traits. This can be more efficient to avoid
+large amounts of missing values when processing large data bases.
+
+### Harmonized trait data
+
+The output of harmonization should be stored as an *.rds* or *.csv* file
+in *data/harmonized_trait_sources*
+(e.g. *data/harmonized_trait_sources/Bartlett_et_al_2016.rds*).
+**IMPORTANT**: Harmonized trait data not be stored in the GitHub
+repository (i.e. *data-raw/raw_trait_data* is listed in the *.gitignore*
+file).
+
+## Trait-trait relationships
+
+## Traits and hypotheses

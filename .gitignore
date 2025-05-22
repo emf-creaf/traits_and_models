@@ -1,0 +1,8 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+data-raw/wfo_backbone
+data-raw/raw_trait_data
+data/harmonized_trait_sources
+Traits&Models.Rproj
