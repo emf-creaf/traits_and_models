@@ -66,8 +66,8 @@ db_var <- XFT_all |>
   dplyr::relocate(originalName, .before = Genus) |>
   dplyr::arrange(originalName) |>
   dplyr::select(-c(Genus, Species)) |>
-  dplyr::mutate(Reference = "Choat et al. (2012)",
-                DOI = "https://xylemfunctionaltraits.org/",
+  dplyr::mutate(Reference = "Choat et al. (2012) - https://xylemfunctionaltraits.org/",
+                DOI = "10.1038/nature11688",
                 Priority = 2) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 
