@@ -14,10 +14,13 @@ db_var <- db |>
   dplyr::select(species, "gmin", "citation") |>
   dplyr::rename(originalName = species,
                 Gswmin = "gmin",
-                Reference = "citation") |>
+                OriginalReference = "citation") |>
   dplyr::mutate(Gswmin = Gswmin/1000) |> # From mmol to mol
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""))|>
-  dplyr::mutate(Priority = 1) |>
+  dplyr::mutate(Reference = "Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705",
+                DOI = "10.1111/nph.15395", 
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
 

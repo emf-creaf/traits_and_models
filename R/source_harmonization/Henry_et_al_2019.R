@@ -29,10 +29,10 @@ db_var <- db |>
   dplyr::mutate(Gs_P50 = -1*Gs_P50) |> # From -MPa to MPa
   dplyr::mutate(Gs_P80 = -1*Gs_P80) |> # From -MPa to MPa
   dplyr::arrange(originalName) |>
+  dplyr::mutate(Reference = "Henry et al. (2019) A stomatal safety-efficiency trade-off constrains reponses to leaf dehydration. Nature communications.",
+                DOI = "10.1038/s41467-019-11006-1",
+                Priority = 1) |>
   tibble::as_tibble()
-
-db_var$Reference <- "Henry et al. 2019"
-db_var$Priority <- 1
 
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)

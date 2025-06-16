@@ -24,10 +24,10 @@ db_var <- db |>
   dplyr::mutate(Hmax = Hmax*100) |> # m to cm
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\_", " "))|>
+  dplyr::mutate(Reference = "Guillemot et al. (2022) Small and slow is safe: On the drought tolerance of tropical tree species. Global Change Biology, 28(8), 2622–2638",
+                DOI = "10.1111/gcb.16082",
+                Priority = 2) |>
   tibble::as_tibble()
-
-db_var$Reference <- "Guillemot et al. 2022"
-db_var$Priority <- 2
 
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)

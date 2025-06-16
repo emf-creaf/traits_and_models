@@ -1,5 +1,5 @@
 #
-# Klein et al. (2014)
+# Klein (2014)
 #
 
 DB_path <- "./"
@@ -10,15 +10,21 @@ db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/Klein_et_al_201
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
-  dplyr::select("Genus", "Species", "ψgs50 (MPa)", Reference) |>
+  dplyr::select("Genus", "Species", "ψgs50 (MPa)", "Reference") |>
   dplyr::mutate(originalName = paste(Genus, Species)) |>
   dplyr::select(-Genus, -Species) |>
-  dplyr::rename(Gs_P50 = "ψgs50 (MPa)") |>
+  dplyr::rename(Gs_P50 = "ψgs50 (MPa)",
+                OriginalReference = "Reference") |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Gs_P50 = as.numeric(Gs_P50)) |>
   dplyr::relocate(originalName, .before = Gs_P50) |>
-  dplyr::mutate(Priority = 1)|>
+  dplyr::mutate(Reference = "Klein (2014) The variability of stomatal sensitivity to leaf water potential across tree species indicates a continuum between isohydric and anisohydric behaviours. Functional Ecology",
+                DOI = "10.1111/1365-2435.12289",
+                Priority = 1)|>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
+
+db_var$OriginalReference[db_var$OriginalReference=="Klein T, unpublished data"] <- NA
 
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)

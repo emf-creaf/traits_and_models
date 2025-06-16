@@ -32,7 +32,8 @@ db_var <- db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "P. banksiana", "Pinus banksiana"),
                 originalName = stringr::str_replace(originalName, "P. resinosa", "Pinus resinosa"),
                 originalName = stringr::str_replace(originalName, "P. strobus", "Pinus strobus"),
-                Reference = "Augustine & McCulloh (2024). Physiological trait coordination and variability across and within  three Pinus species. New Phytologist.",
+                Reference = "Augustine & McCulloh (2024) Physiological trait coordination and variability across and within  three Pinus species. New Phytologist.",
+                DOI = "10.1111/nph.19859",
                 Priority = 1)|>
   dplyr::select(-LMA.aci, -LMA.ai) |>
   tibble::as_tibble()

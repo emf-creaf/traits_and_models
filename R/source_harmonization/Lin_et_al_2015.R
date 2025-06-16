@@ -13,7 +13,8 @@ db_var <- db |>
   dplyr::rename(originalName = "Species") |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(g1_Medlyn = as.numeric(g1_Medlyn),
-                Reference = "Lin et al. (2015)",
+                Reference = "Lin et al. (2015) Optimal stomatal behaviour around the world. Nature Climate Change",
+                DOI = "10.1038/nclimate2550",
                 Priority = 1)|>
   tibble::as_tibble()
 

@@ -23,6 +23,7 @@ db_var <- db |>
   dplyr::mutate(SLA = 1000*LMA,
                 originalName = stringr::str_replace(originalName, " sp\\.", ""),
                 Reference = "Díaz et al. (2022). The global spectrum of plant form and function: enhanced  species-level trait dataset. Scientific Data 9:755.",
+                DOI = "10.1038/s41597-022-01774-9",
                 Priority = 2)|>
   dplyr::select(-LMA)|>
   tibble::as_tibble()

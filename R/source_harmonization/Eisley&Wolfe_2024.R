@@ -16,6 +16,7 @@ db_var <- db |>
                 Ptlp = "TLP") |>
   dplyr::mutate(Ptlp = as.numeric(Ptlp),
                 Reference = "Eisley AM & Wolfe BT (2024) Leaf turgor loss point varies among tree species, habitats, and seasons in a bottomland hardwood forest. Trees 38:263–272",
+                DOI = "10.1007/s00468-023-02483-5",
                 Priority = 1) |>
   tibble::as_tibble()
 

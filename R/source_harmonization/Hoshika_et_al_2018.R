@@ -20,6 +20,7 @@ db_var <- db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\_L\\.", ""))|>
   dplyr::mutate(Reference = "Hoshika et al. (2018). Global diurnal and nocturnal parameters of stomatal
 conductance in woody plants and major crops. Global Ecol. Biogeog. 27: 257-275",
+                DOI = "10.1111/geb.12681",
                 Priority = 3) |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()

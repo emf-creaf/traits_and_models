@@ -11,17 +11,19 @@ db <- readxl::read_xls(paste0(DB_path, "data-raw/raw_trait_data/Huang_et_al_2024
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
-  dplyr::select("Species", "AL/AS","P50stem", "P50leaf", "Ψtlp", "WD") |>
+  dplyr::select("Species", "AL/AS","P50stem", "P50leaf", "Ψtlp", "WD", "Reference") |>
   dplyr::rename(originalName = Species,
                 VCstem_P50 = "P50stem",
                 VCleaf_P50 = "P50leaf",
                 Ptlp = "Ψtlp",
                 Al2As = "AL/AS",
-                WoodDensity = "WD") |>
+                WoodDensity = "WD",
+                OriginalReference = "Reference") |>
   dplyr::mutate(Al2As = 10000*Al2As) |>
   dplyr::mutate(Reference = "Huang et al. (2024). Vulnerability segmentation is vital to hydraulic strategy of tropical–subtropical woody plants. Journal of Ecology",
                 DOI = "10.1111/1365-2745.14421",
                 Priority = 2)|>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
 
 # Taxonomic harmonization -----------------------------------------------

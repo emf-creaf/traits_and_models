@@ -10,14 +10,16 @@ db <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Journe_et_al_2024
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
-  dplyr::select("speciesN", "TSM", "DBHmax") |>
+  dplyr::select("speciesN", "TSM", "DBHmax", "source") |>
   dplyr::rename(originalName = speciesN,
                 Dmat = "TSM",
-                Dmax = "DBHmax") |>
+                Dmax = "DBHmax",
+                OriginalReference = "source") |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "_", " ")) |>
   dplyr::mutate(Reference = "Journé et al. (2024). The Relationship Between Maturation Size and Maximum Tree Size From Tropical to Boreal Climates. Ecol. Lett. 27",
                 DOI = "10.1111/ele.14500",
                 Priority = 2)|>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
 
 # Taxonomic harmonization -----------------------------------------------

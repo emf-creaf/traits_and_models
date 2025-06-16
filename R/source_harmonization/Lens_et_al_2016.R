@@ -10,14 +10,17 @@ db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/Lens_et_al_2016
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
-  dplyr::select("species...4", "P50", reference) |>
+  dplyr::select("species...4", "P50", "reference") |>
   dplyr::rename(originalName = "species...4",
                 VCstem_P50 = "P50",
-                Reference = reference) |>
-  dplyr::mutate(Priority = 2) |>
+                OriginalReference = "reference") |>
+  dplyr::mutate(Reference = "Lens et al. (2016) Herbaceous angiosperms are not more vulnerable to drought-induced embolism than angiosperm trees. Plant Physiology 172, 661-667",
+                DOI = "10.1104/pp.16.00829",
+                Priority = 2) |>
+  dplyr::relocate(OriginalReference, .after = "DOI")|>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
-db_var$Reference[db_var$Reference=="this study"] <- "Lens et al. 2016"
+db_var$OriginalReference[db_var$OriginalReference=="this study"] <- NA
 
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)

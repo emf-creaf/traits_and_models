@@ -7,9 +7,9 @@ WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
 db <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Kunert_Tomaskova_2020/Kunert_TLP_DB2020.xlsx"), sheet = 1)
-ref <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Kunert_Tomaskova_2020/Kunert_TLP_DB2020.xlsx"), sheet = 2)
+db_ref <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Kunert_Tomaskova_2020/Kunert_TLP_DB2020.xlsx"), sheet = 2)
 db <- db |>
-  dplyr::left_join(ref)
+  dplyr::left_join(db_ref)
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
   dplyr::select(Species.name, TLP_Mpa) |>
@@ -18,6 +18,7 @@ db_var <- db |>
   dplyr::mutate(Ptlp = as.numeric(Ptlp),
                 Reference = "Kunert N, Tomaskova I (2020) Leaf turgor loss point at full hydration for 41 native and introduced tree and shrub species from Central Europe. J Plant Ecol
 13:754–756.",
+                DOI = "10.1093/jpe/rtaa059",
                 Priority = 1)|>
   tibble::as_tibble()
 

@@ -28,10 +28,10 @@ db_var <- db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::arrange(originalName) |>
+  dplyr::mutate(Reference = "Liu et al. (2019) Hydraulic traits are coordinated with maximum plant height at the global scale. Science",
+                DOI = "10.1126/sciadv.aav1332",
+                Priority = 2) |>
   tibble::as_tibble()
-
-db_var$Reference <- "Liu et al. 2019"
-db_var$Priority <- 2
 
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
