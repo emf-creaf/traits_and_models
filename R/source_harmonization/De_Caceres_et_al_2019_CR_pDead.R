@@ -17,6 +17,7 @@ db_var <- db[1:27,] |>
                 pDead = "Pdead.mean") |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""))|>
   dplyr::mutate(Reference = "De Cáceres et al. (2019). Scaling-up individual-level allometric equations to predict stand-level fuel loading in Mediterranean shrublands. Ann. For. Sci. 76: 87",
+                DOI = "10.1007/s13595-019-0873-4",
                 Priority = 1) |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()

@@ -16,9 +16,13 @@ db_var <- db |>
                 LeafPI0 = "πo.(MPa)",
                 LeafEPS = "ε.(MPa)",
                 LeafAF = af,
-                Ptlp = "πtlp.(MPa)") |>
+                Ptlp = "πtlp.(MPa)",
+                OriginalReference = "Reference") |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""),
+                Reference = "Bartlett (2012) The determinants of leaf turgor loss point and prediction of drought tolerance of species and biomes: a global meta-analysis. Ecology letters 15:393-405.",
+                DOI = "10.1111/j.1461-0248.2012.01751.x",
                 Priority = 2)|>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
 
 # Taxonomic harmonization -----------------------------------------------

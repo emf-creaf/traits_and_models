@@ -20,6 +20,7 @@ db_var <- db |>
   dplyr::select(-c(Genus,Species))|>
   dplyr::relocate(originalName, .before = LeafAngle) |>
   dplyr::mutate(Reference = "Chianucci F, Pisek J, Raabe K, Marchino L, Ferrara C, Corona P (2018) A dataset of leaf inclination angles for temperate and boreal broadleaf woody species. Ann. For. Sci. 75: 50",
+                DOI = "10.1007/s13595-018-0730-x",
                 Priority = 1) |>
   dplyr::arrange(originalName)
 
