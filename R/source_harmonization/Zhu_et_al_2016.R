@@ -15,10 +15,13 @@ db_var <- db |>
                 VCleaf_P50 = P50_leaf,
                 VCstem_P50 = P50_branch,
                 Ks = K_s,
-                Reference = Source) |>
-  dplyr::mutate(VCleaf_P50 = as.numeric(VCleaf_P50),
-                Priority = 3) |>
+                OriginalReference = Source) |>
+  dplyr::mutate(VCleaf_P50 = as.numeric(VCleaf_P50)) |>
   dplyr::arrange(originalName) |>
+  dplyr::mutate(Reference = "Zhu et al. (2016). Are leaves more vulnerable to cavitation than branches? Functional Ecology, 30, 1740-1744",
+                DOI = "10.1111/1365-2435.12656", 
+                Priority = 3) |>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
 
 

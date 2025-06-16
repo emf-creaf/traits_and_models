@@ -19,7 +19,8 @@ chem_var <- chem |>
 photo_var <- photo |>
   dplyr::select("SAMPLE ID", Vcmax, Jmax) |>
   dplyr::rename(Vmax = Vcmax) |>
-  dplyr::filter(!(is.na(Vmax) | is.na(Jmax)))
+  dplyr::filter(!(is.na(Vmax) | is.na(Jmax)))|>
+  dplyr::filter(Vmax > 0 | is.na(Vmax))
 morpho_var <- morpho |>
   dplyr::select("SAMPLE ID", `Leaf size`, `Leaf shape`) |>
   dplyr::rename(LeafSize = `Leaf size`,
@@ -51,7 +52,8 @@ db_var <- chem_var |>
   dplyr::full_join(morpho_var, by="SAMPLE ID")|>
   dplyr::full_join(hydra_var, by="SAMPLE ID")
 
-db_var$Reference <- "Wang et al. 2022"
+db_var$Reference <- "Wang et al. (2022) The China plant trait database version 2. Scientific Data 9, 769"
+db_var$DOI <- "10.1038/s41597-022-01884-4"
 db_var$Priority <- 3
 
 # Taxonomic harmonization -----------------------------------------------
@@ -71,8 +73,7 @@ species_2 <- species_2 |>
 
 db_var2 <- species_2 |> 
   dplyr::right_join(db_var, by=c("SAMPLE ID")) |>
-  dplyr::select(-c("SAMPLE ID"))
-
+  dplyr::select(-c("SAMPLE ID")) 
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var2, WFO_file)
 

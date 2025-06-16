@@ -12,7 +12,8 @@ db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/Yebra_et_al_202
 db_var <- db |>
   dplyr::select(`Species collected`, `LFMC value (%)`, "Reference") |>
   dplyr::rename(originalName = `Species collected`,
-                LFMC = `LFMC value (%)`) |>
+                LFMC = `LFMC value (%)`,
+                OriginalReference = "Reference") |>
   dplyr::filter(!is.na(originalName)) |>
   dplyr::filter(!originalName %in% c("Unknown grass", "Unknown graminoid", "Unknown sciadion", "")) |>
   dplyr::filter(!stringr::str_detect(originalName, "\\,"))|>
@@ -20,6 +21,10 @@ db_var <- db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ L\\.", ""))|>
   dplyr::arrange(originalName) |>
+  dplyr::mutate(Reference = "Yebra et al. (2024) Globe-LFMC 2.0, an enhanced and updated dataset for live fuel moisture content research. Sci Data 11, 332",
+                DOI = "10.1038/s41597-024-03159-6", 
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
 
 # Taxonomic harmonization -----------------------------------------------

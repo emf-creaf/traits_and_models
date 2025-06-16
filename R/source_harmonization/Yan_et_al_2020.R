@@ -14,13 +14,19 @@ db_var <- db |>
   dplyr::rename(originalName = Species,
                 kleaf = `Kleaf (mmol m-2 s-1 MPa-1)`,
                 VCleaf_P50 = `P50leaf (MPa)`,
-                Reference = Source) |>
-  dplyr::mutate(Priority = 1) |>
+                OriginalReference = Source) |>
   # dplyr::filter(!is.na(originalName)) |>
   # dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
   # dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
-  dplyr::arrange(originalName) |>
+  dplyr::arrange(originalName)  |>
+  dplyr::mutate(Reference = "Yan et al. (2020). Leaf hydraulic safety margin and safety efficiency trade-off across angiosperm woody species. Biology Letters 16",
+                DOI = "10.1098/rsbl.2020.0456", 
+                Priority = 3) |>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
+
+db_var$Priority[db_var$OriginalReference=="This study"] <- 1
+db_var$OriginalReference[db_var$OriginalReference=="This study"] <- NA
 
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)

@@ -15,7 +15,8 @@ db_var <- db |>
                 Gswmax = "gmax_mmol") |>
   dplyr::mutate(Gswmin = as.numeric(Gswmin)/1000,
                 Gswmax = as.numeric(Gswmax)/1000)|>
-  dplyr::mutate(Reference = "Wang et al. (2024)",
+  dplyr::mutate(Reference = "Wang et al. (2024) Water loss after stomatal closure: quantifying leaf  minimum conductance and minimal water use in nine  temperate European tree species during a severe drought. Tree Physiology, 44, tpae027",
+                DOI = "10.1093/treephys/tpae027",
                 Priority = 1)|>
   tibble::as_tibble()
 

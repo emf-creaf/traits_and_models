@@ -1,5 +1,6 @@
 # Checks whether already harmonized sources have harmonization problems
-# If detected, the harmonization scripts should be updated
+# This can happen when validation criteria are updated in package "traits4models"
+# If detected, the harmonization scripts should be updated to solve problems
 
 files <- list.files("data/harmonized_trait_sources", full.names = TRUE)
 

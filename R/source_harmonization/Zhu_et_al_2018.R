@@ -16,13 +16,18 @@ db_var <- db |>
                 Ptlp = ptlp,
                 VCleaf_P50 = P50leaf,
                 VCstem_P50 = P50branch,
-                Reference = Source) |>
+                OriginalReference = Source) |>
   dplyr::mutate(SLA = SLA/10) |>  # cm2·g-1 to m2·kg-1
   dplyr::arrange(originalName) |>
+  dplyr::mutate(Reference = "Zhu et al. (2018). Leaf turgor loss point is correlated with drought tolerance and leaf
+carbon economics traits. Tree Physiol. 38, 658-663",
+                DOI = "10.1093/treephys/tpy013", 
+                Priority = 3) |>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
 
-db_var$Reference[db_var$Reference=="this study"] <- "Zhu et al. 2018"
-db_var$Priority <- 3
+db_var$Priority[db$Source=="this study"] <- 1
+db_var$OriginalReference[db$Source=="this study"] <- NA
 
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
