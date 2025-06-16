@@ -15,8 +15,9 @@ db_var <- db |>
                 Units = "degrees") |>
   dplyr::rename(originalName = "Species")|>
   dplyr::relocate(Units, .before = Reference) |>
-  dplyr::mutate(Priority = 1) |>
-  dplyr::arrange(originalName)
+  dplyr::arrange(originalName) |>
+  dplyr::mutate(DOI = "10.1016/j.dib.2020.106391") |>
+  dplyr::mutate(Priority = 1)
 
 
 # Taxonomic harmonization -----------------------------------------------

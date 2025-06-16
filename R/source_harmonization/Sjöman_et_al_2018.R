@@ -16,7 +16,7 @@ db_var <- db |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
 
-db_var$Reference <- "Sjöman et al. 2018"
+db_var$Reference <- "Sjöman et al. (2018) Improving confidence in tree species selection for challenging urban sites: a role for leaf turgor loss. Urban Tree 21:1171-1188"
 db_var$DOI <- "10.1007/s11252-018-0791-5"
 db_var$Priority <- 1
 

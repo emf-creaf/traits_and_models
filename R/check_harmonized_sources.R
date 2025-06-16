@@ -4,7 +4,11 @@
 
 files <- list.files("data/harmonized_trait_sources", full.names = TRUE)
 
-for(f in files) {
+accepted <- rep(NA, length(files))
+for(i in 1:length(files)) {
+  f <- files[i]
   cli::cli_li(f)
-  traits4models::check_harmonized_trait(readRDS(f))
+  accepted[i] <- traits4models::check_harmonized_trait(readRDS(f))
 }
+cli::cli_li(paste0(sum(!accepted), " files are not acceptable"))
+print(files[!accepted])

@@ -3,7 +3,7 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "data-raw/data-raw/wfo_backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
 db <- read.table(paste0(DB_path,"data-raw/raw_trait_data/Sjoman_et_al_2015/Sjoman_2015_Summer_Acer_OK.csv"), sep=";", dec=".", h=T)
@@ -16,7 +16,7 @@ db_var <- db |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
 
-db_var$Reference <- "Sjoman et al. 2015"
+db_var$Reference <- "Sjoman et al. (2015) Urban forest resilience through tree selection - Variation in drought tolerance in Acer. Urban Forestry & Urban Greening 14: 858-865"
 db_var$DOI <- "10.1016/j.ufug.2015.08.004"
 db_var$Priority <- 1
 

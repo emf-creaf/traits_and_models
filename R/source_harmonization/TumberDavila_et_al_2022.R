@@ -13,7 +13,8 @@ db_var <- db |>
   dplyr::select(Species, Hs, Dr, Reference) |>
   dplyr::rename(originalName = Species,
                 Hact = Hs,
-                Z95 = Dr) |>
+                Z95 = Dr,
+                OriginalReference = Reference) |>
   dplyr::mutate(Z95 = Z95 * 1000) |> # m to mm
   dplyr::mutate(Hact = Hact * 100) |> # m to cm
   dplyr::filter(!is.na(originalName)) |>
@@ -23,6 +24,9 @@ db_var <- db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\ ", " "))|>
   dplyr::mutate(Priority = 2) |>
   dplyr::arrange(originalName) |>
+  dplyr::mutate(Reference = "Tumber-Dávila et al. (2022) Plant sizes and shapes above and belowground and their interactions with climate. New Phytologist 235: 1032-1056",
+                DOI = "10.1111/nph.18031") |>
+  dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
 
 # Taxonomic harmonization -----------------------------------------------

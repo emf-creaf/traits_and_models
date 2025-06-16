@@ -3,7 +3,7 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "data-raw/data-raw/wfo_backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
 db <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Tavares_et_al_2023/Data_package_Tavares_et_al_2023/Data/Hydraulic_traits_dataset_TAVARES_et_al_2023.csv"))

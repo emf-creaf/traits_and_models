@@ -6,29 +6,65 @@ DB_path <- "./"
 WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/MartinStPaul_et_al_2017/DataBase.xlsx"), sheet = "ALL")
+db_vc <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/MartinStPaul_et_al_2017/DataBase.xlsx"), sheet = "Stem_VCurves")
+db_pgs90 <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/MartinStPaul_et_al_2017/DataBase.xlsx"), sheet = "Pgs90")
+db_ptlp <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/MartinStPaul_et_al_2017/DataBase.xlsx"), sheet = "Ptlp")
 
-# Variable harmonization --------------------------------------------------
-db_var <- db |>
-  dplyr::select(Species, "Ptlp", "P50", "P12", "Slope", "Pgs90") |>
-  dplyr::rename(originalName = Species,
-                Ptlp = "Ptlp",
+
+# StemVC ------------------------------------------------------------------
+db_var <- db_vc |>
+  dplyr::select("Species.binomial", "P50", "P12", "Slope", "References") |>
+  dplyr::rename(originalName = "Species.binomial",
                 VCstem_P50 = "P50",
                 VCstem_P12 = "P12",
                 VCstem_slope = "Slope",
-                Gs_P90 = "Pgs90") |>
+                OriginalReference = "References") |>
+  dplyr::mutate(Reference = "Martin-StPaul et al. (2017) Plant resistance to drought depends on timely stomatal closure. Ecology Letters 20, 1437-1447",
+                DOI = "10.1111/ele.12851",
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = "DOI")|>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
-
-db_var$Reference <- "Martin-StPaul et al. 2017"
-db_var$DOI <- "10.1111/ele.12851"
-db_var$Priority <- 1
-
-# Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
-
-# Checking ----------------------------------------------------------------
 traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017_StemVC.rds")
 
-# Storing ----------------------------------
-saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017.rds")
+
+# Gs_P90 -------------------------------------------------------------------
+db_var <- db_pgs90 |>
+  dplyr::select("Species.binomial", "ψgs90", "REFERENCES") |>
+  dplyr::rename(originalName = "Species.binomial",
+                Gs_P90 = "ψgs90",
+                OriginalReference = "REFERENCES") |>
+  dplyr::mutate(Gs_P90 = as.numeric(Gs_P90)) |>
+  dplyr::filter(!is.na(Gs_P90)) |>
+  dplyr::mutate(Reference = "Martin-StPaul et al. (2017) Plant resistance to drought depends on timely stomatal closure. Ecology Letters 20, 1437-1447",
+                DOI = "10.1111/ele.12851",
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = "DOI")|>
+  dplyr::arrange(originalName) |>
+  tibble::as_tibble()
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017_Gs_P90.rds")
+
+
+# LeafPI0 & Ptlp -------------------------------------------------------------------
+db_var <- db_ptlp |>
+  dplyr::select("Species.binomial","π0", "ψtlp", "Reference") |>
+  dplyr::rename(originalName = "Species.binomial",
+                Ptlp = "ψtlp",
+                LeafPI0 = "π0",
+                OriginalReference = "Reference") |>
+  dplyr::mutate(Ptlp = as.numeric(Ptlp),
+                LeafPI0 = as.numeric(LeafPI0)) |>
+  dplyr::filter(!is.na(Ptlp) | !is.na(LeafPI0)) |>
+  dplyr::mutate(Reference = "Martin-StPaul et al. (2017) Plant resistance to drought depends on timely stomatal closure. Ecology Letters 20, 1437-1447",
+                DOI = "10.1111/ele.12851",
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = "DOI")|>
+  dplyr::arrange(originalName) |>
+  tibble::as_tibble()
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017_LeafPI0_Ptlp.rds")

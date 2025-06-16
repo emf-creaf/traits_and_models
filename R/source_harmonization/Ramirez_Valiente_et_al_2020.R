@@ -25,6 +25,7 @@ db_var <- db |>
 
 db_var$Reference <- "Ramirez-Valiente et al. (2020) Correlated evolution of morphology, gas exchange, growth rates
 and hydraulics as a response to precipitation and temperature regimes in oaks (Quercus). New Phytologist 227: 794–809."
+db_var$DOI <- "10.1111/nph.16320"
 db_var$Priority <- 1
 
 # Taxonomic harmonization -----------------------------------------------

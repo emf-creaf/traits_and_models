@@ -3,7 +3,7 @@
 #
 
 DB_path <- "./"
-WFO_file <- paste0(DB_path, "data-raw/data-raw/wfo_backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
 db <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Villagrosa_et_al_2014/villagrosa2014.xlsx"))
@@ -14,7 +14,7 @@ db_var <- db |>
                 Ptlp = "TLP") |>
   dplyr::mutate(Ptlp = as.numeric(Ptlp),
                 Reference = "Vilagrosa et al. (2014). Physiological differences explain the co-existence of different
-regeneration strategies in Mediterranean ecosystems. New Phytologist 201: 1277–1288.",
+regeneration strategies in Mediterranean ecosystems. New Phytologist 201: 1277-1288",
                 DOI = "10.1111/nph.12584",
                 Priority = 1)|>
   tibble::as_tibble()
