@@ -38,7 +38,11 @@ XFT_stem <- db |>
                 Ks = "Ks..kg.m.1.MPa.1.s.1.",
                 OriginalReference = "Reference") |>
   dplyr::mutate(VCstem_P50 = as.numeric(VCstem_P50)) |>
-  dplyr::filter(!is.na(VCstem_P50) | !is.na(VCstem_P12) | !is.na(VCstem_P88) | !is.na(VCstem_slope) | !is.na(Ks))
+  dplyr::filter(!is.na(VCstem_P50) | !is.na(VCstem_P12) | !is.na(VCstem_P88) | !is.na(VCstem_slope) | !is.na(Ks)) |>
+  dplyr::filter(is.na(VCstem_slope) | VCstem_slope > 0.0,
+                is.na(VCstem_P12) | VCstem_P12 < 0.0,
+                is.na(VCstem_P50) | VCstem_P50 < 0.0,
+                is.na(VCstem_P88) | VCstem_P88 < 0.0)
 
 XFT_leaf <- db |>
   dplyr::filter(Plant.organ %in% c("l", "L")) |>
