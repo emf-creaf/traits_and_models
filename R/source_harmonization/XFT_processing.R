@@ -18,9 +18,11 @@ XFT_all <- db |>
                 SLA = "SLA..cm2.g.1.",
                 Ptlp = "TLP..MPa.",
                 OriginalReference = "Reference") |>
-  dplyr::mutate(Hmax = Hmax*100, #change units from m to cm
+  dplyr::mutate(Al2As = 1/Hv,
+                Hmax = Hmax*100, #change units from m to cm
                 Hact = Hact*100) |>
   dplyr::filter(!is.na(Hmax) | !is.na(Hact)| !is.na(Hv)| !is.na(SLA)| !is.na(Ptlp))|>
+  dplyr::select(-Hv) |>
   tibble::as_tibble() 
 
 
@@ -34,27 +36,35 @@ XFT_stem <- db |>
                 VCstem_P88 = "P88..MPa.",
                 VCstem_slope = "Slope",
                 Ks = "Ks..kg.m.1.MPa.1.s.1.",
-                OriginalReference = "Reference")
+                OriginalReference = "Reference") |>
+  dplyr::mutate(VCstem_P50 = as.numeric(VCstem_P50)) |>
+  dplyr::filter(!is.na(VCstem_P50) | !is.na(VCstem_P12) | !is.na(VCstem_P88) | !is.na(VCstem_slope) | !is.na(Ks))
 
 XFT_leaf <- db |>
   dplyr::filter(Plant.organ %in% c("l", "L")) |>
-  dplyr::select(NewID, Genus, Species, 
+  dplyr::select(Genus, Species, 
                 "P50..MPa.", "P12..MPa.", "P88..MPa.", "Slope", "Reference") |>
   dplyr::rename(VCleaf_P50 = "P50..MPa.",
                 VCleaf_P12 = "P12..MPa.",
                 VCleaf_P88 = "P88..MPa.",
                 VCleaf_slope = "Slope",
-                OriginalReference = "Reference")
+                OriginalReference = "Reference")|>
+  dplyr::mutate(VCleaf_P50 = as.numeric(VCleaf_P50)) |>
+  dplyr::filter(!is.na(VCleaf_P50) | !is.na(VCleaf_P12) | !is.na(VCleaf_P88) | !is.na(VCleaf_slope))
+
 
 XFT_root <- db |>
   dplyr::filter(Plant.organ %in% c("r", "R")) |>
-  dplyr::select(NewID, Genus, Species, 
+  dplyr::select(Genus, Species, 
                 "P50..MPa.", "P12..MPa.", "P88..MPa.", "Slope", "Reference") |>
   dplyr::rename(VCroot_P50 = "P50..MPa.",
                 VCroot_P12 = "P12..MPa.",
                 VCroot_P88 = "P88..MPa.",
                 VCroot_slope = "Slope",
-                OriginalReference = "Reference")
+                OriginalReference = "Reference")|>
+  dplyr::mutate(VCroot_P50 = as.numeric(VCroot_P50)) |>
+  dplyr::filter(!is.na(VCroot_P50) | !is.na(VCroot_P12) | !is.na(VCroot_P88) | !is.na(VCroot_slope))
+
 
 db_var <- XFT_all |>
   dplyr::bind_rows(XFT_stem)|>
