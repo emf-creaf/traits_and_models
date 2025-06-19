@@ -9,162 +9,199 @@ WFO_path <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 fun_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Baez_et_al_2022_FUNANDES/fundb_TRY_open_20220428.csv"))
 
 # Stem-specific conductivity --------------------------------------------------
-ks_var <- fun_db |>
+db_var <- fun_db |>
   dplyr::select("SpeciesName", "OrigValueStr", "OriginalName", "OrigUnitStr") |>
   dplyr::filter(OriginalName == "Wood_(sapwood)_specific_conductivity_(stem_specific_conductivity)")|>
-  dplyr::rename(Ks = "OrigValueStr",
+  dplyr::rename(Value = "OrigValueStr",
                 Units = "OrigUnitStr")|>
-  dplyr::mutate(Ks = as.numeric(Ks),
+  dplyr::mutate(Trait = "Ks",
+                Value = as.numeric(Value),
                 Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
                 DOI = "10.1038/s41597-022-01626-6",
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
   dplyr::rename(originalName = "SpeciesName")|>
   dplyr::arrange(originalName)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
-db_post <- traits4models::harmonize_taxonomy_WFO(ks_var, WFO_path)
+#Check units (kg m-1 MPa-1 s-1)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Units = "kg m-1 MPa-1 s-1")
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_Ks.rds")
 
 # Bark thickness --------------------------------------------------
-bt_var <- fun_db |>
+db_var <- fun_db |>
   dplyr::select("SpeciesName", "OrigValueStr", "OriginalName", "OrigUnitStr") |>
   dplyr::filter(OriginalName == "Bark_thickness")|>
-  dplyr::rename(BarkThickness = "OrigValueStr",
+  dplyr::rename(Value = "OrigValueStr",
                 Units = "OrigUnitStr")|>
-  dplyr::mutate(BarkThickness = as.numeric(BarkThickness),
+  dplyr::mutate(Trait = "BarkThickness",
+                Value = as.numeric(Value),
                 Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
                 DOI = "10.1038/s41597-022-01626-6",
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
   dplyr::rename(originalName = "SpeciesName")|>
   dplyr::arrange(originalName)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
-db_post <- traits4models::harmonize_taxonomy_WFO(bt_var, WFO_path)
+#Check units (mm)
+table(db_var$Units)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_BarkThickness.rds")
 
 # Nleaf --------------------------------------------------
-nl_var <- fun_db |>
+db_var <- fun_db |>
   dplyr::select("SpeciesName", "OrigValueStr", "OriginalName", "OrigUnitStr") |>
   dplyr::filter(OriginalName == "Leaf_nitrogen_(N)_content_per_leaf_dry_mass")|>
-  dplyr::rename(Nleaf = "OrigValueStr",
+  dplyr::rename(Value = "OrigValueStr",
                 Units = "OrigUnitStr")|>
-  dplyr::mutate(Nleaf = as.numeric(Nleaf),
+  dplyr::mutate(Trait = "Nleaf",
+                Value = as.numeric(Value),
                 Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
                 DOI = "10.1038/s41597-022-01626-6",
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
   dplyr::rename(originalName = "SpeciesName")|>
   dplyr::arrange(originalName)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
-db_post <- traits4models::harmonize_taxonomy_WFO(bt_var, WFO_path)
+#Check units (mg g-1)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Units = "mg g-1")
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_Nleaf.rds")
 
 # WoodDensity --------------------------------------------------
-wd_var <- fun_db |>
+db_var <- fun_db |>
   dplyr::select("SpeciesName", "OrigValueStr", "OriginalName", "OrigUnitStr") |>
   dplyr::filter(OriginalName %in% c("Stem_dry_mass_per_stem_fresh_volume_(stem_specific_density,_SSD,_wood_density)_branch", 
                                     "Stem_dry_mass_per_stem_fresh_volume_(stem_specific_density,_SSD,_wood_density)_sapwood"))|>
-  dplyr::rename(WoodDensity = "OrigValueStr",
+  dplyr::rename(Value = "OrigValueStr",
                 Units = "OrigUnitStr")|>
-  dplyr::mutate(WoodDensity = as.numeric(WoodDensity),
+  dplyr::mutate(Trait = "WoodDensity",
+                Value = as.numeric(Value),
                 Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
                 DOI = "10.1038/s41597-022-01626-6",
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
   dplyr::rename(originalName = "SpeciesName")|>
   dplyr::arrange(originalName)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
-db_post <- traits4models::harmonize_taxonomy_WFO(bt_var, WFO_path)
+#Check units
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Units = "g cm-3")
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_WoodDensity.rds")
 
 # LDMC --------------------------------------------------
-ldmc_var <- fun_db |>
+db_var <- fun_db |>
   dplyr::select("SpeciesName", "OrigValueStr", "OriginalName") |>
   dplyr::filter(OriginalName == "Leaf_dry_mass_per_leaf_fresh_mass_(leaf_dry_matter_content,_LDMC)")|>
-  dplyr::rename(LDMC = "OrigValueStr")|>
-  dplyr::mutate(LDMC = as.numeric(LDMC),
-                OrigUnitStr = "mg/g",
+  dplyr::rename(Value = "OrigValueStr")|>
+  dplyr::mutate(Trait = "LDMC",
+                Value = as.numeric(Value),
+                Units = "mg g-1", # Force units
                 Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
                 DOI = "10.1038/s41597-022-01626-6",
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
   dplyr::rename(originalName = "SpeciesName")|>
   dplyr::arrange(originalName)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
-db_post <- traits4models::harmonize_taxonomy_WFO(bt_var, WFO_path)
+#Check units (mg g-1)
+table(db_var$Units)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_LDMC.rds")
 
 # SLA --------------------------------------------------
-sla_var <- fun_db |>
+db_var <- fun_db |>
   dplyr::select("SpeciesName", "OrigValueStr", "OriginalName", "OrigUnitStr") |>
   dplyr::filter(OriginalName == "Leaf area per leaf dry mass (specific leaf area, SLA or 1/LMA) petiole, rhachis and midrib excluded")|>
-  dplyr::rename(SLA = "OrigValueStr",
+  dplyr::rename(Value = "OrigValueStr",
                 Units = "OrigUnitStr")|>
-  dplyr::mutate(SLA = as.numeric(SLA),
+  dplyr::mutate(Trait = "SLA",
+                Value = as.numeric(Value),
                 Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
                 DOI = "10.1038/s41597-022-01626-6",
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
   dplyr::rename(originalName = "SpeciesName")|>
   dplyr::arrange(originalName)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
-db_post <- traits4models::harmonize_taxonomy_WFO(bt_var, WFO_path)
+#Check units (mm mg-1)
+table(db_var$Units)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_SLA.rds")
 
 # LeafArea --------------------------------------------------
-la_var <- fun_db |>
+db_var <- fun_db |>
   dplyr::select("SpeciesName", "OrigValueStr", "OriginalName", "OrigUnitStr") |>
   dplyr::filter(OriginalName == "Leaf_area_(in_case_of_compound_leaves:leaf,_petiole_included)")|>
-  dplyr::rename(LeafArea = "OrigValueStr",
+  dplyr::rename(Value = "OrigValueStr",
                 Units = "OrigUnitStr")|>
-  dplyr::mutate(LeafArea = as.numeric(LeafArea),
+  dplyr::mutate(Trait = "LeafArea",
+                Value = as.numeric(Value),
                 Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
                 DOI = "10.1038/s41597-022-01626-6",
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
   dplyr::rename(originalName = "SpeciesName")|>
   dplyr::arrange(originalName)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")
-db_post <- traits4models::harmonize_taxonomy_WFO(bt_var, WFO_path)
+# Check units (mm2)
+table(db_var$Units)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_LeafArea.rds")
 
 # GrowthForm --------------------------------------------------
-gf_var <- fun_db |>
+db_var <- fun_db |>
   dplyr::select("SpeciesName", "OrigValueStr", "OriginalName") |>
   dplyr::filter(OriginalName == "Plant_growth_form")|>
-  dplyr::rename(GrowthForm = "OrigValueStr")|>
-  dplyr::mutate(Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
+  dplyr::rename(Value = "OrigValueStr")|>
+  dplyr::mutate(Trait = "GrowthForm",
+                Units = as.character(NA),
+                Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
                 DOI = "10.1038/s41597-022-01626-6",
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
   dplyr::rename(originalName = "SpeciesName")|>
   dplyr::arrange(originalName)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " indet", ""))|>
   dplyr::filter(originalName != "indet")|>
   dplyr::mutate(
-    GrowthForm = dplyr::case_when(GrowthForm == "T" ~ "Tree",
-                                  GrowthForm == "S" ~ "Shrub",
-                                  GrowthForm == "T/S" ~ "Tree/Shrub",
-                                  GrowthForm == "H" ~ "Herb",
-                                  GrowthForm == "E" ~ "Other",
-                                  GrowthForm == "F" ~ "Other",
-                                  GrowthForm == "L" ~ "Other",
-                                  GrowthForm == "P" ~ "Other")
+    Value = dplyr::case_when(Value == "T" ~ "Tree",
+                                  Value == "S" ~ "Shrub",
+                                  Value == "T/S" ~ "Tree/Shrub",
+                                  Value == "H" ~ "Herb",
+                                  Value == "E" ~ "Other",
+                                  Value == "F" ~ "Other",
+                                  Value == "L" ~ "Other",
+                                  Value == "P" ~ "Other")
   )
-db_post <- traits4models::harmonize_taxonomy_WFO(bt_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_GrowthForm.rds")

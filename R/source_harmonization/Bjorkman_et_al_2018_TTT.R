@@ -12,15 +12,20 @@ ttt_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Bjorkman_et_al
 db_var <- ttt_db |>
   dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
   dplyr::filter(Trait == "Leaf dry mass per leaf fresh mass (Leaf dry matter content, LDMC)")|>
-  dplyr::rename(LDMC = "Value")|>
-  dplyr::mutate(LDMC = as.numeric(LDMC)) |>
-  dplyr::filter(!is.na(LDMC), ErrorRisk < 3) |>
+  dplyr::mutate(Trait = "LDMC",
+                Value = as.numeric(Value)) |>
+  dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
   dplyr::rename(originalName = "AccSpeciesName")|>
-  dplyr::select(-Trait, -ErrorRisk)|>
+  dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
                 DOI = "10.1111/geb.12821",
                 Priority = 3)
+# Check units (mg g-1)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value*1000,
+                Units = "mg g-1")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LDMC.rds")
@@ -29,15 +34,17 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LDMC.rds")
 db_var <- ttt_db |>
   dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
   dplyr::filter(Trait == "Seed dry mass")|>
-  dplyr::rename(SeedMass = "Value")|>
-  dplyr::mutate(SeedMass = as.numeric(SeedMass)) |>
-  dplyr::filter(!is.na(SeedMass), ErrorRisk < 3) |>
+  dplyr::mutate(Trait = "SeedMass",
+                Value = as.numeric(Value)) |>
+  dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
   dplyr::rename(originalName = "AccSpeciesName")|>
-  dplyr::select(-Trait, -ErrorRisk)|>
+  dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
                 DOI = "10.1111/geb.12821",
                 Priority = 3)
+# Check units (mg)
+table(db_var$Units)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_SeedMass.rds")
@@ -46,16 +53,20 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_SeedMass.rds
 db_var <- ttt_db |>
   dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
   dplyr::filter(Trait == "Rooting depth")|>
-  dplyr::rename(Z95 = "Value")|>
-  dplyr::mutate(Z95 = 10*as.numeric(Z95), #From cm to mm
-                Units = "mm") |>
-  dplyr::filter(!is.na(Z95), ErrorRisk < 3) |>
+  dplyr::mutate(Trait = "Z95",
+                Value = as.numeric(Value)) |>
+  dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
   dplyr::rename(originalName = "AccSpeciesName")|>
-  dplyr::select(-Trait, -ErrorRisk)|>
+  dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
                 DOI = "10.1111/geb.12821",
                 Priority = 3)
+# Check units (mm)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value*10,
+                Units = "mm")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Z95.rds")
@@ -64,16 +75,20 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Z95.rds")
 db_var <- ttt_db |>
   dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
   dplyr::filter(Trait == "Plant height, vegetative")|>
-  dplyr::rename(Hact = "Value")|>
-  dplyr::mutate(Hact = 100*as.numeric(Hact), #From m to cm
-                Units = "cm") |>
-  dplyr::filter(!is.na(Hact), ErrorRisk < 3) |>
+  dplyr::mutate(Trait = "Hact",
+                Value = as.numeric(Value)) |>
+  dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
   dplyr::rename(originalName = "AccSpeciesName")|>
-  dplyr::select(-Trait, -ErrorRisk)|>
+  dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
                 DOI = "10.1111/geb.12821",
                 Priority = 3)
+# Check units (cm)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value*100,
+                Units = "cm")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Hact.rds")
@@ -82,15 +97,19 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Hact.rds")
 db_var <- ttt_db |>
   dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
   dplyr::filter(Trait == "Leaf nitrogen (N) content per leaf dry mass")|>
-  dplyr::rename(Nleaf = "Value")|>
-  dplyr::mutate(Nleaf = as.numeric(Nleaf)) |>
-  dplyr::filter(!is.na(Nleaf), ErrorRisk < 3) |>
+  dplyr::mutate(Trait = "Nleaf",
+                Value = as.numeric(Value)) |>
+  dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
   dplyr::rename(originalName = "AccSpeciesName")|>
-  dplyr::select(-Trait, -ErrorRisk)|>
+  dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
                 DOI = "10.1111/geb.12821",
                 Priority = 3)
+#Check units (mg g-1)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Units = "mg g-1")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Nleaf.rds")
@@ -99,15 +118,17 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Nleaf.rds")
 db_var <- ttt_db |>
   dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
   dplyr::filter(Trait == "Leaf area")|>
-  dplyr::rename(LeafArea = "Value")|>
-  dplyr::mutate(LeafArea = as.numeric(LeafArea)) |>
-  dplyr::filter(!is.na(LeafArea), ErrorRisk < 3) |>
+  dplyr::mutate(Trait = "LeafArea",
+                Value = as.numeric(Value)) |>
+  dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
   dplyr::rename(originalName = "AccSpeciesName")|>
-  dplyr::select(-Trait, -ErrorRisk)|>
+  dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
                 DOI = "10.1111/geb.12821",
                 Priority = 3)
+#Check units (mm2)
+table(db_var$Units)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LeafArea.rds")
@@ -116,15 +137,19 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LeafArea.rds
 db_var <- ttt_db |>
   dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
   dplyr::filter(Trait == "Leaf area per leaf dry mass (specific leaf area, SLA)")|>
-  dplyr::rename(SLA = "Value")|>
-  dplyr::mutate(SLA = as.numeric(SLA)) |>
-  dplyr::filter(!is.na(SLA), ErrorRisk < 3) |>
+  dplyr::mutate(Trait = "SLA",
+                Value = as.numeric(Value)) |>
+  dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
   dplyr::rename(originalName = "AccSpeciesName")|>
-  dplyr::select(-Trait, -ErrorRisk)|>
+  dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
                 DOI = "10.1111/geb.12821",
                 Priority = 3)
+#Check units (mm2 mg-1)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Units = "mm2 mg-1")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_SLA.rds")

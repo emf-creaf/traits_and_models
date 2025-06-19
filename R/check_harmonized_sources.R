@@ -2,13 +2,6 @@
 # This can happen when validation criteria are updated in package "traits4models"
 # If detected, the harmonization scripts should be updated to solve problems
 
-files <- list.files("data/harmonized_trait_sources", full.names = TRUE)
+harmonized_trait_path <- "data/harmonized_trait_sources"
 
-accepted <- rep(NA, length(files))
-for(i in 1:length(files)) {
-  f <- files[i]
-  cli::cli_li(f)
-  accepted[i] <- traits4models::check_harmonized_trait(readRDS(f))
-}
-cli::cli_li(paste0(sum(!accepted), " files are not acceptable"))
-print(files[!accepted])
+traits4models::check_harmonized_trait_dir(harmonized_trait_path, verbose = FALSE)
