@@ -167,7 +167,7 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "dataset_id") |>
   dplyr::filter(trait_name == "leaf_inclination_angle")|>
   dplyr::rename(LeafAngle = "value")|>
   dplyr::mutate(LeafAngle = as.numeric(LeafAngle),
@@ -185,7 +185,6 @@ db_var <- aus_db |>
                 DOI = falster_doi,
                 Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = DOI)
-
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafAngle.rds")
