@@ -27,7 +27,7 @@ db_var$Reference <- "Ramirez-Valiente et al. (2020) Correlated evolution of morp
 and hydraulics as a response to precipitation and temperature regimes in oaks (Quercus). New Phytologist 227: 794–809."
 db_var$DOI <- "10.1111/nph.16320"
 db_var$Priority <- 1
-
+traits4models::check_harmonized_trait(db_var)
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 

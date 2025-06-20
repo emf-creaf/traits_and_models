@@ -34,16 +34,20 @@ saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017_StemVC.r
 db_var <- db_pgs90 |>
   dplyr::select("Species.binomial", "ψgs90", "REFERENCES") |>
   dplyr::rename(originalName = "Species.binomial",
-                Gs_P90 = "ψgs90",
+                Value = "ψgs90",
                 OriginalReference = "REFERENCES") |>
-  dplyr::mutate(Gs_P90 = as.numeric(Gs_P90)) |>
-  dplyr::filter(!is.na(Gs_P90)) |>
+  dplyr::mutate(Trait = "Gs_P90",
+                Value = as.numeric(Value),
+                Units = "MPa") |>
+  dplyr::relocate(Trait, .before = Value) |>
+  dplyr::filter(!is.na(Value)) |>
   dplyr::mutate(Reference = "Martin-StPaul et al. (2017) Plant resistance to drought depends on timely stomatal closure. Ecology Letters 20, 1437-1447",
                 DOI = "10.1111/ele.12851",
                 Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = "DOI")|>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
+traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017_Gs_P90.rds")

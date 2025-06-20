@@ -20,7 +20,9 @@ db_var <- db |>
                 LDMC = "LDMC.(g/g)",
                 WoodDensity = "SSD.combined.(mg/mm3)",
                 ) |>
-  dplyr::mutate(SLA = 1000*LMA,
+  dplyr::mutate(SLA = 1000/LMA, # m2/kg
+                Hact = 100*Hact, # cm
+                LDMC = LDMC*1000, # mg g-1
                 originalName = stringr::str_replace(originalName, " sp\\.", ""),
                 Reference = "Díaz et al. (2022). The global spectrum of plant form and function: enhanced  species-level trait dataset. Scientific Data 9:755.",
                 DOI = "10.1038/s41597-022-01774-9",

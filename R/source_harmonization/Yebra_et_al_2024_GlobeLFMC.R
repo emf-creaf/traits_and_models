@@ -12,8 +12,12 @@ db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/Yebra_et_al_202
 db_var <- db |>
   dplyr::select(`Species collected`, `LFMC value (%)`, "Reference") |>
   dplyr::rename(originalName = `Species collected`,
-                LFMC = `LFMC value (%)`,
+                Value = `LFMC value (%)`,
                 OriginalReference = "Reference") |>
+  dplyr::mutate(Trait = "LFMC",
+                Value = as.numeric(Value),
+                Units = "%") |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::filter(!is.na(originalName)) |>
   dplyr::filter(!originalName %in% c("Unknown grass", "Unknown graminoid", "Unknown sciadion", "")) |>
   dplyr::filter(!stringr::str_detect(originalName, "\\,"))|>

@@ -14,11 +14,10 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>
   dplyr::filter(Trait == "LDMC")|>
-  dplyr::rename(LDMC = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
-  dplyr::mutate(LDMC = as.numeric(LDMC)) |>
+  dplyr::mutate(Value = as.numeric(Value)) |>
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -29,6 +28,10 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+#Check units (mg g-1)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Units = "mg g-1")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LDMC.rds")
@@ -37,11 +40,10 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LDMC.rds"
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>
   dplyr::filter(Trait == "SLA")|>
-  dplyr::rename(SLA = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
-  dplyr::mutate(SLA = as.numeric(SLA)) |>
+  dplyr::mutate(Value = as.numeric(Value)) |>
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -52,6 +54,10 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+#Check units (m2 kg-1 or mm2 mg-1)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Units = "mm2 mg-1")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_SLA.rds")
@@ -60,12 +66,11 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_SLA.rds")
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>
   dplyr::filter(Trait == "Height")|>
-  dplyr::rename(Hact = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
-  dplyr::mutate(Hact = 100*as.numeric(Hact), # From m to cm
-                Units = "cm") |>
+  dplyr::mutate(Trait = "Hact",
+                Value = as.numeric(Value)) |>
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -76,6 +81,11 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+#Check units (cm)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value * 100,
+                Units = "cm")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_Hact.rds")
@@ -84,12 +94,11 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_Hact.rds"
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>
   dplyr::filter(Trait == "SeedMass")|>
-  dplyr::rename(SeedMass = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::filter(Units=="mg")|>
-  dplyr::mutate(SeedMass = as.numeric(SeedMass)) |>
+  dplyr::mutate(Value = as.numeric(Value)) |>
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -100,6 +109,8 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+#Check units (mg)
+table(db_var$Units)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_SeedMass.rds")
@@ -108,11 +119,11 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_SeedMass.
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>
   dplyr::filter(Trait == "StemDensity")|>
-  dplyr::rename(WoodDensity = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
-  dplyr::mutate(WoodDensity = as.numeric(WoodDensity)) |>
+  dplyr::mutate(Trait = "WoodDensity",
+                Value = as.numeric(Value)) |>
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -123,6 +134,10 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+#Check units (g cm-3)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Units = "g cm-3")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_WoodDensity.rds")
@@ -131,12 +146,11 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_WoodDensi
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>
   dplyr::filter(Trait == "RootDepth")|>
-  dplyr::rename(Z95 = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
-  dplyr::mutate(Z95 = 1000*as.numeric(Z95), # From m to mm
-                Units = "mm") |> 
+  dplyr::mutate(Trait = "Z95",
+                Value = as.numeric(Value)) |> 
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -147,6 +161,12 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+#Check units (mm)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value*1000,
+                Units = "mm")
+traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_Z95.rds")
@@ -155,12 +175,11 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_Z95.rds")
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>
   dplyr::filter(Trait == "LeafLifespan")|>
-  dplyr::rename(LeafDuration = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
-  dplyr::mutate(LeafDuration = as.numeric(LeafDuration)/12, # From months to years
-                Units = "yr") |> 
+  dplyr::mutate(Trait = "LeafDuration",
+                Value = as.numeric(Value)) |> 
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -171,6 +190,12 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+#Check units (year)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value/12,
+                Units = "year")
+traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafDuration.rds")
@@ -179,12 +204,11 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafDurat
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>
   dplyr::filter(Trait == "LeafArea")|>
-  dplyr::rename(LeafArea = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::filter(Units=="mm2")|>
-  dplyr::mutate(LeafArea = as.numeric(LeafArea)) |> 
+  dplyr::mutate(Value = as.numeric(Value)) |> 
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -195,6 +219,9 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+#Check units (mm2)
+table(db_var$Units)
+traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafArea.rds")
@@ -203,13 +230,12 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafArea.
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>
   dplyr::filter(Trait == "DeadFuel")|>
-  dplyr::rename(pDead = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::filter(Units=="%")|>
-  dplyr::mutate(pDead = as.numeric(pDead)/100,
-                Units = "[0-1]") |> 
+  dplyr::mutate(Trait = "pDead",
+                Value = as.numeric(Value)) |> 
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -220,6 +246,12 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+#Check units ([0-1])
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value/100,
+                Units = "[0-1]")
+traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_pDead.rds")
@@ -228,21 +260,21 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_pDead.rds
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "SourceID") |>
   dplyr::filter(Trait == "GrowthForm")|>
-  dplyr::rename(LifeForm = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::mutate(
-    LifeForm = dplyr::case_when(
-      stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(Cha|Hemiphanerophyte|subshrub)")) ~ "Chamaephyte",
-      stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(Crypt|geo)")) ~ "Cryptophyte",
-      stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(Epi|liana)")) ~ "Epiphyte",
-      stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(hemic|forb)")) ~ "Hemicryptophyte",
-      stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(hydro|helo)")) ~ "Hydrophyte",
-      stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(phaner|shrub|tree)")) ~ "Phanerophyte",
-      stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(thero|tero|graminoid)")) ~ "Therophyte"
-    )
+    Value = dplyr::case_when(
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(Cha|Hemiphanerophyte|subshrub)")) ~ "Chamaephyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(Crypt|geo)")) ~ "Cryptophyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(Epi|liana)")) ~ "Epiphyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(hemic|forb)")) ~ "Hemicryptophyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(hydro|helo)")) ~ "Hydrophyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(phaner|shrub|tree)")) ~ "Phanerophyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(thero|tero|graminoid)")) ~ "Therophyte"
+    ),
+    Units = as.character(NA)
   )|>
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -253,6 +285,7 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LifeForm.rds")
@@ -261,20 +294,20 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LifeForm.
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "SourceID") |>
   dplyr::filter(Trait == "LeafShape")|>
-  dplyr::rename(LeafShape = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::mutate(
-    LeafShape = dplyr::case_when(
-      stringr::str_detect(tolower(LeafShape), stringr::regex("(?i)(broad)")) ~ "Broad",
-      stringr::str_detect(tolower(LeafShape), stringr::regex("(?i)(linear)")) ~ "Linear",
-      stringr::str_detect(tolower(LeafShape), stringr::regex("(?i)(needle)")) ~ "Needle",
-      stringr::str_detect(tolower(LeafShape), stringr::regex("(?i)(scale)")) ~ "Scale",
-      stringr::str_detect(tolower(LeafShape), stringr::regex("(?i)(spines)")) ~ "Spines",
-      stringr::str_detect(tolower(LeafShape), stringr::regex("(?i)(succulent)")) ~ "Succulent"
-    )
+    Value = dplyr::case_when(
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(broad)")) ~ "Broad",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(linear)")) ~ "Linear",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(needle)")) ~ "Needle",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(scale)")) ~ "Scale",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(spines)")) ~ "Spines",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(succulent)")) ~ "Succulent"
+    ),
+    Units = as.character(NA)
   )|>
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -285,6 +318,7 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafShape.rds")
@@ -293,18 +327,19 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafShape
 db_var <- brot_db |>
   dplyr::select("Taxon", "Trait", "Data", "SourceID") |>
   dplyr::filter(Trait == "LeafPhenology")|>
-  dplyr::rename(PhenologyType = "Data",
+  dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::mutate(
-    PhenologyType = dplyr::case_when(
-      stringr::str_detect(tolower(PhenologyType), stringr::regex("(?i)(evergreen)")) ~ "oneflush-evergreen",
-      stringr::str_detect(tolower(PhenologyType), stringr::regex("(?i)(drought semi-deciduous)")) ~ "drought-semideciduous",
-      stringr::str_detect(tolower(PhenologyType), stringr::regex("(?i)(winter deciduous)")) ~ "winter-deciduous",
-      stringr::str_detect(tolower(PhenologyType), stringr::regex("(?i)(winter semi-deciduous)")) ~ "winter-semideciduous"
-    )
+    Trait = "PhenologyType",
+    Value = dplyr::case_when(
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(evergreen)")) ~ "oneflush-evergreen",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(drought semi-deciduous)")) ~ "drought-semideciduous",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(winter deciduous)")) ~ "winter-deciduous",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(winter semi-deciduous)")) ~ "winter-semideciduous"
+    ), 
+    Units = as.character(NA)
   )|>
   dplyr::rename(originalName = "Taxon")|>
-  dplyr::select(-Trait)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
@@ -315,6 +350,7 @@ db_var <- brot_db |>
   dplyr::select(-OriginalReferenceID) |>
   dplyr::rename(OriginalReference = "FullSource") |>
   dplyr::mutate(Priority = 1)
+traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_PhenologyType.rds")

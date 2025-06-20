@@ -13,10 +13,13 @@ db_ref <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/Morris_et_a
 db_var <- db |>
   dplyr::select("Species name", "Radial and Axial Parenchyma (%)", "Source") |>
   dplyr::rename(originalName = "Species name",
-                conduit2sapwood = "Radial and Axial Parenchyma (%)",
+                Value = "Radial and Axial Parenchyma (%)",
                 OriginalReferenceID = "Source") |>
-  dplyr::filter(!is.na(conduit2sapwood)) |>
-  dplyr::mutate(conduit2sapwood = 1 - (conduit2sapwood/100)) |>
+  dplyr::filter(!is.na(Value)) |>
+  dplyr::mutate(Trait = "conduit2sapwood",
+                Value = 1 - (Value/100),
+                Units = as.character(NA)) |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp", ""))|>
   dplyr::mutate(Reference = "Morris et al. (2016) A global analysis of parenchyma tissue fractions in secondary xylem of seed plants. New Phytologist 209, 1553-1565") |>
@@ -27,7 +30,7 @@ db_var <- db |>
   dplyr::mutate(Priority = 1) |>
   dplyr::arrange(originalName) |> 
   tibble::as_tibble()
-
+traits4models::check_harmonized_trait(db_var)
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 

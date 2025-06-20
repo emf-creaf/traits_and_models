@@ -12,13 +12,16 @@ db <- read.table(paste0(DB_path,"data-raw/raw_trait_data/Sjoman_et_al_2015/Sjoma
 db_var <- db |>
   dplyr::select(Species, "TLP") |>
   dplyr::rename(originalName = Species,
-                Ptlp = "TLP") |>
+                Value = "TLP") |>
+  dplyr::mutate(Trait = "Ptlp",
+                Units = "MPa") |>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
-
 db_var$Reference <- "Sjoman et al. (2015) Urban forest resilience through tree selection - Variation in drought tolerance in Acer. Urban Forestry & Urban Greening 14: 858-865"
 db_var$DOI <- "10.1016/j.ufug.2015.08.004"
 db_var$Priority <- 1
+traits4models::check_harmonized_trait(db_var)
 
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)

@@ -10,16 +10,18 @@ db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Pisek_Adamson_2020
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
   dplyr::select("Species", "measurement", "Reference") |>
-  dplyr::rename(LeafAngle = "measurement")|>
-  dplyr::mutate(LeafAngle = as.numeric(LeafAngle),
-                Units = "degrees") |>
+  dplyr::rename(Value = "measurement")|>
+  dplyr::mutate(Trait = "LeafAngle",
+                Value = as.numeric(Value),
+                Units = "degree") |>
   dplyr::rename(originalName = "Species")|>
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::relocate(Units, .before = Reference) |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(DOI = "10.1016/j.dib.2020.106391") |>
   dplyr::mutate(Priority = 1)
 
-
+traits4models::check_harmonized_trait(db_var)
 # Taxonomic harmonization -----------------------------------------------
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 

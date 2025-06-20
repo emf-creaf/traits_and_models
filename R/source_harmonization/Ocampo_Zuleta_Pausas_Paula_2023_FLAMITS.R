@@ -18,8 +18,11 @@ db_var <- flamits_db |>
   dplyr::filter(fuel_type=="live", plant_part =="leaves", predrying=="yes")|>
   dplyr::select("taxon_name", "var_name", "var_value", "source_ID") |>
   dplyr::filter(var_name == "calorific value (kcal/kg)")|>
-  dplyr::rename(HeatContent = "var_value")|>
-  dplyr::mutate(HeatContent = 4.18400*as.numeric(HeatContent), Units = "kJ/kg") |> # From kcal/kg to kJ/kg
+  dplyr::rename(Value = "var_value")|>
+  dplyr::mutate(Trait = "HeatContent",
+                Value = 4.18400*as.numeric(Value), 
+                Units = "kJ kg-1") |> # From kcal/kg to kJ/kg
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::left_join(flamits_ref[,c("source_ID", "reference")], by="source_ID") |>
   dplyr::select(-source_ID) |>
   dplyr::rename(originalName = "taxon_name",
@@ -33,7 +36,7 @@ db_var <- flamits_db |>
   dplyr::mutate(DOI = "10.1111/geb.13799") |>
   dplyr::relocate(OriginalReference, .after = "DOI") |>
   dplyr::mutate(Priority = 1)
-
+traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS_HeatContent.rds")

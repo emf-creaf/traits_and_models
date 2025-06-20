@@ -12,8 +12,12 @@ db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/Lin_et_al_2015/
 db_var <- db |>
   dplyr::rename(originalName = "Species") |>
   dplyr::arrange(originalName) |>
-  dplyr::mutate(g1_Medlyn = as.numeric(g1_Medlyn),
-                Reference = "Lin et al. (2015) Optimal stomatal behaviour around the world. Nature Climate Change",
+  dplyr::mutate(Trait = "g1_Medlyn",
+                Value = as.numeric(g1_Medlyn),
+                Units = as.character(NA)) |>
+  dplyr::relocate(Trait, .before = Value) |>
+  dplyr::select(-g1_Medlyn) |>
+  dplyr::mutate(Reference = "Lin et al. (2015) Optimal stomatal behaviour around the world. Nature Climate Change",
                 DOI = "10.1038/nclimate2550",
                 Priority = 1)|>
   tibble::as_tibble()

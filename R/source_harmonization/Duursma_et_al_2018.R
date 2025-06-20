@@ -13,9 +13,12 @@ db <- readr::read_csv(fn_duursma)
 db_var <- db |>
   dplyr::select(species, "gmin", "citation") |>
   dplyr::rename(originalName = species,
-                Gswmin = "gmin",
+                Value = "gmin",
                 OriginalReference = "citation") |>
-  dplyr::mutate(Gswmin = Gswmin/1000) |> # From mmol to mol
+  dplyr::mutate(Trait = "Gswmin",
+                Value = Value/1000, # From mmol to mol
+                Units = "mol s-1 m-2") |> 
+  dplyr::relocate(Trait, .before = Value) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""))|>
   dplyr::mutate(Reference = "Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705",
                 DOI = "10.1111/nph.15395", 

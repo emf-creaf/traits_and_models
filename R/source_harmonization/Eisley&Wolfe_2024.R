@@ -13,11 +13,14 @@ db <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Eisley&Wolfe_
 db_var <- db |>
   dplyr::select(binomial, TLP) |>
   dplyr::rename(originalName = "binomial",
-                Ptlp = "TLP") |>
-  dplyr::mutate(Ptlp = as.numeric(Ptlp),
+                Value = "TLP") |>
+  dplyr::mutate(Trait = "Ptlp",
+                Value = as.numeric(Value),
+                Units = "MPa",
                 Reference = "Eisley AM & Wolfe BT (2024) Leaf turgor loss point varies among tree species, habitats, and seasons in a bottomland hardwood forest. Trees 38:263–272",
                 DOI = "10.1007/s00468-023-02483-5",
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   tibble::as_tibble()
 
 # Taxonomic harmonization -----------------------------------------------
