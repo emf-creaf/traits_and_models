@@ -24,7 +24,9 @@ db_var <- db |>
 
 traits4models::check_harmonized_trait(db_var)
 # Taxonomic harmonization -----------------------------------------------
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+
 
 # Checking ----------------------------------------------------------------
 traits4models::check_harmonized_trait(db_post)

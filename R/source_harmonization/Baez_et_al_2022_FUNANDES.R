@@ -29,7 +29,9 @@ db_var <- fun_db |>
 table(db_var$Units)
 db_var <- db_var |>
   dplyr::mutate(Units = "kg m-1 MPa-1 s-1")
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+traits4models::check_harmonized_trait(db_var)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_Ks.rds")
 
@@ -52,7 +54,8 @@ db_var <- fun_db |>
   dplyr::filter(originalName != "indet")
 #Check units (mm)
 table(db_var$Units)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_BarkThickness.rds")
 
@@ -77,7 +80,8 @@ db_var <- fun_db |>
 table(db_var$Units)
 db_var <- db_var |>
   dplyr::mutate(Units = "mg g-1")
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_Nleaf.rds")
 
@@ -103,7 +107,8 @@ db_var <- fun_db |>
 table(db_var$Units)
 db_var <- db_var |>
   dplyr::mutate(Units = "g cm-3")
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_WoodDensity.rds")
 
@@ -126,7 +131,8 @@ db_var <- fun_db |>
   dplyr::filter(originalName != "indet")
 #Check units (mg g-1)
 table(db_var$Units)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_LDMC.rds")
 
@@ -149,7 +155,8 @@ db_var <- fun_db |>
   dplyr::filter(originalName != "indet")
 #Check units (mm mg-1)
 table(db_var$Units)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_SLA.rds")
 
@@ -172,7 +179,8 @@ db_var <- fun_db |>
   dplyr::filter(originalName != "indet")
 # Check units (mm2)
 table(db_var$Units)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_LeafArea.rds")
 
@@ -202,6 +210,7 @@ db_var <- fun_db |>
                                   Value == "L" ~ "Other",
                                   Value == "P" ~ "Other")
   )
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_GrowthForm.rds")

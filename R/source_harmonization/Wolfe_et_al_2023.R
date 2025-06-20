@@ -24,7 +24,8 @@ db_var <- db |>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   dplyr::mutate(Priority = 1)|>
   tibble::as_tibble()
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Wolfe_et_al_2023_Kleaf.rds")
 
@@ -46,7 +47,7 @@ db_var <- db |>
   dplyr::mutate(Priority = 1)|>
   tibble::as_tibble()
 db_var$OriginalReference[db_var$OriginalReference=="present study"] <- NA
-
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Wolfe_et_al_2023_Kplant.rds")

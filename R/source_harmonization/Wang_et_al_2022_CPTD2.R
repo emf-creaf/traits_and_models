@@ -75,7 +75,8 @@ db_var2 <- species_2 |>
   dplyr::right_join(db_var, by=c("SAMPLE ID")) |>
   dplyr::select(-c("SAMPLE ID")) 
 # Taxonomic harmonization -----------------------------------------------
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var2, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var2, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 
 # Checking ----------------------------------------------------------------
 traits4models::check_harmonized_trait(db_post)

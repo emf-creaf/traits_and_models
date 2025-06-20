@@ -23,7 +23,8 @@ regeneration strategies in Mediterranean ecosystems. New Phytologist 201: 1277-1
   tibble::as_tibble()
 
 # Taxonomic harmonization -----------------------------------------------
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 
 # Checking ----------------------------------------------------------------
 traits4models::check_harmonized_trait(db_post)

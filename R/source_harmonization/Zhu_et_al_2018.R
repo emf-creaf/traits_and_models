@@ -30,7 +30,8 @@ db_var$Priority[db$Source=="this study"] <- 1
 db_var$OriginalReference[db$Source=="this study"] <- NA
 
 # Taxonomic harmonization -----------------------------------------------
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 
 # Checking ----------------------------------------------------------------
 traits4models::check_harmonized_trait(db_post)

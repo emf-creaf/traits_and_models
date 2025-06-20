@@ -46,7 +46,8 @@ db_var <- db |>
                 Priority = 3)|>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bartlett_et_al_2016_LeafP50.rds")
 
@@ -65,7 +66,8 @@ db_var <- db |>
                 Priority = 3)|>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bartlett_et_al_2016_RootP50.rds")
 
@@ -86,7 +88,8 @@ db_var <- db |>
                 Priority = 3)|>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bartlett_et_al_2016_GsP50_GsP95.rds")
 

@@ -109,6 +109,9 @@ file). They are meant to be stored locally but can be exchanged between
 users of the repository by contacting the person who performed the
 harmonization.
 
+Current scripts have been harmonized following the requirements of
+**traits4models** ver. **0.2.1**.
+
 ## II. Trait-trait relationships
 
 This section is meant to provide a compilation of trait-trait

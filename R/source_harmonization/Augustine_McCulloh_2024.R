@@ -37,12 +37,10 @@ db_var <- db |>
                 Priority = 1)|>
   dplyr::select(-LMA.aci, -LMA.ai) |>
   tibble::as_tibble()
-
 # Taxonomic harmonization -----------------------------------------------
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
-
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 # Checking ----------------------------------------------------------------
 traits4models::check_harmonized_trait(db_post)
-
 # Storing -----------------------------------------------------------------
 saveRDS(db_post, "data/harmonized_trait_sources/Augustine_McCulloh_2024.rds")

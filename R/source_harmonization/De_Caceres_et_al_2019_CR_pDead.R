@@ -26,7 +26,8 @@ db_var <- db[1:27,] |>
 db_var$originalName <- unlist(lapply(db_var$originalName, function(x) {paste(strsplit(x, " ")[[1]][1:2], collapse = " ")}) )
 
 # Taxonomic harmonization -----------------------------------------------
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 
 # Checking ----------------------------------------------------------------
 traits4models::check_harmonized_trait(db_post)

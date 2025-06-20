@@ -3,7 +3,7 @@
 #
 
 DB_path <- "./"
-WFO_path <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
 db <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Choat_et_al_2012_XFT/XFT_full_database_download_20230926-154837.csv"))
@@ -86,7 +86,8 @@ db_var <- XFT_all |>
   dplyr::relocate(OriginalReference, .after = DOI)
 
 # Taxonomic harmonization -----------------------------------------------
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 
 # Checking ----------------------------------------------------------------
 traits4models::check_harmonized_trait(db_post)

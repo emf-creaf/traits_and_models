@@ -37,6 +37,7 @@ db_var <- flamits_db |>
   dplyr::relocate(OriginalReference, .after = "DOI") |>
   dplyr::mutate(Priority = 1)
 traits4models::check_harmonized_trait(db_var)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS_HeatContent.rds")
