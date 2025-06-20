@@ -2,7 +2,7 @@
 # Compilation FineFuelRatio 
 #
 DB_path <- "./"
-WFO_path <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 
 # Read database -----------------------------------------------------------
@@ -17,6 +17,7 @@ db_var <- db |>
   dplyr::mutate(DOI = as.character(NA),
                 Priority = 1) |>
   tibble::as_tibble()
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = packageVersion("traits4models"))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/00_compilation_FineFuelRatio.rds")

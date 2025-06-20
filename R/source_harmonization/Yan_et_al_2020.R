@@ -6,14 +6,14 @@ DB_path <- "./"
 WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/Yan_et_al_2020/rsbl20200456_si_002.xlsx"))
+db <- readxl::read_xlsx(paste0(DB_path,"data-raw/raw_trait_data/Yan_et_al_2020/rsbl20200456_si_002.xlsx")) 
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
-  dplyr::select(Species, `Kleaf (mmol m-2 s-1 MPa-1)`, `P50leaf (MPa)`, Source) |>
+  dplyr::select(Species, Kleaf, P50leaf, Source) |>
   dplyr::rename(originalName = Species,
-                kleaf = `Kleaf (mmol m-2 s-1 MPa-1)`,
-                VCleaf_P50 = `P50leaf (MPa)`,
+                kleaf = Kleaf,
+                VCleaf_P50 = P50leaf,
                 OriginalReference = Source) |>
   # dplyr::filter(!is.na(originalName)) |>
   # dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
