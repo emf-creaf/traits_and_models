@@ -27,7 +27,7 @@ db_var <- db_var |>
   dplyr::mutate(Value = Value*1000,
                 Units = "mg g-1")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LDMC.rds")
 
@@ -47,7 +47,7 @@ db_var <- ttt_db |>
 # Check units (mg)
 table(db_var$Units)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_SeedMass.rds")
 
@@ -70,7 +70,7 @@ db_var <- db_var |>
   dplyr::mutate(Value = Value*10,
                 Units = "mm")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Z95.rds")
 
@@ -93,7 +93,7 @@ db_var <- db_var |>
   dplyr::mutate(Value = Value*100,
                 Units = "cm")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Hact.rds")
 
@@ -115,7 +115,7 @@ table(db_var$Units)
 db_var <- db_var |>
   dplyr::mutate(Units = "mg g-1")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Nleaf.rds")
 
@@ -135,7 +135,7 @@ db_var <- ttt_db |>
 #Check units (mm2)
 table(db_var$Units)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LeafArea.rds")
 
@@ -157,7 +157,7 @@ table(db_var$Units)
 db_var <- db_var |>
   dplyr::mutate(Units = "mm2 mg-1")
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_SLA.rds")
 

@@ -54,7 +54,7 @@ falster_doi <- "10.1038/s41597-021-01006-6"
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LifeForm.rds")
 # 
@@ -102,7 +102,7 @@ falster_doi <- "10.1038/s41597-021-01006-6"
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafShape.rds")
 # 
@@ -139,7 +139,7 @@ falster_doi <- "10.1038/s41597-021-01006-6"
 #   dplyr::mutate(Value = Value/12,
 #                 Units = "year")
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafDuration.rds")
 # 
@@ -175,7 +175,7 @@ db_var <- aus_db |>
 # Check units (mm2)
 table(db_var$Units)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafArea.rds")
 
@@ -210,7 +210,7 @@ db_var <- aus_db |>
 # Check units
 table(db_var$Units)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafAngle.rds")
 
@@ -248,7 +248,7 @@ db_var <- db_var |>
                 Units = "cm g-1") # From m/g to cm/g
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_SRL.rds")
 
@@ -280,7 +280,7 @@ db_var <- db_var |>
   dplyr::mutate(Units = "kg m-1 MPa-1 s-1")
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Ks.rds")
 
@@ -310,7 +310,7 @@ db_var <- aus_db |>
 table(db_var$Units)
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_StemEPS.rds")
 
@@ -343,7 +343,7 @@ db_var <- db_var |>
   dplyr::mutate(Units = "mg mm-3")
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_WoodDensity.rds")
 
@@ -375,7 +375,7 @@ db_var <- db_var |>
   dplyr::mutate(Units = "mg mm-3")
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafDensity.rds")
 
@@ -412,7 +412,7 @@ db_var <- db_var |>
                 Units = "cm")
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafWidth.rds")
 
@@ -447,7 +447,7 @@ db_var <- aus_db |>
 table(db_var$Units)
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_SeedMass.rds")
 
@@ -485,7 +485,7 @@ db_var <- db_var |>
                 Units = "mm2 mg-1") # From LMA to SLA (from g/m2 to mm2/mg)
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_SLA.rds")
 
@@ -522,7 +522,7 @@ db_var <- db_var |>
                 Units = "cm") # From m to cm
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Hact.rds")
 
@@ -561,7 +561,7 @@ db_var <- db_var |>
                 Units = "m2 m-2") # From Hv mm2/mm-2 to Al2As m2/m-2
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Al2As.rds")
 
@@ -595,7 +595,7 @@ db_var <- aus_db |>
 table(db_var$Units)
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_VCstem_P50.rds")
 
@@ -629,7 +629,7 @@ db_var <- aus_db |>
 table(db_var$Units)
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_VCstem_P12.rds")
 
@@ -664,7 +664,7 @@ db_var <- aus_db |>
 table(db_var$Units)
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_VCstem_P88.rds")
 
@@ -701,7 +701,7 @@ db_var <- db_var |>
   dplyr::mutate(Units = "mg g-1")
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Nsapwood.rds")
 
@@ -735,7 +735,7 @@ db_var <- aus_db |>
 table(db_var$Units)
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafPI0.rds")
 
@@ -769,7 +769,7 @@ db_var <- aus_db |>
 table(db_var$Units)
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafEPS.rds")
 
@@ -805,7 +805,7 @@ db_var <- db_var |>
   dplyr::mutate(Units = "umol m-2 s-1")
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Vmax.rds")
 
@@ -841,6 +841,6 @@ db_var <- db_var |>
   dplyr::mutate(Units = "umol m-2 s-1")
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Jmax.rds")

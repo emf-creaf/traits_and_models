@@ -36,7 +36,7 @@ db_var <- db_var |>
                 Units = "cm")
 # Harmonize taxonomy
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Alfaro_et_al_2023_Hmax.rds")
 
@@ -65,7 +65,7 @@ table(db_var$Units)
 # OK!
 # Harmonize taxonomy
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Alfaro_et_al_2023_SeedMass.rds")
 

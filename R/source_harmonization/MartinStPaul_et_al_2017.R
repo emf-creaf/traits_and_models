@@ -26,7 +26,7 @@ db_var <- db_vc |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017_StemVC.rds")
 
@@ -50,7 +50,7 @@ db_var <- db_pgs90 |>
   tibble::as_tibble()
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017_Gs_P90.rds")
 
@@ -72,6 +72,6 @@ db_var <- db_ptlp |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/MartinStPaul_et_al_2017_LeafPI0_Ptlp.rds")

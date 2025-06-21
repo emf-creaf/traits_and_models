@@ -31,7 +31,7 @@ db_var$Value[db_var$Units=="g"] <- db_var$Value[db_var$Units=="g"]*1000
 db_var$Units[db_var$Units=="g"] <- "mg"
 # Harmonize taxonomy
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 
 saveRDS(db_post, "data/harmonized_trait_sources/Wang_et_al_2025_SeedMass.rds")
@@ -60,7 +60,7 @@ db_var$Value[db_var$Units=="day"] <- db_var$Value[db_var$Units=="day"]/365
 db_var$Units <- "year"
 # Harmonize taxonomy
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = packageVersion("traits4models"))
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 traits4models::check_harmonized_trait(db_post)
 
 saveRDS(db_post, "data/harmonized_trait_sources/Wang_et_al_2025_SeedLongevity.rds")

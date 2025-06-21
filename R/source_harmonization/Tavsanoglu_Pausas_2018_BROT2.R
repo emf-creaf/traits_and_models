@@ -33,7 +33,7 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 # db_var <- db_var |>
 #   dplyr::mutate(Units = "mg g-1")
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LDMC.rds")
 # 
@@ -60,7 +60,7 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 # db_var <- db_var |>
 #   dplyr::mutate(Units = "mm2 mg-1")
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_SLA.rds")
 # 
@@ -89,7 +89,7 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 #   dplyr::mutate(Value = Value * 100,
 #                 Units = "cm")
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_Hact.rds")
 # 
@@ -115,7 +115,7 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 # #Check units (mg)
 # table(db_var$Units)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_SeedMass.rds")
 # 
@@ -143,7 +143,7 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 # db_var <- db_var |>
 #   dplyr::mutate(Units = "g cm-3")
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_WoodDensity.rds")
 # 
@@ -173,7 +173,7 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 #                 Units = "mm")
 # traits4models::check_harmonized_trait(db_var)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_Z95.rds")
 # 
@@ -203,7 +203,7 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 #                 Units = "year")
 # traits4models::check_harmonized_trait(db_var)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafDuration.rds")
 # 
@@ -230,7 +230,7 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 # table(db_var$Units)
 # traits4models::check_harmonized_trait(db_var)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafArea.rds")
 # 
@@ -261,7 +261,7 @@ brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu
 #                 Units = "[0-1]")
 # traits4models::check_harmonized_trait(db_var)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_pDead.rds")
 
@@ -331,7 +331,7 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LifeForm.
 #   dplyr::mutate(Priority = 1)
 # traits4models::check_harmonized_trait(db_var)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LeafShape.rds")
 # 
@@ -364,6 +364,6 @@ saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_LifeForm.
 #   dplyr::mutate(Priority = 1)
 # traits4models::check_harmonized_trait(db_var)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = packageVersion("traits4models"))
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Tavsanoglu_Pausas_2018_PhenologyType.rds")
