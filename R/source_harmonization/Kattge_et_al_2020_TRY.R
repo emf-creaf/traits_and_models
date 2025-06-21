@@ -1290,26 +1290,29 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #     Units,
 #     Reference
 #   )|>
-  dplyr::rename(originalName = AccSpeciesName,
-                OriginalReference = Reference)|>
-  dplyr::mutate(
-    originalName = gsub("\u0081|", "", originalName)) |>
-  dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
-  dplyr::arrange(originalName)|>
-  dplyr::mutate(Reference = kattge_ref,
-                DOI = kattge_doi,
-                Priority = 1) |>
-  dplyr::relocate(OriginalReference, .after = DOI)
-#Check units ()
-traits4models::check_harmonized_trait(db_var)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
-saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_ShadeTol.rds")
+#   dplyr::rename(originalName = AccSpeciesName,
+#                 OriginalReference = Reference)|>
+#   dplyr::mutate(
+#     originalName = gsub("\u0081|", "", originalName)) |>
+#   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+#   dplyr::arrange(originalName)|>
+#   dplyr::mutate(Reference = kattge_ref,
+#                 DOI = kattge_doi,
+#                 Priority = 1) |>
+#   dplyr::relocate(OriginalReference, .after = DOI)
+# #Check units (0-5)
+# db_var <- db_var |>
+#   dplyr::filter(Value>=0 & Value <=5)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+# traits4models::check_harmonized_trait(db_post)
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_ShadeTol.rds")
 
 
 
