@@ -4,7 +4,7 @@
 library(ntfy)
 
 DB_path <- "./"
-WFO_path <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 
 kattge_ref <- "Kattge et al. (2020) TRY plant trait database – enhanced coverage and open access. Global Change Biology 26:119–188."
@@ -15,23 +15,27 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 # # GrowthForm - TRY 3400 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3400.rds")) |>
 #   dplyr::rename(
-#     GrowthForm = OrigValueStr
+#     Value = OrigValueStr
 #   ) |>
 #   dplyr::mutate(
-#     GrowthForm = stringr::str_replace(GrowthForm, "tree", "Tree"),
-#     GrowthForm = stringr::str_replace(GrowthForm, "shrub", "Shrub"),
-#     GrowthForm = stringr::str_replace(GrowthForm, "herb", "Herb"),
-#     GrowthForm = stringr::str_replace(GrowthForm, "other", "Other"),
-#     GrowthForm = stringr::str_replace(GrowthForm, "Shrub/Tree", "Tree/Shrub"),
-#     GrowthForm = stringr::str_replace(GrowthForm, "Herb/Shrub", "Shrub/Herb"),
-#     GrowthForm = stringr::str_replace(GrowthForm, "Herb/Tree", "Tree/Herb"),
-#     GrowthForm = stringr::str_replace(GrowthForm, "Tree/Herb/Shrub", "Tree/Shrub/Herb")
+#     Value = stringr::str_replace(Value, "tree", "Tree"),
+#     Value = stringr::str_replace(Value, "shrub", "Shrub"),
+#     Value = stringr::str_replace(Value, "herb", "Herb"),
+#     Value = stringr::str_replace(Value, "other", "Other"),
+#     Value = stringr::str_replace(Value, "Shrub/Tree", "Tree/Shrub"),
+#     Value = stringr::str_replace(Value, "Herb/Shrub", "Shrub/Herb"),
+#     Value = stringr::str_replace(Value, "Herb/Tree", "Tree/Herb"),
+#     Value = stringr::str_replace(Value, "Tree/Herb/Shrub", "Tree/Shrub/Herb")
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     GrowthForm,
+#     Value,
 #     Reference
 #   ) |>
+#   dplyr::mutate(Trait = "GrowthForm",
+#                 Units = as.character(NA)) |>
+#   dplyr::relocate(Trait, .before=Value) |>
+#   dplyr::relocate(Units, .after=Value) |>
 #   dplyr::rename(originalName = AccSpeciesName,
 #                 OriginalReference = Reference)|>
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -43,72 +47,77 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_GrowthForm.rds")
-# 
-# 
-# # LifeForm - TRY 343 -----------------------------------------------------------------
+
+# LifeForm - TRY 343 -----------------------------------------------------------------
 # 
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_343.rds"))  |>
 #   dplyr::mutate(
-#     LifeForm = OrigValueStr
+#     Trait = "LifeForm",
+#     Value = OrigValueStr,
+#     Units = as.character(NA)
 #    ) |>
 #   dplyr::filter(
-#     !is.na(LifeForm),
-#     #  verifica si la variable LifeForm no está vacia y contiene al menos una letra del alfabeto.
-#     LifeForm != "" & grepl("[[:alpha:]]", LifeForm)
+#     !is.na(Value),
+#     #  verifica si la variable Value no está vacia y contiene al menos una letra del alfabeto.
+#     Value != "" & grepl("[[:alpha:]]", Value)
 #   ) |>
 #   dplyr::mutate(
 #     #  elimina todos los caracteres que no son letras, dígitos o espacios en blanco de la variable LifeForm y luego crea una nueva versión de LifeForm
-#     LifeForm = gsub("[^[:alnum:]\\s]", "", LifeForm)) |>
+#     Value = gsub("[^[:alnum:]\\s]", "", Value)) |>
 #   dplyr::mutate(
-#     LifeForm = dplyr::case_when(
-#       stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(Cha|Hemiphanerophyte)")) ~ "Chamaephyte",
-#       stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(Crypt|geo)")) ~ "Cryptophyte",
-#       stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(Epi|liana)")) ~ "Epiphyte",
-#       stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(hemic)")) ~ "Hemicryptophyte",
-#       stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(hydro|helo)")) ~ "Hydrophyte",
-#       stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(phaner|shrub|tree)")) ~ "Phanerophyte",
-#       stringr::str_detect(tolower(LifeForm), stringr::regex("(?i)(thero|tero)")) ~ "Therophyte",
-#       TRUE ~ LifeForm
+#     Value = dplyr::case_when(
+#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(Cha|Hemiphanerophyte)")) ~ "Chamaephyte",
+#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(Crypt|geo)")) ~ "Cryptophyte",
+#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(Epi|liana)")) ~ "Epiphyte",
+#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(hemic)")) ~ "Hemicryptophyte",
+#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(hydro|helo)")) ~ "Hydrophyte",
+#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(phaner|shrub|tree)")) ~ "Phanerophyte",
+#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(thero|tero)")) ~ "Therophyte",
+#       TRUE ~ Value
 #     )
 #   ) |>
 #   dplyr::mutate(
-#     LifeForm = dplyr::case_when(
-#       LifeForm == "Geophytes" ~ "Cryptophyte",
-#       LifeForm == "G" ~ "Geophytes",
-#       LifeForm == "Chamaephytes" ~ "Chamaephyte",
-#       LifeForm == "Ch" ~ "Chamaephyte",
-#       LifeForm == "CH" ~ "Chamaephyte",
-#       LifeForm == "Hemicryptophytes" ~ "Hemicryptophyte",
-#       LifeForm == "H" ~ "Hemicryptophyte",
-#       LifeForm %in% c("Hydrophytes", "Helophytes") ~ "Hydrophyte",
-#       LifeForm == "Therophytes" ~ "Therophyte",
-#       LifeForm == "T" ~ "Therophyte",
-#       LifeForm == "TH" ~ "Therophyte",
-#       LifeForm %in% c("Phanerophytes", "Mega meso micro nanophanerophyte") ~ "Phanerophyte",
-#       LifeForm == "P" ~ "Phanerophyte",
-#       LifeForm == "Ph" ~ "Phanerophyte",
-#       DatasetID == 202 & LifeForm %in% c(1, 2) ~ "Phanerophyte",
-#       DatasetID == 202 & LifeForm %in% c(3, 4) ~ "Chamaephyte",
-#       DatasetID == 202 & LifeForm %in% c(5, 6, 7) ~ "Hemicryptophyte",
-#       DatasetID == 202 & LifeForm == "8" ~ "Therophyte",
+#     Value = dplyr::case_when(
+#       Value == "Geophytes" ~ "Cryptophyte",
+#       Value == "G" ~ "Geophytes",
+#       Value == "Chamaephytes" ~ "Chamaephyte",
+#       Value == "Ch" ~ "Chamaephyte",
+#       Value == "CH" ~ "Chamaephyte",
+#       Value == "Hemicryptophytes" ~ "Hemicryptophyte",
+#       Value == "H" ~ "Hemicryptophyte",
+#       Value %in% c("Hydrophytes", "Helophytes") ~ "Hydrophyte",
+#       Value == "Therophytes" ~ "Therophyte",
+#       Value == "T" ~ "Therophyte",
+#       Value == "TH" ~ "Therophyte",
+#       Value %in% c("Phanerophytes", "Mega meso micro nanophanerophyte") ~ "Phanerophyte",
+#       Value == "P" ~ "Phanerophyte",
+#       Value == "Ph" ~ "Phanerophyte",
+#       DatasetID == 202 & OrigValueStr %in% c(1, 2) ~ "Phanerophyte",
+#       DatasetID == 202 & OrigValueStr %in% c(3, 4) ~ "Chamaephyte",
+#       DatasetID == 202 & OrigValueStr %in% c(5, 6, 7) ~ "Hemicryptophyte",
+#       DatasetID == 202 & OrigValueStr == "8" ~ "Therophyte",
 #       DatasetID %in% c("174", "178") &  OrigValueStr == "Mega meso and microphanerophyte" ~ "Phanerophyte",
-#       DatasetID == 37  & LifeForm == "1" ~ "Therophyte",
-#       DatasetID == 37  & LifeForm == "2" ~ "Cryptophyte",
-#       DatasetID == 37  & LifeForm == "3" ~ "Hemicryptophyte",
-#       DatasetID == 37  & LifeForm == "4" ~ "Chamaephyte",
-#       DatasetID == 37  & LifeForm == "5" ~ "Phanerophyte",
-#       TRUE ~ LifeForm
+#       DatasetID == 37  & OrigValueStr == "1" ~ "Therophyte",
+#       DatasetID == 37  & OrigValueStr == "2" ~ "Cryptophyte",
+#       DatasetID == 37  & OrigValueStr == "3" ~ "Hemicryptophyte",
+#       DatasetID == 37  & OrigValueStr == "4" ~ "Chamaephyte",
+#       DatasetID == 37  & OrigValueStr == "5" ~ "Phanerophyte",
+#       TRUE ~ Value
 #     )) |>
 #   dplyr::filter(
-#     !is.na(LifeForm),
-#     LifeForm %in% c("Phanerophyte","Chamaephyte","Cryptophyte", "Hydrophyte","Therophyte","Epiphyte", "Hemicryptophyte")
+#     !is.na(Value),
+#     Value %in% c("Phanerophyte","Chamaephyte","Cryptophyte", "Hydrophyte","Therophyte","Epiphyte", "Hemicryptophyte")
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     LifeForm,
+#     Trait,
+#     Value,
+#     Units,
 #     Reference
 #   ) |>
 #   dplyr::rename(originalName = AccSpeciesName,
@@ -122,29 +131,30 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LifeForm.rds")
 # 
-# # DispersalMode - TRY 28 ------------------------------------------------------------------
+# DispersalMode - TRY 28 ------------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_28.rds")) |>
 #    dplyr::mutate(
-#      DispersalType = OrigValueStr
+#      Value = OrigValueStr
 #    )  |>
 #    dplyr::arrange(AccSpeciesName)  |>
 #    dplyr::filter(
 #     !( DatasetID %in% c(565,299))
 #    ) |>
-#    dplyr::mutate(DispersalType = dplyr::case_when(
+#    dplyr::mutate(Value = dplyr::case_when(
 #       OriglName %in% c("disp_Biotic", "AnimalSpecies", "AnimalGroup", "dispersal mode: endozoochory") ~ "animal",
-#      stringr::str_detect(DispersalType, stringr::regex("(?i)(fleshy|Epi|clothes and footwear|adhesion|animal|pintail|squirrel|goat|pet|bighorn|Zooch|rabbit|snail|zoo|mamal|Ornithochory|dog|badger|turtles|fox|hedgehog|marten|buffalo|boar|hare|dog|donkey|marmot|cattle|pig|deer|sheep|fish|horse|vertebrate|bird|mammal|Anchorage)")) ~ "vertebrate",
-#      stringr::str_detect(DispersalType, stringr::regex("(?i)(roe|shrew|mouse|Hydrochoerus|Thomomys|Ctenomys|Heteromys|Marmota|Dasyprocta|Cuniculus|Rattus|Sigmodon|Myodes|Oryzomys|Aplodontia|Erethizon|Microtus|Peromyscus|pacarana|Myadestes|Myoprocta|Sciurus|Squirrel|Dasyprocta)")) ~ "rodent",
-#       stringr::str_detect(DispersalType, stringr::regex("(?i)(mirmecochory|ant|elaisomes|Dasyprocta|Melophorus|Pheidole|Iridomyrmex|Rhytidoponera)")) ~ "ant",
-#       stringr::str_detect(DispersalType, stringr::regex("(?i)(barbed|generative dispersule|vegetative dispersule|tumbling|gravity|Baro|autochor|Unassisted|germinule|Barochory)")) ~ "auto",
-#      stringr::str_detect(DispersalType, stringr::regex("(?i)(ballist|ballistic|Explosive|ballochor|Ball)")) ~ "ballistic",
-#      stringr::str_detect(DispersalType, stringr::regex("(?i)(WP|wind|ane|passive)")) ~ "wind",
-#      stringr::str_detect(DispersalType, stringr::regex("(?i)(water|hydro|dew|rain|hidr)")) ~ "water",
-#      stringr::str_detect(DispersalType, stringr::regex("(?i)(machinery|vehicle|harvesting|mowing|man|hay cutting|hay making machinery|hay transport)")) ~ "vehicles",
+#      stringr::str_detect(Value, stringr::regex("(?i)(fleshy|Epi|clothes and footwear|adhesion|animal|pintail|squirrel|goat|pet|bighorn|Zooch|rabbit|snail|zoo|mamal|Ornithochory|dog|badger|turtles|fox|hedgehog|marten|buffalo|boar|hare|dog|donkey|marmot|cattle|pig|deer|sheep|fish|horse|vertebrate|bird|mammal|Anchorage)")) ~ "vertebrate",
+#      stringr::str_detect(Value, stringr::regex("(?i)(roe|shrew|mouse|Hydrochoerus|Thomomys|Ctenomys|Heteromys|Marmota|Dasyprocta|Cuniculus|Rattus|Sigmodon|Myodes|Oryzomys|Aplodontia|Erethizon|Microtus|Peromyscus|pacarana|Myadestes|Myoprocta|Sciurus|Squirrel|Dasyprocta)")) ~ "rodent",
+#       stringr::str_detect(Value, stringr::regex("(?i)(mirmecochory|ant|elaisomes|Dasyprocta|Melophorus|Pheidole|Iridomyrmex|Rhytidoponera)")) ~ "ant",
+#       stringr::str_detect(Value, stringr::regex("(?i)(barbed|generative dispersule|vegetative dispersule|tumbling|gravity|Baro|autochor|Unassisted|germinule|Barochory)")) ~ "auto",
+#      stringr::str_detect(Value, stringr::regex("(?i)(ballist|ballistic|Explosive|ballochor|Ball)")) ~ "ballistic",
+#      stringr::str_detect(Value, stringr::regex("(?i)(WP|wind|ane|passive)")) ~ "wind",
+#      stringr::str_detect(Value, stringr::regex("(?i)(water|hydro|dew|rain|hidr)")) ~ "water",
+#      stringr::str_detect(Value, stringr::regex("(?i)(machinery|vehicle|harvesting|mowing|man|hay cutting|hay making machinery|hay transport)")) ~ "vehicles",
 #      OriglName == "dispersal mode: dehiscent" ~ "auto",
 #      OriglName %in% c("wind.disp","dispersal mode: wind","disp_Abiotic", "disp.Passive") ~ "wind",
 #      DatasetID == 474 & grepl("^W", OrigValueStr)~ "wind",
@@ -154,18 +164,22 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #      DatasetID == 474 & grepl("^B", OrigValueStr)  ~ "ballistic",
 #      DatasetID == 474 & grepl("^M", OrigValueStr)  ~ "ant",
 #      DatasetID == 474 & grepl("^N", OrigValueStr) | grepl("^O", OrigValueStr) ~ "vertebrate",
-#      TRUE  ~ DispersalType)
+#      TRUE  ~ Value)
 #    ) |>
 #    dplyr::filter(
-#      !is.na(DispersalType),
-#      DispersalType %in% c("auto", "ant", "vertebrate", "water", "ballistic", "wind", "rodent")
+#      !is.na(Value),
+#      Value %in% c("auto", "ant", "vertebrate", "water", "ballistic", "wind", "rodent")
 #    ) |>
 #    dplyr::group_by(AccSpeciesName) |>
 #    dplyr::select(
 #      AccSpeciesName,
-#      DispersalType,
+#      Value,
 #      Reference
 #    )|>
+#   dplyr::mutate(Trait = "DispersalMode",
+#                 Units = as.character(NA)) |>
+#   dplyr::relocate(Trait, .before=Value) |>
+#   dplyr::relocate(Units, .after=Value) |>
 #   dplyr::rename(originalName = AccSpeciesName,
 #                 OriginalReference = Reference)|>
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -177,34 +191,40 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_DispersalMode.rds")
-# 
+
 # 
 # 
 # # LeafShape - TRY 43 ------------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_43.rds"))|>
 #   dplyr::mutate(
-#     LeafShape = OrigValueStr
+#     Value = OrigValueStr
 #   ) |>
-#   dplyr::mutate(LeafShape = dplyr::case_when(
+#   dplyr::mutate(Value = dplyr::case_when(
 #     stringr::str_detect(OrigValueStr, stringr::regex("(?i)(b|broad|broadleaved|broad-leaved|broadleaf)")) ~ "Broad",
 #     stringr::str_detect(OrigValueStr, stringr::regex("(?i)(photosynthetic stem|Spines)")) ~ "Spines",
 #     stringr::str_detect(OrigValueStr, stringr::regex("(?i)(n|needleleaved|needle-leaved|needle-leaf)")) ~ "Needle",
 #     stringr::str_detect(OrigValueStr, stringr::regex("(?i)(scale-shaped|scale|scale-like|scale-leaf)")) ~ "Scale",
 #     stringr::str_detect(OriglName, stringr::regex("Leaf type: broad")) ~ "Broad",
 #     stringr::str_detect(OriglName, stringr::regex("Leaf type: scale")) ~ "Scale",
-#     TRUE ~ LeafShape)) |>
+#     TRUE ~ Value)) |>
 #   dplyr::filter(
-#     !is.na(LeafShape),
-#     LeafShape %in% c("Broad", "Needle", "Scale", "Spines")
+#     !is.na(Value),
+#     Value %in% c("Broad", "Needle", "Scale", "Spines")
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     LeafShape,
+#     Value,
 #     Reference
 #   )|>
+#   dplyr::mutate(Trait = "LeafShape",
+#                 Units = as.character(NA)) |>
+#   dplyr::relocate(Trait, .before=Value) |>
+#   dplyr::relocate(Units, .after=Value) |>
 #   dplyr::rename(originalName = AccSpeciesName,
 #                 OriginalReference = Reference)|>
 #   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -216,23 +236,27 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafShape.rds")
 # 
-# 
-# 
-# # LeafArea - TRY_3110 ----------------------------------------------------------------
+
+
+# LeafArea - TRY_3110 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3110.rds"))|>
 #   dplyr::mutate(
-#     LeafArea = StdValue) |>
+#     Trait = "LeafArea",
+#     Value = StdValue) |>
 #   dplyr::filter(
-#     !is.na(LeafArea)
+#     !is.na(Value)
 #   ) |>
 #   dplyr::arrange(AccSpeciesName) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     LeafArea,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -248,47 +272,54 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (mm2)
+# table(db_var$Units)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafArea.rds")
-# 
-# 
-# 
-# # PhenologyType - TRY 37 ------------------------------------------------------------------
+
+
+# PhenologyType - TRY 37 ------------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_37.rds"))|>
 #   dplyr::mutate(
-#     PhenologyType = OrigValueStr
+#     Trait = "PhenologyType",
+#     Value = OrigValueStr,
+#     Units = as.character(NA)
 #   ) |>
-#   dplyr::mutate(PhenologyType = dplyr::case_when(
-#     DatasetID == 49  & PhenologyType == "Y" ~ "winter-deciduous",
-#     DatasetID == 49  & PhenologyType == "N" ~ "oneflush-evergreen",
-#     DatasetID == 241  & PhenologyType == "D" ~ "drought-semideciduous",
-#     DatasetID == 202  & PhenologyType == "1" ~ "drought-semideciduous",
+#   dplyr::mutate(Value = dplyr::case_when(
+#     DatasetID == 49  & Value == "Y" ~ "winter-deciduous",
+#     DatasetID == 49  & Value == "N" ~ "oneflush-evergreen",
+#     DatasetID == 241  & Value == "D" ~ "drought-semideciduous",
+#     DatasetID == 202  & Value == "1" ~ "drought-semideciduous",
 #     DatasetID %in% c(87, 319)  & OriglName == "Evergreen" ~ "oneflush-evergreen",
 #     DatasetID == 319  & OriglName == "Deciduous" ~ "winter-deciduous",
 #     DatasetID == 236 &  OriglName == "Leaf phenology: deciduous" ~ "winter-deciduous",
 #     DatasetID == 236 &  OriglName  == "Leaf phenology: evergreen" ~"oneflush-evergreen",
 #     DatasetID == 236 &  OriglName  == "Leaf phenology: semi-deciduous" ~"winter-semideciduous",
 # 
-#     DatasetID %in% c( 1, 20,37,72, 88, 89,96,111,180 ,279,340,342,410) & PhenologyType == "D" ~ "winter-deciduous",
-#     PhenologyType %in% c("D" , "DC") ~ "winter-deciduous",
-#     PhenologyType %in% c("E", "EV") ~ "oneflush-evergreen",
-#     PhenologyType == "SD" ~  "winter-semideciduous",
-#     PhenologyType == "W" ~"winter-deciduous",
+#     DatasetID %in% c( 1, 20,37,72, 88, 89,96,111,180 ,279,340,342,410) & Value == "D" ~ "winter-deciduous",
+#     Value %in% c("D" , "DC") ~ "winter-deciduous",
+#     Value %in% c("E", "EV") ~ "oneflush-evergreen",
+#     Value == "SD" ~  "winter-semideciduous",
+#     Value == "W" ~"winter-deciduous",
 # 
-#     stringr::str_detect(PhenologyType, stringr::regex("(?i)(always overwintering green|evergreen|evergeen|always summer green|Evergreen broad-leaved|oneflush-evergreen|Evergreen scale-like|Evergreen needle-leaved|always persistent green|evergreen type 1|evergreen type 2)")) ~ "oneflush-evergreen",
-#     stringr::str_detect(PhenologyType, stringr::regex("(?i)(deciduous|Deciduous broad-leaved|Deciduous|Nonevergreen|winter deciduous|winter-deciduous|deciduous type 3|deciduous type 1|deciduous type 2|Deciduous needle-leaved|Deciduous scale-like)")) ~ "winter-deciduous",
-#     stringr::str_detect(PhenologyType, stringr::regex("(?i)(winter semi-deciduous|semi-deciduous|semi-evergreen|always spring green)")) ~ "winter-semideciduous",
-#     stringr::str_detect(PhenologyType, stringr::regex("(?i)(drought semi-deciduous|aestival)")) ~ "drought-semideciduous",
-#     TRUE ~ PhenologyType
+#     stringr::str_detect(Value, stringr::regex("(?i)(always overwintering green|evergreen|evergeen|always summer green|Evergreen broad-leaved|oneflush-evergreen|Evergreen scale-like|Evergreen needle-leaved|always persistent green|evergreen type 1|evergreen type 2)")) ~ "oneflush-evergreen",
+#     stringr::str_detect(Value, stringr::regex("(?i)(deciduous|Deciduous broad-leaved|Deciduous|Nonevergreen|winter deciduous|winter-deciduous|deciduous type 3|deciduous type 1|deciduous type 2|Deciduous needle-leaved|Deciduous scale-like)")) ~ "winter-deciduous",
+#     stringr::str_detect(Value, stringr::regex("(?i)(winter semi-deciduous|semi-deciduous|semi-evergreen|always spring green)")) ~ "winter-semideciduous",
+#     stringr::str_detect(Value, stringr::regex("(?i)(drought semi-deciduous|aestival)")) ~ "drought-semideciduous",
+#     TRUE ~ Value
 #   )) |>
 #   dplyr::filter(
-#     !is.na(PhenologyType),
-#     PhenologyType %in% c("oneflush-evergreen","winter-deciduous", "winter-semideciduous","drought-semideciduous" )
+#     !is.na(Value),
+#     Value %in% c("oneflush-evergreen","winter-deciduous", "winter-semideciduous","drought-semideciduous" )
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     PhenologyType,
+#     Trait,
+#     Value,
+#     Units,
 #     Reference
 #   )|>
 #   dplyr::rename(originalName = AccSpeciesName,
@@ -302,7 +333,9 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_PhenologyType.rds")
 
@@ -323,12 +356,14 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::mutate(
-#     Hact = StdValue*100, # From m to cm
+#     Trait = "Hact",
+#     Value = StdValue*100, # From m to cm
 #     Units = "cm"
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     Hact,
+#     Trait,
+#     Value,
 #     Units,
 #     Reference
 #   )|>
@@ -343,27 +378,30 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Hact.rds")
-
+# 
 
 # LeafDuration - TRY_12 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_12.rds"))|>
 #   dplyr::mutate(
-#     LeafDuration = StdValue) |>
+#     Trait = "LeafDuration",
+#     Value = StdValue) |>
 #   dplyr::filter(
-#     !is.na(LeafDuration)
+#     !is.na(Value)
 #   ) |>
 #   dplyr::arrange(AccSpeciesName) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     LeafDuration,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
 #   dplyr::rename(Units = UnitName)|>
-#   dplyr::mutate(LeafDuration = LeafDuration/12, Units = "yr") |> # From months to yr
 #   dplyr::rename(originalName = AccSpeciesName,
 #                 OriginalReference = Reference)|>
 #   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
@@ -377,27 +415,36 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# 
+# #Check units (year)
+# table(db_var$Units)
+# db_var <- db_var|>
+#   dplyr::mutate(Value = Value/12, 
+#                 Units = "year") # From months to yr
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#     dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafDuration.rds")
-
+# 
 
 # Z95 - TRY_12 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_6.rds"))|>
 #   dplyr::mutate(
-#     Z95 = StdValue) |>
+#     Trait = "Z95",
+#     Value = StdValue) |>
 #   dplyr::filter(
-#     !is.na(Z95)
+#     !is.na(Value)
 #   ) |>
 #   dplyr::arrange(AccSpeciesName) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     Z95,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
 #   dplyr::rename(Units = UnitName)|>
-#   dplyr::mutate(Z95 = Z95*1000, Units = "mm") |> # From m to mm
 #   dplyr::rename(originalName = AccSpeciesName,
 #                 OriginalReference = Reference)|>
 #   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
@@ -411,23 +458,33 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# 
+# #Check units (mm)
+# table(db_var$Units)
+# db_var <- db_var|>
+#   dplyr::mutate(Value = Value*1000,
+#                 Units = "mm") # From m to mm
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#     dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Z95.rds")
-
+# 
 
 # SLA - TRY_3117 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3117.rds"))|>
 #   dplyr::mutate(
-#     SLA = StdValue) |>
+#     Trait = "SLA",
+#     Value = StdValue) |>
 #   dplyr::filter(
-#     !is.na(SLA),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::arrange(AccSpeciesName) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     SLA,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -445,22 +502,28 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (mm2 mg-1)
+# table(db_var$Units)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#     dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_SLA.rds")
 
 # LeafDensity - TRY_48 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_48.rds"))|>
 #   dplyr::mutate(
-#     LeafDensity = StdValue) |>
+#     Trait = "LeafDensity",
+#     Value = StdValue) |>
 #   dplyr::filter(
-#     !is.na(LeafDensity),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::arrange(AccSpeciesName) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     LeafDensity,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -478,7 +541,13 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (g cm-3)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = "g cm-3")
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafDensity.rds")
 
@@ -486,16 +555,18 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 # WoodDensity - TRY_4 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_4.rds"))|>
 #   dplyr::mutate(
-#     WoodDensity = StdValue) |>
+#     Trait = "WoodDensity",
+#     Value = StdValue) |>
 #   dplyr::filter(
-#     !is.na(WoodDensity),
+#     !is.na(Value),
 #     ErrorRisk < 3,
 #     !is.na(AccSpeciesName)
 #   ) |>
 #   dplyr::arrange(AccSpeciesName) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     WoodDensity,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -516,7 +587,13 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (g cm-3)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = "g cm-3")
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_WoodDensity.rds")
 
@@ -528,7 +605,7 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 # TRY_Al2As$StdValue[TRY_Al2As$OriglName=="values at base of living crown, m2/cm2"]<-10000*as.numeric(TRY_Al2As$OrigValueStr[TRY_Al2As$OriglName=="values at base of living crown, m2/cm2"])
 # TRY_Al2As$StdValue[TRY_Al2As$OriglName=="values at breast height, m2/cm2"]<-10000*as.numeric(TRY_Al2As$OrigValueStr[TRY_Al2As$OriglName=="values at breast height, m2/cm2"])
 # TRY_Al2As <- TRY_Al2As[TRY_Al2As$ErrorRisk <3, c("AccSpeciesName", "StdValue")]
-# 
+#
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_171.rds"))|>
 #   dplyr::mutate(Al2As = dplyr::case_when(
 #     OriglName == "Huber value" ~ 1/as.numeric(OrigValueStr),
@@ -563,15 +640,17 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 # LeafWidth - TRY_145 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_145.rds"))|>
 #   dplyr::mutate(
-#     LeafWidth = StdValue) |>
+#     Trait = "LeafWidth",
+#     Value = StdValue) |>
 #   dplyr::filter(
-#     !is.na(LeafWidth),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::arrange(AccSpeciesName) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     LeafWidth,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -592,22 +671,28 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (cm)
+# table(db_var$Units)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafWidth.rds")
 
 # SRL - TRY_614 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_614.rds"))|>
 #   dplyr::mutate(
-#     SRL = StdValue) |>
+#     Trait = "SRL",
+#     Value = StdValue) |>
 #   dplyr::filter(
-#     !is.na(SRL),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::arrange(AccSpeciesName) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     SRL,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -627,27 +712,34 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (cm g-1)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = "cm g-1")
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_SRL.rds")
 
 # LeafPI0 - TRY_188 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_188.rds"))|>
 #   dplyr::mutate(
-#     LeafPI0 = StdValue) |>
+#     Trait = "LeafPI0",
+#     Value = as.numeric(StdValue)) |>
 #   dplyr::filter(
-#     !is.na(LeafPI0),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::arrange(AccSpeciesName) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     LeafPI0,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
 #   dplyr::rename(Units = UnitName)|>
-#   dplyr::mutate(LeafPI0 = -1*as.numeric(LeafPI0), Units = "MPa")|> # From -MPa to MPa
 #   dplyr::rename(originalName = AccSpeciesName,
 #                 OriginalReference = Reference)|>
 #   dplyr::mutate(
@@ -663,55 +755,29 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (cm g-1)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Value = -1*Value, 
+#                 Units = "MPa") # From -MPa to MPa
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafPI0.rds")
 
 # LeafEPS - TRY_190 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_190.rds"))|>
 #   dplyr::mutate(
-#     LeafEPS = as.numeric(OrigValueStr)) |>
+#     Trait = "LeafEPS",
+#     Value = as.numeric(OrigValueStr)) |>
 #   dplyr::filter(
-#     !is.na(LeafEPS),
+#     !is.na(Value),
 #   ) |>
-#   dplyr::mutate(Units = "MPa")|>
 #   dplyr::select(
 #     AccSpeciesName,
-#     LeafEPS,
-#     Units,
-#     Reference
-#   )|>
-#   dplyr::rename(originalName = AccSpeciesName,
-#                 OriginalReference = Reference)|>
-#   dplyr::mutate(
-#     originalName = gsub("\u0081|", "", originalName)) |>
-#   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
-#   dplyr::arrange(originalName)|>
-#   dplyr::mutate(Reference = kattge_ref,
-#                 DOI = kattge_doi,
-#                 Priority = 1) |>
-#   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
-# traits4models::check_harmonized_trait(db_post)
-# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafEPS.rds")
-
-# LigninPercent - TRY_87 ----------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_87.rds"))|>
-#   dplyr::mutate(
-#     LigninPercent = as.numeric(StdValue)) |>
-#   dplyr::filter(
-#     !is.na(LigninPercent),
-#     ErrorRisk < 3
-#   ) |>
-#   dplyr::mutate(LigninPercent = LigninPercent/10, UnitName = "%") |> # from mg·g-1 to %
-#   dplyr::select(
-#     AccSpeciesName,
-#     LigninPercent,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -731,21 +797,72 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units ()
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = as.character(NA)) 
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+# traits4models::check_harmonized_trait(db_post)
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafEPS.rds")
+
+# LigninPercent - TRY_87 ----------------------------------------------------------------
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_87.rds"))|>
+#   dplyr::mutate(
+#     Trait = "LigninPercent",
+#     Value = as.numeric(StdValue)) |>
+#   dplyr::filter(
+#     !is.na(Value),
+#     ErrorRisk < 3
+#   ) |>
+#   dplyr::select(
+#     AccSpeciesName,
+#     Trait,
+#     Value,
+#     UnitName,
+#     Reference
+#   )|>
+#   dplyr::rename(Units = UnitName)|>
+#   dplyr::rename(originalName = AccSpeciesName,
+#                 OriginalReference = Reference)|>
+#   dplyr::mutate(
+#     originalName = gsub("\u0081|", "", originalName)) |>
+#   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+#   dplyr::arrange(originalName)|>
+#   dplyr::mutate(Reference = kattge_ref,
+#                 DOI = kattge_doi,
+#                 Priority = 1) |>
+#   dplyr::relocate(OriginalReference, .after = DOI)
+# #Check units ()
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Value = Value/10, 
+#                 Units = "%") # from mg·g-1 to %
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LigninPercent.rds")
 
 # Nleaf - TRY_14 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_14.rds"))|>
 #   dplyr::mutate(
-#     Nleaf = as.numeric(StdValue)) |>
+#     Trait = "Nleaf",
+#     Value = as.numeric(StdValue)) |>
 #   dplyr::filter(
-#     !is.na(Nleaf),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     Nleaf,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -766,21 +883,29 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (mg g-1)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = "mg g-1") 
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Nleaf.rds")
 
 # Nsapwood - TRY_1229 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_1229.rds"))|>
 #   dplyr::mutate(
-#     Nsapwood = as.numeric(StdValue)) |>
+#     Trait = "Nsapwood",
+#     Value = as.numeric(StdValue)) |>
 #   dplyr::filter(
-#     !is.na(Nsapwood),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     Nsapwood,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -800,21 +925,29 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (mg g-1)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = "mg g-1") 
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Nsapwood.rds")
 
 # Nfineroot- TRY_475 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_475.rds"))|>
 #   dplyr::mutate(
-#     Nfineroot = as.numeric(StdValue)) |>
+#     Trait = "Nfineroot",
+#     Value = as.numeric(StdValue)) |>
 #   dplyr::filter(
-#     !is.na(Nfineroot),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     Nfineroot,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -834,21 +967,29 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (mg g-1)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = "mg g-1") 
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Nfineroot.rds")
 
 # Vmax- TRY_186 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_186.rds"))|>
 #   dplyr::mutate(
-#     Vmax = as.numeric(StdValue)) |>
+#     Trait = "Vmax",
+#     Value = as.numeric(StdValue)) |>
 #   dplyr::filter(
-#     !is.na(Vmax),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     Vmax,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -868,21 +1009,29 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (umol m-2 s-1)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = "umol m-2 s-1")
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Vmax.rds")
 
 # Jmax- TRY_269 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_269.rds"))|>
 #   dplyr::mutate(
-#     Jmax = as.numeric(StdValue)) |>
+#     Trait = "Jmax",
+#     Value = as.numeric(StdValue)) |>
 #   dplyr::filter(
-#     !is.na(Jmax),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     Jmax,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -902,7 +1051,13 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (umol m-2 s-1)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = "umol m-2 s-1")
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Jmax.rds")
 
@@ -910,19 +1065,20 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 # WoodC- TRY_407 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_407.rds"))|>
 #   dplyr::mutate(
-#     WoodC = as.numeric(StdValue)) |>
+#     Trait = "WoodC",
+#     Value = as.numeric(StdValue)) |>
 #   dplyr::filter(
-#     !is.na(WoodC),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     WoodC,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
 #   dplyr::rename(Units = UnitName)|>
-#   dplyr::mutate(WoodC = WoodC/1000, Units = "gC·g-1") |> # From mg/g to g/g
 #   dplyr::rename(originalName = AccSpeciesName,
 #                 OriginalReference = Reference)|>
 #   dplyr::mutate(
@@ -938,7 +1094,14 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (mg g-1)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Value = Value/1000,
+#                 Units = "g g-1") # From mg/g to g/g
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_WoodC.rds")
 
@@ -946,20 +1109,20 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 # RERleaf- TRY_407 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_41.rds"))|>
 #   dplyr::mutate(
-#     RERleaf = as.numeric(StdValue)) |>
+#     Trait = "RERleaf",
+#     Value = as.numeric(StdValue)) |>
 #   dplyr::filter(
-#     !is.na(RERleaf),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     RERleaf,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
 #   dplyr::rename(Units = UnitName)|>
-#   dplyr::mutate(RERleaf = 24.0*3600.0*(RERleaf/6.0)*(1e-6)*180.156,
-#                 Units = "g gluc · g dry-1 · day-1") |>
 #   dplyr::rename(originalName = "AccSpeciesName",
 #                 OriginalReference = "Reference")|>
 #   dplyr::mutate(
@@ -975,22 +1138,31 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                   DOI = kattge_doi,
 #                   Priority = 1) |>
 #     dplyr::relocate(OriginalReference, .after = DOI)
-#   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
-#   traits4models::check_harmonized_trait(db_post)
+# #Check units (g g-1 day-1)
+# table(db_var$Units)
+# db_var <- db_var |>
+#   dplyr::mutate(Value = 24.0*3600.0*(Value/6.0)*(1e-6)*180.156, # From umol C/g/s to g gluc/g/day
+#                 Units = "g g-1 day-1") 
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+# traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_RERleaf.rds")
 
 
 # SeedMass- TRY_26 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_26.rds"))|>
 #   dplyr::mutate(
-#     SeedMass = as.numeric(StdValue)) |>
+#     Trait = "SeedMass",
+#     Value = as.numeric(StdValue)) |>
 #   dplyr::filter(
-#     !is.na(SeedMass),
+#     !is.na(Value),
 #     ErrorRisk < 3
 #   ) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     SeedMass,
+#     Trait,
+#     Value,
 #     UnitName,
 #     Reference
 #   )|>
@@ -1010,24 +1182,30 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (mg)
+# table(db_var$Units)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_SeedMass.rds")
 
 # LeafAngle- TRY_3 ----------------------------------------------------------------
 # db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3.rds"))|>
-#   dplyr::filter(
-#     !is.na(as.numeric(OrigValueStr)),
-#   ) |>
 #   dplyr::mutate(
-#     LeafAngle = as.numeric(OrigValueStr)) |>
-#   dplyr::mutate(Units = "degree")|>
+#     Trait = "LeafAngle",
+#     Value = as.numeric(OrigValueStr)) |>
+#   dplyr::filter(!is.na(Value),
+#                 Value >= 0,
+#                 Value <=90) |>
 #   dplyr::select(
 #     AccSpeciesName,
-#     LeafAngle,
-#     Units,
+#     Trait,
+#     Value,
+#     UnitName,
 #     Reference
 #   )|>
+#   dplyr::rename(Units = UnitName)|>
 #   dplyr::rename(originalName = AccSpeciesName,
 #                 OriginalReference = Reference)|>
 #   dplyr::mutate(
@@ -1043,56 +1221,75 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
+# #Check units (degree)
+# table(db_var$Units)
+# summary(db_var$Value)
+# db_var <- db_var |>
+#   dplyr::mutate(Units = "degree")
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 # traits4models::check_harmonized_trait(db_post)
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafAngle.rds")
 
 
-
 # SeedLongevity- TRY_26 ----------------------------------------------------------------
-db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_33.rds"))|>
-  dplyr::mutate(
-    SeedLongevity = as.numeric(StdValue)) |>
-  dplyr::filter(
-    !is.na(SeedLongevity),
-    ErrorRisk < 3
-  ) |>
-  dplyr::select(
-    AccSpeciesName,
-    SeedLongevity,
-    UnitName,
-    Reference
-  )|>
-  dplyr::rename(Units = UnitName)|>
-  dplyr::rename(originalName = AccSpeciesName,
-                OriginalReference = Reference)|>
-  dplyr::mutate(
-    originalName = gsub("\u0081|", "", originalName)) |>
-  dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
-  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
-  dplyr::arrange(originalName)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
-traits4models::check_harmonized_trait(db_post)
-saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_SeedLongevity.rds")
-ntfy_send("Seed longevity TRY harmonization done", auth = TRUE)
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_33.rds"))|>
+#   dplyr::mutate(
+#     Trait = "SeedLongevity",
+#     Value = as.numeric(StdValue)) |>
+#   dplyr::filter(
+#     !is.na(Value),
+#     ErrorRisk < 3
+#   ) |>
+#   dplyr::select(
+#     AccSpeciesName,
+#     Trait,
+#     Value,
+#     UnitName,
+#     Reference
+#   )|>
+#   dplyr::rename(Units = UnitName)|>
+#   dplyr::rename(originalName = AccSpeciesName,
+#                 OriginalReference = Reference)|>
+#   dplyr::mutate(
+#     originalName = gsub("\u0081|", "", originalName)) |>
+#   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+#   dplyr::arrange(originalName) |>
+#   dplyr::mutate(Reference = kattge_ref,
+#                   DOI = kattge_doi,
+#                   Priority = 1) |>
+#   dplyr::relocate(OriginalReference, .after = DOI)
+# #Check units (year)
+# table(db_var$Units)
+# traits4models::check_harmonized_trait(db_var)
+# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+# traits4models::check_harmonized_trait(db_post)
+# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_SeedLongevity.rds")
 
 # ShadeTolerance- TRY_603 ----------------------------------------------------------------
-db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_603.rds"))|>
-  dplyr::filter(DatasetID == 49) |>
-  dplyr::mutate(
-    ShadeTolerance = as.numeric(OrigValueStr)) |>
-  dplyr::filter(
-    !is.na(ShadeTolerance)
-  ) |>
-  dplyr::select(
-    AccSpeciesName,
-    ShadeTolerance,
-    Reference
-  )|>
+# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_603.rds"))|>
+#   dplyr::filter(DatasetID == 49) |>
+#   dplyr::mutate(
+#     Trait = "ShadeTolerance",
+#     Value = as.numeric(OrigValueStr),
+#     Units = as.character(NA)) |>
+#   dplyr::filter(
+#     !is.na(Value)
+#   ) |>
+#   dplyr::select(
+#     AccSpeciesName,
+#     Trait,
+#     Value,
+#     Units,
+#     Reference
+#   )|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -1108,11 +1305,13 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
                 DOI = kattge_doi,
                 Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = DOI)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path)
-traits4models::check_harmonized_trait(db_post)
+#Check units ()
+traits4models::check_harmonized_trait(db_var)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_ShadeTol.rds")
 
 
 
 
-ntfy_send("TRY harmonization finished!", auth = TRUE)
+# ntfy_send("TRY harmonization finished!", auth = TRUE)
