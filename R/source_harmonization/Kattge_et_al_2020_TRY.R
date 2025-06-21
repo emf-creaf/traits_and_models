@@ -797,10 +797,10 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 #                 DOI = kattge_doi,
 #                 Priority = 1) |>
 #   dplyr::relocate(OriginalReference, .after = DOI)
-# #Check units ()
+# #Check units (MPa)
 # table(db_var$Units)
 # db_var <- db_var |>
-#   dplyr::mutate(Units = as.character(NA)) 
+#   dplyr::mutate(Units = "MPa")
 # traits4models::check_harmonized_trait(db_var)
 # db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
 #   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))

@@ -28,6 +28,8 @@ saveRDS(db_post, "data/harmonized_trait_sources/00_compilation_Phenology_Budburs
 # Senescence --------------------------------------------------
 db_var <- db_senescence |>
   dplyr::filter(Accepted=="Y")|>
+  dplyr::mutate(xsen = as.integer(xsen),
+                ysen = as.integer(ysen)) |>
   dplyr::rename(originalName = Species) |>
   dplyr::left_join(db_biblio, by="Ref_code") |>
   dplyr::select(-Ref_code, -Accepted, -N) |>
