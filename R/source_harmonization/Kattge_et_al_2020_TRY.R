@@ -137,65 +137,65 @@ kattge_doi <- "10.1038/s41597-021-01006-6"
 # saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LifeForm.rds")
 # 
 # DispersalMode - TRY 28 ------------------------------------------------------------------
-# db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_28.rds")) |>
-#    dplyr::mutate(
-#      Value = OrigValueStr
-#    )  |>
-#    dplyr::arrange(AccSpeciesName)  |>
-#    dplyr::filter(
-#     !( DatasetID %in% c(565,299))
-#    ) |>
-#    dplyr::mutate(Value = dplyr::case_when(
-#       OriglName %in% c("disp_Biotic", "AnimalSpecies", "AnimalGroup", "dispersal mode: endozoochory") ~ "animal",
-#      stringr::str_detect(Value, stringr::regex("(?i)(fleshy|Epi|clothes and footwear|adhesion|animal|pintail|squirrel|goat|pet|bighorn|Zooch|rabbit|snail|zoo|mamal|Ornithochory|dog|badger|turtles|fox|hedgehog|marten|buffalo|boar|hare|dog|donkey|marmot|cattle|pig|deer|sheep|fish|horse|vertebrate|bird|mammal|Anchorage)")) ~ "vertebrate",
-#      stringr::str_detect(Value, stringr::regex("(?i)(roe|shrew|mouse|Hydrochoerus|Thomomys|Ctenomys|Heteromys|Marmota|Dasyprocta|Cuniculus|Rattus|Sigmodon|Myodes|Oryzomys|Aplodontia|Erethizon|Microtus|Peromyscus|pacarana|Myadestes|Myoprocta|Sciurus|Squirrel|Dasyprocta)")) ~ "rodent",
-#       stringr::str_detect(Value, stringr::regex("(?i)(mirmecochory|ant|elaisomes|Dasyprocta|Melophorus|Pheidole|Iridomyrmex|Rhytidoponera)")) ~ "ant",
-#       stringr::str_detect(Value, stringr::regex("(?i)(barbed|generative dispersule|vegetative dispersule|tumbling|gravity|Baro|autochor|Unassisted|germinule|Barochory)")) ~ "auto",
-#      stringr::str_detect(Value, stringr::regex("(?i)(ballist|ballistic|Explosive|ballochor|Ball)")) ~ "ballistic",
-#      stringr::str_detect(Value, stringr::regex("(?i)(WP|wind|ane|passive)")) ~ "wind",
-#      stringr::str_detect(Value, stringr::regex("(?i)(water|hydro|dew|rain|hidr)")) ~ "water",
-#      stringr::str_detect(Value, stringr::regex("(?i)(machinery|vehicle|harvesting|mowing|man|hay cutting|hay making machinery|hay transport)")) ~ "vehicles",
-#      OriglName == "dispersal mode: dehiscent" ~ "auto",
-#      OriglName %in% c("wind.disp","dispersal mode: wind","disp_Abiotic", "disp.Passive") ~ "wind",
-#      DatasetID == 474 & grepl("^W", OrigValueStr)~ "wind",
-#      DatasetID == 474 & grepl("^E", OrigValueStr) | grepl("^Z", OrigValueStr) ~ "vertebrate",
-#      DatasetID == 474 & grepl("^G", OrigValueStr)  ~ "auto",
-#      DatasetID == 474 & grepl("^H", OrigValueStr)  ~ "water",
-#      DatasetID == 474 & grepl("^B", OrigValueStr)  ~ "ballistic",
-#      DatasetID == 474 & grepl("^M", OrigValueStr)  ~ "ant",
-#      DatasetID == 474 & grepl("^N", OrigValueStr) | grepl("^O", OrigValueStr) ~ "vertebrate",
-#      TRUE  ~ Value)
-#    ) |>
-#    dplyr::filter(
-#      !is.na(Value),
-#      Value %in% c("auto", "ant", "vertebrate", "water", "ballistic", "wind", "rodent")
-#    ) |>
-#    dplyr::group_by(AccSpeciesName) |>
-#    dplyr::select(
-#      AccSpeciesName,
-#      Value,
-#      Reference
-#    )|>
-#   dplyr::mutate(Trait = "DispersalMode",
-#                 Units = as.character(NA)) |>
-#   dplyr::relocate(Trait, .before=Value) |>
-#   dplyr::relocate(Units, .after=Value) |>
-#   dplyr::rename(originalName = AccSpeciesName,
-#                 OriginalReference = Reference)|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
-#   dplyr::arrange(originalName)|>
-#   dplyr::mutate(Reference = kattge_ref,
-#                 DOI = kattge_doi,
-#                 Priority = 1) |>
-#   dplyr::relocate(OriginalReference, .after = DOI)
-# traits4models::check_harmonized_trait(db_var)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
-# traits4models::check_harmonized_trait(db_post)
-# saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_DispersalMode.rds")
+db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_28.rds")) |>
+   dplyr::mutate(
+     Value = OrigValueStr
+   )  |>
+   dplyr::arrange(AccSpeciesName)  |>
+   dplyr::filter(
+    !( DatasetID %in% c(565,299))
+   ) |>
+   dplyr::mutate(Value = dplyr::case_when(
+      OriglName %in% c("disp_Biotic", "AnimalSpecies", "AnimalGroup", "dispersal mode: endozoochory") ~ "vertebrate",
+     stringr::str_detect(Value, stringr::regex("(?i)(fleshy|Epi|clothes and footwear|adhesion|animal|pintail|squirrel|goat|pet|bighorn|Zooch|rabbit|snail|zoo|mamal|Ornithochory|dog|badger|turtles|fox|hedgehog|marten|buffalo|boar|hare|dog|donkey|marmot|cattle|pig|deer|sheep|fish|horse|vertebrate|bird|mammal|Anchorage)")) ~ "vertebrate",
+     stringr::str_detect(Value, stringr::regex("(?i)(roe|shrew|mouse|Hydrochoerus|Thomomys|Ctenomys|Heteromys|Marmota|Dasyprocta|Cuniculus|Rattus|Sigmodon|Myodes|Oryzomys|Aplodontia|Erethizon|Microtus|Peromyscus|pacarana|Myadestes|Myoprocta|Sciurus|Squirrel|Dasyprocta)")) ~ "vertebrate",
+      stringr::str_detect(Value, stringr::regex("(?i)(mirmecochory|ant|elaisomes|Dasyprocta|Melophorus|Pheidole|Iridomyrmex|Rhytidoponera)")) ~ "insect",
+      stringr::str_detect(Value, stringr::regex("(?i)(barbed|generative dispersule|vegetative dispersule|tumbling|gravity|Baro|autochor|Unassisted|germinule|Barochory)")) ~ "auto",
+     stringr::str_detect(Value, stringr::regex("(?i)(ballist|ballistic|Explosive|ballochor|Ball)")) ~ "ballistic",
+     stringr::str_detect(Value, stringr::regex("(?i)(WP|wind|ane|passive)")) ~ "wind",
+     stringr::str_detect(Value, stringr::regex("(?i)(water|hydro|dew|rain|hidr)")) ~ "water",
+     stringr::str_detect(Value, stringr::regex("(?i)(machinery|vehicle|harvesting|mowing|man|hay cutting|hay making machinery|hay transport)")) ~ "vehicles",
+     OriglName == "dispersal mode: dehiscent" ~ "auto",
+     OriglName %in% c("wind.disp","dispersal mode: wind","disp_Abiotic", "disp.Passive") ~ "wind",
+     DatasetID == 474 & grepl("^W", OrigValueStr)~ "wind",
+     DatasetID == 474 & grepl("^E", OrigValueStr) | grepl("^Z", OrigValueStr) ~ "vertebrate",
+     DatasetID == 474 & grepl("^G", OrigValueStr)  ~ "auto",
+     DatasetID == 474 & grepl("^H", OrigValueStr)  ~ "water",
+     DatasetID == 474 & grepl("^B", OrigValueStr)  ~ "ballistic",
+     DatasetID == 474 & grepl("^M", OrigValueStr)  ~ "insect",
+     DatasetID == 474 & grepl("^N", OrigValueStr) | grepl("^O", OrigValueStr) ~ "vertebrate",
+     TRUE  ~ Value)
+   ) |>
+   dplyr::filter(
+     !is.na(Value),
+     Value %in% c("auto", "insect", "vertebrate", "water", "ballistic", "wind", "vehicles")
+   ) |>
+   dplyr::group_by(AccSpeciesName) |>
+   dplyr::select(
+     AccSpeciesName,
+     Value,
+     Reference
+   )|>
+  dplyr::mutate(Trait = "DispersalMode",
+                Units = as.character(NA)) |>
+  dplyr::relocate(Trait, .before=Value) |>
+  dplyr::relocate(Units, .after=Value) |>
+  dplyr::rename(originalName = AccSpeciesName,
+                OriginalReference = Reference)|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+  dplyr::arrange(originalName)|>
+  dplyr::mutate(Reference = kattge_ref,
+                DOI = kattge_doi,
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI)
+traits4models::check_harmonized_trait(db_var)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_DispersalMode.rds")
 
 # 
 # 
