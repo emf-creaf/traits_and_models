@@ -26,6 +26,8 @@ db_var <- db |>
                 Gbark = "gbark",
                 Gswmin = "gleaf_res",
                 Ks = "Kstem")|>
+  dplyr::mutate(Gbark = as.numeric(Gbark)/1000,
+                Gswmin = as.numeric(Gswmin)/1000) |> # mmol to mol
   dplyr::mutate(Reference = "Loram-Lourenço et al (2022) Variations in bark structural properties affect both water loss and carbon economics in neotropical savanna trees in the Cerrado region of Brazil. Journal of Ecology 110:1826-1843",
                 DOI = "10.1111/1365-2745.13908",
                 Priority = 1) |>
