@@ -5,6 +5,9 @@
 DB_path <- "./"
 WFO_path <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
+baez_ref = "Báez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511"
+baez_doi = "10.1038/s41597-022-01626-6"
+  
 # Read database -----------------------------------------------------------
 fun_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Baez_et_al_2022_FUNANDES/fundb_TRY_open_20220428.csv"))
 
@@ -16,8 +19,8 @@ db_var <- fun_db |>
                 Units = "OrigUnitStr")|>
   dplyr::mutate(Trait = "Ks",
                 Value = as.numeric(Value),
-                Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
-                DOI = "10.1038/s41597-022-01626-6",
+                Reference = baez_ref,
+                DOI = baez_doi,
                 Priority = 1) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
@@ -44,8 +47,8 @@ db_var <- fun_db |>
                 Units = "OrigUnitStr")|>
   dplyr::mutate(Trait = "BarkThickness",
                 Value = as.numeric(Value),
-                Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
-                DOI = "10.1038/s41597-022-01626-6",
+                Reference = baez_ref,
+                DOI = baez_doi,
                 Priority = 1) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
@@ -68,8 +71,8 @@ db_var <- fun_db |>
                 Units = "OrigUnitStr")|>
   dplyr::mutate(Trait = "Nleaf",
                 Value = as.numeric(Value),
-                Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
-                DOI = "10.1038/s41597-022-01626-6",
+                Reference = baez_ref,
+                DOI = baez_doi,
                 Priority = 1) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
@@ -95,8 +98,8 @@ db_var <- fun_db |>
                 Units = "OrigUnitStr")|>
   dplyr::mutate(Trait = "WoodDensity",
                 Value = as.numeric(Value),
-                Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
-                DOI = "10.1038/s41597-022-01626-6",
+                Reference = baez_ref,
+                DOI = baez_doi,
                 Priority = 1) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
@@ -121,8 +124,8 @@ db_var <- fun_db |>
   dplyr::mutate(Trait = "LDMC",
                 Value = as.numeric(Value),
                 Units = "mg g-1", # Force units
-                Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
-                DOI = "10.1038/s41597-022-01626-6",
+                Reference = baez_ref,
+                DOI = baez_doi,
                 Priority = 1) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
@@ -145,8 +148,8 @@ db_var <- fun_db |>
                 Units = "OrigUnitStr")|>
   dplyr::mutate(Trait = "SLA",
                 Value = as.numeric(Value),
-                Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
-                DOI = "10.1038/s41597-022-01626-6",
+                Reference = baez_ref,
+                DOI = baez_doi,
                 Priority = 1) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
@@ -169,8 +172,8 @@ db_var <- fun_db |>
                 Units = "OrigUnitStr")|>
   dplyr::mutate(Trait = "LeafArea",
                 Value = as.numeric(Value),
-                Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
-                DOI = "10.1038/s41597-022-01626-6",
+                Reference = baez_ref,
+                DOI = baez_doi,
                 Priority = 1) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>
@@ -192,8 +195,8 @@ db_var <- fun_db |>
   dplyr::rename(Value = "OrigValueStr")|>
   dplyr::mutate(Trait = "GrowthForm",
                 Units = as.character(NA),
-                Reference = "Baez et al. (2022) FunAndes - A functional trait database of Andean plants. Scientific Data 9: 511",
-                DOI = "10.1038/s41597-022-01626-6",
+                Reference = baez_ref,
+                DOI = baez_doi,
                 Priority = 1) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-OriginalName) |>

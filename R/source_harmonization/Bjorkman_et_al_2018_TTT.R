@@ -5,6 +5,9 @@
 DB_path <- "./"
 WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
+bjorkman_ref <- "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411"
+bjorkman_doi <- "10.1111/geb.12821"
+
 # Read database -----------------------------------------------------------
 ttt_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Bjorkman_et_al_2018_TTT/TTT_cleaned_dataset_v1.csv"))
 
@@ -18,8 +21,8 @@ db_var <- ttt_db |>
   dplyr::rename(originalName = "AccSpeciesName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
-  dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
-                DOI = "10.1111/geb.12821",
+  dplyr::mutate(Reference = bjorkman_ref,
+                DOI = bjorkman_doi,
                 Priority = 3)
 # Check units (mg g-1)
 table(db_var$Units)
@@ -41,8 +44,8 @@ db_var <- ttt_db |>
   dplyr::rename(originalName = "AccSpeciesName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
-  dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
-                DOI = "10.1111/geb.12821",
+  dplyr::mutate(Reference = bjorkman_ref,
+                DOI = bjorkman_doi,
                 Priority = 3)
 # Check units (mg)
 table(db_var$Units)
@@ -61,8 +64,8 @@ db_var <- ttt_db |>
   dplyr::rename(originalName = "AccSpeciesName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
-  dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
-                DOI = "10.1111/geb.12821",
+  dplyr::mutate(Reference = bjorkman_ref,
+                DOI = bjorkman_doi,
                 Priority = 3)
 # Check units (mm)
 table(db_var$Units)
@@ -84,8 +87,8 @@ db_var <- ttt_db |>
   dplyr::rename(originalName = "AccSpeciesName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
-  dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
-                DOI = "10.1111/geb.12821",
+  dplyr::mutate(Reference = bjorkman_ref,
+                DOI = bjorkman_doi,
                 Priority = 3)
 # Check units (cm)
 table(db_var$Units)
@@ -107,8 +110,8 @@ db_var <- ttt_db |>
   dplyr::rename(originalName = "AccSpeciesName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
-  dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
-                DOI = "10.1111/geb.12821",
+  dplyr::mutate(Reference = bjorkman_ref,
+                DOI = bjorkman_doi,
                 Priority = 3)
 #Check units (mg g-1)
 table(db_var$Units)
@@ -129,8 +132,8 @@ db_var <- ttt_db |>
   dplyr::rename(originalName = "AccSpeciesName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
-  dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
-                DOI = "10.1111/geb.12821",
+  dplyr::mutate(Reference = bjorkman_ref,
+                DOI = bjorkman_doi,
                 Priority = 3)
 #Check units (mm2)
 table(db_var$Units)
@@ -149,8 +152,8 @@ db_var <- ttt_db |>
   dplyr::rename(originalName = "AccSpeciesName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
-  dplyr::mutate(Reference = "Bjorkman et al. (2018) Tundra Trait Team: A database of plant traits spanning the tundra biome. Global Ecol. Biog. 27, 1402-1411",
-                DOI = "10.1111/geb.12821",
+  dplyr::mutate(Reference = bjorkman_ref,
+                DOI = bjorkman_doi,
                 Priority = 3)
 #Check units (mm2 mg-1)
 table(db_var$Units)

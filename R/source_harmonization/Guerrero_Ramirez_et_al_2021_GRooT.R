@@ -5,6 +5,9 @@
 DB_path <- "./"
 WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
+guerrero_ramirez_ref <- "Guerrero-Ramírez et al. (2021) Global root traits (GRooT) database. Global Ecol Biogeogr. 30,25-37"
+guerrero_ramirez_doi <-"10.1111/geb.13179"
+  
 # Read database -----------------------------------------------------------
 groot_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Guerrero_Ramirez_et_al_2021_GRooT/GRooTFullVersion.csv"))
 
@@ -23,8 +26,8 @@ db_var <- groot_db |>
   dplyr::mutate(originalName = stringr::str_trim(originalName, side = "right"))|>
   dplyr::select(-c(genus,species, infraspecific))|>
   dplyr::relocate(originalName, .before = Trait) |>
-  dplyr::mutate(Reference = "Guerrero-Ramírez et al. (2021) Global root traits (GRooT) database. Global Ecol Biogeogr. 30,25-37",
-                DOI = "10.1111/geb.13179",
+  dplyr::mutate(Reference = guerrero_ramirez_ref,
+                DOI = guerrero_ramirez_doi,
                 Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   dplyr::arrange(originalName)
@@ -51,8 +54,8 @@ db_var <- groot_db |>
   dplyr::mutate(originalName = stringr::str_trim(originalName, side = "right"))|>
   dplyr::select(-c(genus,species, infraspecific))|>
   dplyr::relocate(originalName, .before = Value) |>
-  dplyr::mutate(Reference = "Guerrero-Ramírez et al. (2021) Global root traits (GRooT) database. Global Ecol Biogeogr. 30,25-37",
-                DOI = "10.1111/geb.13179",
+  dplyr::mutate(Reference = guerrero_ramirez_ref,
+                DOI = guerrero_ramirez_doi,
                 Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   dplyr::arrange(originalName)
@@ -79,8 +82,8 @@ db_var <- groot_db |>
   dplyr::mutate(originalName = stringr::str_trim(originalName, side = "right"))|>
   dplyr::select(-c(genus,species, infraspecific))|>
   dplyr::relocate(originalName, .before = Value) |>
-  dplyr::mutate(Reference = "Guerrero-Ramírez et al. (2021) Global root traits (GRooT) database. Global Ecol Biogeogr. 30,25-37",
-                DOI = "10.1111/geb.13179",
+  dplyr::mutate(Reference = guerrero_ramirez_ref,
+                DOI = guerrero_ramirez_doi,
                 Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   dplyr::arrange(originalName)
@@ -108,8 +111,8 @@ db_var <- groot_db |>
   dplyr::mutate(originalName = stringr::str_trim(originalName, side = "right"))|>
   dplyr::select(-c(genus,species, infraspecific))|>
   dplyr::relocate(originalName, .before = Trait) |>
-  dplyr::mutate(Reference = "Guerrero-Ramírez et al. (2021) Global root traits (GRooT) database. Global Ecol Biogeogr. 30,25-37",
-                DOI = "10.1111/geb.13179",
+  dplyr::mutate(Reference = guerrero_ramirez_ref,
+                DOI = guerrero_ramirez_doi,
                 Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   dplyr::arrange(originalName)

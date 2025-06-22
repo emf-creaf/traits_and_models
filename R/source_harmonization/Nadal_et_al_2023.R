@@ -6,7 +6,7 @@ DB_path <- "./"
 WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
-db_raw <- read_delim(paste0(DB_path, "data-raw/raw_trait_data/Nadal_et_al_2023/Nadal_et_al_2023_Eco_Lett_DRYAD.csv"), 
+db_raw <- readr::read_delim(paste0(DB_path, "data-raw/raw_trait_data/Nadal_et_al_2023/Nadal_et_al_2023_Eco_Lett_DRYAD.csv"), 
                      delim = ";", escape_double = FALSE, trim_ws = TRUE, na = "n/a")
 def <- t(db_raw[c(1,2),])
 db <- db_raw[-c(1,2),]

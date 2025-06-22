@@ -5,6 +5,9 @@
 DB_path <- "./"
 WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
+bartlett_ref = "Bartlett et al. (2016) The correlations and sequence of plant stomatal, hydraulic, and wilting responses to drought. PNAS 113 13098-13103"
+bartlett_doi = "10.1073/pnas.1604088113"
+
 # Read database -----------------------------------------------------------
 db <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"))
 
@@ -21,8 +24,8 @@ db_var <- db |>
   dplyr::filter(!is.na(VCstem_P12) | !is.na(VCstem_P50) | !is.na(VCstem_P88)) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""),
                 originalName = stringr::str_replace(originalName, "Erigoonum", "Eriogonum"))|>
-  dplyr::mutate(Reference = "Bartlett et al. (2016)",
-                DOI = "10.1073/pnas.1604088113",
+  dplyr::mutate(Reference = bartlett_ref,
+                DOI = bartlett_doi,
                 Priority = 3)|>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
@@ -42,8 +45,8 @@ db_var <- db |>
   dplyr::filter(!is.na(VCleaf_P50)) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""),
                 originalName = stringr::str_replace(originalName, "Erigoonum", "Eriogonum"))|>
-  dplyr::mutate(Reference = "Bartlett et al. (2016)",
-                DOI = "10.1073/pnas.1604088113",
+  dplyr::mutate(Reference = bartlett_ref,
+                DOI = bartlett_doi,
                 Priority = 3)|>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
@@ -62,8 +65,8 @@ db_var <- db |>
   dplyr::filter(!is.na(VCroot_P50)) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""),
                 originalName = stringr::str_replace(originalName, "Erigoonum", "Eriogonum"))|>
-  dplyr::mutate(Reference = "Bartlett et al. (2016)",
-                DOI = "10.1073/pnas.1604088113",
+  dplyr::mutate(Reference = bartlett_ref,
+                DOI = bartlett_doi,
                 Priority = 3)|>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()
@@ -84,8 +87,8 @@ db_var <- db |>
   dplyr::filter(!is.na(Gs_P50) | !is.na(Gs_P95)) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""),
                 originalName = stringr::str_replace(originalName, "Erigoonum", "Eriogonum"))|>
-  dplyr::mutate(Reference = "Bartlett et al. (2016)",
-                DOI = "10.1073/pnas.1604088113",
+  dplyr::mutate(Reference = bartlett_ref,
+                DOI = bartlett_doi,
                 Priority = 3)|>
   dplyr::relocate(OriginalReference, .after = DOI) |>
   tibble::as_tibble()

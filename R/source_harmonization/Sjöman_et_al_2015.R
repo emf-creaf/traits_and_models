@@ -18,7 +18,7 @@ db_var <- db |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
-db_var$Reference <- "Sjoman et al. (2015) Urban forest resilience through tree selection - Variation in drought tolerance in Acer. Urban Forestry & Urban Greening 14: 858-865"
+db_var$Reference <- "Sjöman et al. (2015) Urban forest resilience through tree selection - Variation in drought tolerance in Acer. Urban Forestry & Urban Greening 14: 858-865"
 db_var$DOI <- "10.1016/j.ufug.2015.08.004"
 db_var$Priority <- 1
 traits4models::check_harmonized_trait(db_var)
