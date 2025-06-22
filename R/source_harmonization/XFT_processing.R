@@ -19,6 +19,7 @@ XFT_all <- db |>
                 Ptlp = "TLP..MPa.",
                 OriginalReference = "Reference") |>
   dplyr::mutate(Al2As = 1/Hv,
+                SLA = SLA/10, # Change units from cm2 g-1 to mm2 mg-1
                 Hmax = Hmax*100, #change units from m to cm
                 Hact = Hact*100) |>
   dplyr::filter(!is.na(Hmax) | !is.na(Hact)| !is.na(Hv)| !is.na(SLA)| !is.na(Ptlp))|>

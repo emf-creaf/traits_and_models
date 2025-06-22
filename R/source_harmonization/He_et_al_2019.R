@@ -27,7 +27,7 @@ db_var <- db |>
                 LeafDuration = as.numeric(LeafDuration)/56, #From weeks to year
                 Nleaf = Nleaf, # mg g-1
                 LeafDensity = LeafDensity, # g cm-3
-                LDMC = LDMC/10) |> # % (100*g g-1) to mg g-1
+                LDMC = LDMC*10) |> # % (100*g g-1) to mg g-1
   dplyr::select(-LMA) |>
   dplyr::mutate(Reference = "He et al. (2019) Leaf mechanical strength and photosynthetic capacity vary independently across 57 subtropical forest species with contrasting light requirements. New Phytologist 223: 607–618",
                 DOI = "10.1111/nph.15803",
