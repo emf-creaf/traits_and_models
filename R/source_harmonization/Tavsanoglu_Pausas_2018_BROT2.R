@@ -9,7 +9,8 @@ brot_db <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu_
                              delim = ";", escape_double = FALSE, trim_ws = TRUE)
 brot_ref <- readr::read_delim(paste0(DB_path,"data-raw/raw_trait_data/Tavsanoglu_Pausas_2018_BROT2/BROT2_sou.csv"), 
                               delim = ",", escape_double = FALSE, trim_ws = TRUE)
-# 
+
+
 # # LDMC --------------------------------------------------
 # db_var <- brot_db |>
 #   dplyr::select("Taxon", "Trait", "Data", "Units", "SourceID") |>

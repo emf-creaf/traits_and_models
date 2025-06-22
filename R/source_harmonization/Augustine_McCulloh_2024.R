@@ -27,6 +27,7 @@ db_var <- db |>
   dplyr::mutate(Vmax = Vmax*LMA.aci,
                 Jmax = Jmax*LMA.ai,
                 Al2As = 100*Al2As,
+                LeafAF = LeafAF/100, # From % to [0-1]
                 VCstem_P12 = -VCstem_P12,
                 VCstem_P50 = -VCstem_P50) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "P. banksiana", "Pinus banksiana"),

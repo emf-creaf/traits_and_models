@@ -10,7 +10,7 @@ fun_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Baez_et_al_202
 
 # Stem-specific conductivity --------------------------------------------------
 db_var <- fun_db |>
-  dplyr::select("SpeciesName", "OrigValueStr", "OriginalName", "OrigUnitStr") |>
+  dplyr::select("SpeciesName", "OrigValueStr", "OriginalName", "OrigUnitStr", "Dataset") |>
   dplyr::filter(OriginalName == "Wood_(sapwood)_specific_conductivity_(stem_specific_conductivity)")|>
   dplyr::rename(Value = "OrigValueStr",
                 Units = "OrigUnitStr")|>
@@ -28,7 +28,8 @@ db_var <- fun_db |>
 #Check units (kg m-1 MPa-1 s-1)
 table(db_var$Units)
 db_var <- db_var |>
-  dplyr::mutate(Units = "kg m-1 MPa-1 s-1")
+  dplyr::mutate(Value = Value/10, # NOTE: Even if units seem correct, values seem to be one order too high
+                Units = "kg m-1 MPa-1 s-1")
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
