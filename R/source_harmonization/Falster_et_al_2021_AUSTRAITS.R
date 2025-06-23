@@ -14,135 +14,135 @@ traits <- sort(unique(aus_db$trait_name))
 
 falster_ref <- "Falster et al. (2021) AusTraits, a curated plant trait database for the Australian flora. Scientific Data 8:254"
 falster_doi <- "10.1038/s41597-021-01006-6"
-# 
-# # LifeForm --------------------------------------------------
-# db_methods <- methods_db |>
-#   dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
-#   dplyr::filter(trait_name == "life_form")|>
-#   dplyr::select(-trait_name) |>
-#   dplyr::rename(OriginalReference = "source_primary_citation")
-# db_var <- aus_db |>
-#   dplyr::select("taxon_name", "trait_name", "value", "dataset_id") |>
-#   dplyr::filter(trait_name == "life_form")|>
-#   dplyr::rename(Value = "value")|>
-#   dplyr::mutate(
-#     Trait = "LifeForm",
-#     Value = dplyr::case_when(
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(Cha|Hemiphanerophyte)")) ~ "Chamaephyte",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(Crypt|geo)")) ~ "Cryptophyte",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(Epi|liana)")) ~ "Epiphyte",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(hemic)")) ~ "Hemicryptophyte",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(hydro|helo)")) ~ "Hydrophyte",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(phaner|shrub|tree)")) ~ "Phanerophyte",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(thero|tero)")) ~ "Therophyte",
-#       TRUE ~ Value
-#     ),
-#     Units = as.character(NA)
-#   ) |>
-#   dplyr::relocate(Trait, .before = Value) |>
-#   dplyr::rename(originalName = "taxon_name")|>
-#   dplyr::select(-trait_name)|>
-#   dplyr::arrange(originalName) |>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
-#   dplyr::left_join(db_methods, by = "dataset_id")|>
-#   dplyr::select(-dataset_id) |>
-#   dplyr::mutate(Reference = falster_ref,
-#                 DOI = falster_doi,
-#                 Priority = 1) |>
-#   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
-# traits4models::check_harmonized_trait(db_post)
-# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LifeForm.rds")
-# 
-# 
-# # LeafShape --------------------------------------------------
-# db_methods <- methods_db |>
-#   dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
-#   dplyr::filter(trait_name == "leaf_shape")|>
-#   dplyr::select(-trait_name) |>
-#   dplyr::rename(OriginalReference = "source_primary_citation")
-# db_var <- aus_db |>
-#   dplyr::select("taxon_name", "trait_name", "value", "dataset_id") |>
-#   dplyr::filter(trait_name == "leaf_shape")|>
-#   dplyr::rename(Value = "value")|>
-#   dplyr::mutate(
-#     Trait = "LeafShape",
-#     Value = dplyr::case_when(
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(cordate|cordate lanceolate|broad)")) ~ "Broad",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(deltoid|elliptical|elliptical lanceolate|lanceolate|oval)")) ~ "Broad",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(orbicular|oblanceolate|oblong|elliptical oblong|elliptical obovate|obovate|ovate lanceolate|ovate|obcordate)")) ~ "Broad",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(falcate|fishtail|hastate|orbicular|ovate bipinnate|palmate)")) ~ "Broad",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(palmatifid|pinnatifid|quinquelobate|runcinate|sagittate|septemlobate)")) ~ "Broad",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(rhomboid|spatulate|trilobate|tulip shaped)")) ~ "Broad",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(linear lanceolate|linear|lanceolate linear)")) ~ "Linear",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(terete|linear terete)")) ~ "Needle",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(triangular)")) ~ "Scale",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(spines)")) ~ "Spines",
-#       stringr::str_detect(tolower(Value), stringr::regex("(?i)(succulent)")) ~ "Succulent"
-#     ),
-#     Units = as.character(NA)
-#   ) |>
-#   dplyr::relocate(Trait, .before = Value) |>
-#   dplyr::filter(!is.na(Value)) |>
-#   dplyr::rename(originalName = "taxon_name")|>
-#   dplyr::select(-trait_name)|>
-#   dplyr::arrange(originalName) |>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
-#   dplyr::left_join(db_methods, by = "dataset_id")|>
-#   dplyr::select(-dataset_id)|>
-#   dplyr::mutate(Reference = falster_ref,
-#                 DOI = falster_doi,
-#                 Priority = 1) |>
-#   dplyr::relocate(OriginalReference, .after = DOI)
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
-# traits4models::check_harmonized_trait(db_post)
-# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafShape.rds")
-# 
-# # LeafDuration --------------------------------------------------
-# db_methods <- methods_db |>
-#   dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
-#   dplyr::filter(trait_name == "leaf_lifespan")|>
-#   dplyr::select(-trait_name) |>
-#   dplyr::rename(OriginalReference = "source_primary_citation")
-# db_var <- aus_db |>
-#   dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
-#   dplyr::filter(trait_name == "leaf_lifespan")|>
-#   dplyr::rename(Value = "value",
-#                 Units = "unit")|>
-#   dplyr::mutate(Trait = "LeafDuration",
-#                 Value = as.numeric(Value)) |> # From mo to yr
-#   dplyr::relocate(Trait, .before = Value) |>
-#   dplyr::rename(originalName = "taxon_name")|>
-#   dplyr::select(-trait_name)|>
-#   dplyr::arrange(originalName) |>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
-#   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
-#   dplyr::left_join(db_methods, by = "dataset_id")|>
-#   dplyr::select(-dataset_id)|>
-#   dplyr::mutate(Reference = falster_ref,
-#                 DOI = falster_doi,
-#                 Priority = 1) |>
-#   dplyr::relocate(OriginalReference, .after = DOI)
-# # Check units (year)
-# table(db_var$Units)
-# db_var <- db_var |>
-#   dplyr::mutate(Value = Value/12,
-#                 Units = "year")
-# db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-#   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
-# traits4models::check_harmonized_trait(db_post)
-# saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafDuration.rds")
-# 
+
+# LifeForm --------------------------------------------------
+db_methods <- methods_db |>
+  dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
+  dplyr::filter(trait_name == "life_form")|>
+  dplyr::select(-trait_name) |>
+  dplyr::rename(OriginalReference = "source_primary_citation")
+db_var <- aus_db |>
+  dplyr::select("taxon_name", "trait_name", "value", "dataset_id") |>
+  dplyr::filter(trait_name == "life_form")|>
+  dplyr::rename(Value = "value")|>
+  dplyr::mutate(
+    Trait = "LifeForm",
+    Value = dplyr::case_when(
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(Cha|Hemiphanerophyte)")) ~ "Chamaephyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(Crypt|geo)")) ~ "Cryptophyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(Epi|liana)")) ~ "Epiphyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(hemic)")) ~ "Hemicryptophyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(hydro|helo)")) ~ "Hydrophyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(phaner|shrub|tree)")) ~ "Phanerophyte",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(thero|tero)")) ~ "Therophyte",
+      TRUE ~ Value
+    ),
+    Units = as.character(NA)
+  ) |>
+  dplyr::relocate(Trait, .before = Value) |>
+  dplyr::rename(originalName = "taxon_name")|>
+  dplyr::select(-trait_name)|>
+  dplyr::arrange(originalName) |>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+  dplyr::left_join(db_methods, by = "dataset_id")|>
+  dplyr::select(-dataset_id) |>
+  dplyr::mutate(Reference = falster_ref,
+                DOI = falster_doi,
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LifeForm.rds")
+
+
+# LeafShape --------------------------------------------------
+db_methods <- methods_db |>
+  dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
+  dplyr::filter(trait_name == "leaf_shape")|>
+  dplyr::select(-trait_name) |>
+  dplyr::rename(OriginalReference = "source_primary_citation")
+db_var <- aus_db |>
+  dplyr::select("taxon_name", "trait_name", "value", "dataset_id") |>
+  dplyr::filter(trait_name == "leaf_shape")|>
+  dplyr::rename(Value = "value")|>
+  dplyr::mutate(
+    Trait = "LeafShape",
+    Value = dplyr::case_when(
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(cordate|cordate lanceolate|broad)")) ~ "Broad",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(deltoid|elliptical|elliptical lanceolate|lanceolate|oval)")) ~ "Broad",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(orbicular|oblanceolate|oblong|elliptical oblong|elliptical obovate|obovate|ovate lanceolate|ovate|obcordate)")) ~ "Broad",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(falcate|fishtail|hastate|orbicular|ovate bipinnate|palmate)")) ~ "Broad",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(palmatifid|pinnatifid|quinquelobate|runcinate|sagittate|septemlobate)")) ~ "Broad",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(rhomboid|spatulate|trilobate|tulip shaped)")) ~ "Broad",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(linear lanceolate|linear|lanceolate linear)")) ~ "Linear",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(terete|linear terete)")) ~ "Needle",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(triangular)")) ~ "Scale",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(spines)")) ~ "Spines",
+      stringr::str_detect(tolower(Value), stringr::regex("(?i)(succulent)")) ~ "Succulent"
+    ),
+    Units = as.character(NA)
+  ) |>
+  dplyr::relocate(Trait, .before = Value) |>
+  dplyr::filter(!is.na(Value)) |>
+  dplyr::rename(originalName = "taxon_name")|>
+  dplyr::select(-trait_name)|>
+  dplyr::arrange(originalName) |>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+  dplyr::left_join(db_methods, by = "dataset_id")|>
+  dplyr::select(-dataset_id)|>
+  dplyr::mutate(Reference = falster_ref,
+                DOI = falster_doi,
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafShape.rds")
+
+# LeafDuration --------------------------------------------------
+db_methods <- methods_db |>
+  dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
+  dplyr::filter(trait_name == "leaf_lifespan")|>
+  dplyr::select(-trait_name) |>
+  dplyr::rename(OriginalReference = "source_primary_citation")
+db_var <- aus_db |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::filter(trait_name == "leaf_lifespan")|>
+  dplyr::rename(Value = "value",
+                Units = "unit")|>
+  dplyr::mutate(Trait = "LeafDuration",
+                Value = as.numeric(Value)) |> # From mo to yr
+  dplyr::relocate(Trait, .before = Value) |>
+  dplyr::rename(originalName = "taxon_name")|>
+  dplyr::select(-trait_name)|>
+  dplyr::arrange(originalName) |>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+  dplyr::left_join(db_methods, by = "dataset_id")|>
+  dplyr::select(-dataset_id)|>
+  dplyr::mutate(Reference = falster_ref,
+                DOI = falster_doi,
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI)
+# Check units (year)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value/12,
+                Units = "year")
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafDuration.rds")
+
 
 # LeafArea --------------------------------------------------
 db_methods <- methods_db |>
