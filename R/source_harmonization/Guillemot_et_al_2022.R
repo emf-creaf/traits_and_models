@@ -22,6 +22,7 @@ db_var <- db |>
                 Hmax = "max_height") |>
   dplyr::mutate(SLA = 1000/SLA) |> # g·m-2 to m2·kg-1
   dplyr::mutate(Hmax = Hmax*100) |> # m to cm
+  dplyr::mutate(LeafArea = LeafArea*100) |> # cm2 to mm2
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\_", " "))|>
   dplyr::mutate(Reference = "Guillemot et al. (2022) Small and slow is safe: On the drought tolerance of tropical tree species. Global Change Biology, 28(8), 2622–2638",

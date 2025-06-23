@@ -27,7 +27,7 @@ db_var <- db |>
                 SLA = as.numeric(SLA),
                 LDMC = as.numeric(LDMC),
                 LeafArea = as.numeric(LeafArea),
-                Nleaf = as.numeric(Nleaf)) |> 
+                Nleaf = as.numeric(Nleaf)*10) |> # Units are supposed to be mg g-1 but values are too low
   dplyr::mutate(Reference = "Kröber et al. (2014) Linking Xylem Hydraulic Conductivity and Vulnerability to the Leaf Economics Spectrum—A Cross-Species Study of 39 Evergreen and Deciduous Broadleaved Subtropical Tree Species. PLoS ONE 9: e109211",
                 DOI = "10.1371/journal.pone.0109211",
                 Priority = 1) |>
