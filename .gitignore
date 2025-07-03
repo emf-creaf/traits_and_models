@@ -4,5 +4,7 @@
 .Ruserdata
 data-raw/wfo_backbone
 data-raw/raw_trait_data
+data-raw/raw_allometry_data
 data/harmonized_trait_sources
+data/harmonized_allometry_sources
 Traits&Models.Rproj
