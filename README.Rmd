@@ -15,6 +15,7 @@ output: github_document
  + **I. Harmonization of trait data sources**: Bringing species names to accepted taxon entities and harmonizing trait definitions and units. Later these harmonized sources can be used to fill parameter values for a large number of species.
  + **II. Trait-trait relationships**: Compiling published relationships between traits, to be later used in parameter imputation strategies when information is missing.
  + **III. Traits and model parameterization assumptions**: This tries to bring awareness on the assumptions made by modellers when adopting parameter estimation strategies, and whether these assumptions are met or not for different plant traits.
+ + **IV. Harmonization of allometry data sources**:
 
 
 ### How to contribute to this repository
@@ -45,9 +46,9 @@ Raw trait databases are expected to be located in sub-folders of *data-raw/raw_t
 
 **IMPORTANT NOTE**: Trait sources should not be stored in the GitHub repository (i.e. *data-raw/raw_trait_data* is listed in the *.gitignore* file). They are meant to be downloaded from online data repositories (supplementary material, Zenodo databases, ...) and stored locally.
 
-### I.2 Harmonizing scripts
+### I.2 Trait harmonizing scripts
 
-Each script is used to process the harmonization of a different data set. R scripts are located in a sub-folder of *R/source_harmonization* (e.g. *R/source_harmonization/Bartlett_et_al_2016.R*).
+Each script is used to process the harmonization of a different data set. R scripts are located in a sub-folder of *R/trait_source_harmonization* (e.g. *R/trait_source_harmonization/Bartlett_et_al_2016.R*).
 
 Any given script should have the following sections:
 
@@ -67,6 +68,7 @@ The output of harmonization should be stored as an *.rds* or *.csv* file in *dat
 
 Current scripts have been harmonized following the requirements of **traits4models** ver. **0.2.1**.
 
+
 ## II. Trait-trait relationships
 
 This section is meant to provide a compilation of trait-trait relationships, including their scope (taxonomic, bioclimatic, etc.) of validity, their statistical support and physiological interpretation.
@@ -81,3 +83,18 @@ This section tries to raise awareness on the assumptions made by modellers when 
 
   + Definitions of the assumptions most commonly made by modellers (either explicitly or implicitly).
   + A database of bibliographic sources regarding the empirical evidence to support these assumptions. This is stored in file *data-raw/trait_hypothesis_support.xlsx*.
+
+
+## IV. Allometry harmonization
+### IV.1 Allometry harmonization scripts
+
+Each script is used to process the harmonization of a different data set. Any given script should have the following sections:
+
+a. Read database.
+b. Perform harmonization of columns (equations, parameters, response variables, predictors, ...).
+c. Taxonomic harmonization, using function `traits4models::harmonize_taxonomy_WFO()`.
+d. Checking data base, using function `traits4models::check_harmonized_allometry()`.
+e. Storing.
+
+If a data base contains more than one allometric equation, steps [a-e] can be conducted as shown. Alternatively, steps [b-e] can be repeated repeatedly for different allometric equation. 
+

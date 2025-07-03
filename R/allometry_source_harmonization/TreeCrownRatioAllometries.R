@@ -1,6 +1,7 @@
-WFO_file <- "../PlantTraitDatabases/WFO_Backbone/classification.csv"
+DB_path <- "./"
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
-cr_models <- openxlsx::read.xlsx("Sources/TreeAllometries/TreeAllometries.xlsx",
+cr_models <- openxlsx::read.xlsx("data-raw/raw_allometry_data/TreeAllometries/TreeAllometries.xlsx",
                                  sheet= "Tree_CR_models")
 
 var_db <- cr_models |>
@@ -30,4 +31,4 @@ var_db <- cr_models |>
 
 db_post <- traits4models::harmonize_taxonomy_WFO(var_db, WFO_file)
 traits4models::check_harmonized_allometry(db_post)
-write.csv2(db_post, "Products/harmonized/tree_crown_ratio_europe.csv", row.names = FALSE)
+write.csv2(db_post, "data/harmonized_allometry_sources/tree_crown_ratio_europe.csv", row.names = FALSE)

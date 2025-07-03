@@ -1,7 +1,8 @@
-WFO_file <- "../PlantTraitDatabases/WFO_Backbone/classification.csv"
+DB_path <- "./"
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Shrub crown area (from AllometrApp) ---------------------------------------
-allom_db  <- readxl::read_xlsx("Sources/AllometrApp/shrub_crown_area_allometries_catalonia_2024-09-05.xlsx")
+allom_db  <- readxl::read_xlsx("data-raw/raw_allometry_data/AllometrApp/shrub_crown_area_allometries_catalonia_2024-09-05.xlsx")
 var_db <- allom_db[1:27,] |>
   dplyr::select(functional_group_level_name, equation, param_a, param_b) |>
   dplyr::rename(originalName = functional_group_level_name,
@@ -14,6 +15,7 @@ var_db <- allom_db[1:27,] |>
                 Predictor1 = "Ht",
                 PredictorDescription1 = "Shrub total height (cm)",
                 Reference = "De Cáceres et al. (2019). Scaling-up individual-level allometric equations to predict stand-level fuel loading in Mediterranean shrublands. Ann. For. Sci. 76: 87",
+                DOI = "10.1007/s13595-019-0873-4",
                 Priority = 1) |>
   dplyr::filter(!is.na(a))
 
@@ -22,5 +24,5 @@ var_db$originalName <- unlist(lapply(var_db$originalName, function(x) {paste(str
 
 db_post <- traits4models::harmonize_taxonomy_WFO(var_db, WFO_file)
 traits4models::check_harmonized_allometry(db_post)
-write.csv2(db_post, "Products/harmonized/shrub_crown_area_catalonia.csv", row.names = FALSE)
+write.csv2(db_post, "data/harmonized_allometry_sources/shrub_crown_area_catalonia.csv", row.names = FALSE)
 

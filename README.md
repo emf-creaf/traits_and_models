@@ -26,6 +26,7 @@ be useful independently:
   bring awareness on the assumptions made by modellers when adopting
   parameter estimation strategies, and whether these assumptions are met
   or not for different plant traits.
+- **IV. Harmonization of allometry data sources**:
 
 ### How to contribute to this repository
 
@@ -75,11 +76,12 @@ repository (i.e. *data-raw/raw_trait_data* is listed in the *.gitignore*
 file). They are meant to be downloaded from online data repositories
 (supplementary material, Zenodo databases, …) and stored locally.
 
-### I.2 Harmonizing scripts
+### I.2 Trait harmonizing scripts
 
 Each script is used to process the harmonization of a different data
-set. R scripts are located in a sub-folder of *R/source_harmonization*
-(e.g. *R/source_harmonization/Bartlett_et_al_2016.R*).
+set. R scripts are located in a sub-folder of
+*R/trait_source_harmonization*
+(e.g. *R/trait_source_harmonization/Bartlett_et_al_2016.R*).
 
 Any given script should have the following sections:
 
@@ -137,3 +139,23 @@ contain:
 - A database of bibliographic sources regarding the empirical evidence
   to support these assumptions. This is stored in file
   *data-raw/trait_hypothesis_support.xlsx*.
+
+## IV. Allometry harmonization
+
+### IV.1 Allometry harmonization scripts
+
+Each script is used to process the harmonization of a different data
+set. Any given script should have the following sections:
+
+1.  Read database.
+2.  Perform harmonization of columns (equations, parameters, response
+    variables, predictors, …).
+3.  Taxonomic harmonization, using function
+    `traits4models::harmonize_taxonomy_WFO()`.
+4.  Checking data base, using function
+    `traits4models::check_harmonized_allometry()`.
+5.  Storing.
+
+If a data base contains more than one allometric equation, steps \[a-e\]
+can be conducted as shown. Alternatively, steps \[b-e\] can be repeated
+repeatedly for different allometric equation.
