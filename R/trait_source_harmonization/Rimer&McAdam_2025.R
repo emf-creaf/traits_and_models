@@ -21,7 +21,7 @@ db_var <- db |>
                 LMA = "LMA.(g.m−2)") |>
   dplyr::mutate(SLA = 1000/LMA) |> # From g m-2 to m2 kg-1
   dplyr::select(-LMA) |>
-  dplyr::mutate(Reference = "Rimer & McAdam (2025) Temporally disjunct herbaceous species differ in leaf embolism resistance. New Phytol. 247: 2630-2646",
+  dplyr::mutate(Reference = "Rimer IM & McAdam SAM (2025) Temporally disjunct herbaceous species differ in leaf embolism resistance. New Phytol. 247, 2630-2646",
                 DOI = "10.1111/nph.70335",
                 Priority = 1) |>
   tibble::as_tibble()

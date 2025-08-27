@@ -21,7 +21,7 @@ db_var <- db |>
                 VCleaf_P50 = "P.50.(MPa)",
                 VCleaf_P88 = "P.88.(MPa)") |>
   dplyr::select(-Organ) |>
-  dplyr::mutate(Reference = "Rimer IM & McAdam SAM (2024) Within-leaf variation in embolism resistance is not a rule for compound-leaved angiosperms. J. Am. Bot. 111:e16447",
+  dplyr::mutate(Reference = "Rimer IM & McAdam SAM (2024) Within-leaf variation in embolism resistance is not a rule for compound-leaved angiosperms. J. Am. Bot. 111, e16447",
                 DOI = "10.1002/ajb2.16447",
                 Priority = 1) |>
   tibble::as_tibble()
