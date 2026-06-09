@@ -339,6 +339,39 @@ traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_PhenologyType.rds")
 
 
+# PhotosynthesisPathway - TRY 22 ------------------------------------------
+db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_22.rds"))|>
+  dplyr::mutate(
+    Trait = "PhotosynthesisPathway",
+    Value = OrigValueStr,
+    Units = as.character(NA)
+  ) |>
+  dplyr::filter(!is.na(Value),
+                Value %in% c("C3", "C4", "CAM"))|>
+  dplyr::select(
+    AccSpeciesName,
+    Trait,
+    Value,
+    Units,
+    Reference
+  )|>
+  dplyr::rename(originalName = AccSpeciesName,
+                OriginalReference = Reference)|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+  dplyr::arrange(originalName)|>
+  dplyr::mutate(Reference = kattge_ref,
+                DOI = kattge_doi,
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI)
+traits4models::check_harmonized_trait(db_var)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_PhotosynthesisPathway.rds")
+
 # Hact - TRY 3106 ----------------------------------------------------------------
 db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3106.rds")) |>
   dplyr::select(
