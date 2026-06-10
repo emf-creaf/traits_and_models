@@ -372,6 +372,65 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_PhotosyntheticPathway.rds")
 
+
+# WoodPorosityType - TRY 273 ----------------------------------------------
+db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_273.rds")) |>
+  dplyr::mutate(
+    Trait = "WoodPorosityType",
+    Value = OrigValueStr,
+    Units = as.character(NA)
+  ) |>
+  dplyr::filter(!is.na(Value))|>
+  dplyr::select(
+    AccSpeciesName,
+    Trait,
+    Value,
+    Units,
+    OriglName,
+    Reference
+  )|>
+  dplyr::rename(originalName = AccSpeciesName,
+                OriginalReference = Reference)|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+  dplyr::arrange(originalName) |>
+  dplyr::filter(OriglName!="Deutlichkeit",
+                !startsWith(OriglName, "Growth ring boundaries")) |>
+  dplyr::mutate(Value = dplyr::case_when(
+    Value == "ring" ~ "ring-porous",
+    Value == "Ring porous" ~ "ring-porous",
+    Value == "Ring porous/learlywood" ~ "ring-porous",
+    Value == "Diffuse porous" ~ "diffuse-porous",
+    Value == "diffuse porous" ~ "diffuse-porous",
+    Value == "diffuse" ~ "diffuse-porous",
+    Value == "difuse" ~ "diffuse-porous",
+    Value == "diffuse to semi-ring-porous" ~ "semi-ring-porous", 
+    Value == "Semi diffuse porous" ~ "semi-ring-porous", 
+    Value == "semi ring porous" ~ "semi-ring-porous",
+    Value == "semi" ~ "semi-ring-porous",
+    Value == "vesselless" ~ NA,
+    Value == "Tracheids" ~ NA,
+    Value == "non porous" ~ NA,
+    OriglName == "Vessels:   Diffuse-porous" & Value == "yes" ~ "diffuse-porous",
+    OriglName == "Vessels:   Ring porous." & Value == "yes" ~ "ring-porous",
+    OriglName == "Vessels:   Semi-ring-porous" & Value == "yes" ~ "semi-ring-porous",
+    TRUE ~ Value)) |>
+  dplyr::filter(!is.na(Value)) |>
+  dplyr::select(-OriglName)|>
+  dplyr::mutate(Reference = kattge_ref,
+                DOI = kattge_doi,
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI)
+
+traits4models::check_harmonized_trait(db_var)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_WoodPorosityType.rds")
+
+
 # Hact - TRY 3106 ----------------------------------------------------------------
 db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_3106.rds")) |>
   dplyr::select(
