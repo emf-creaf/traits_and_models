@@ -26,6 +26,8 @@ db_var <- db |>
                 VCstem_slope = "Slope") |>
   dplyr::mutate(SLA = 1000/as.numeric(LMA), # 
                 Ks = as.numeric(Ks), # kg m-1 MPa-1 s-1
+                Ptlp = -as.numeric(Ptlp),
+                Gswmin = as.numeric(Gswmin)/1000, # from mmol to mol
                 LeafSucculence = as.numeric(LeafSucculence))|>
   dplyr::mutate(Reference = "Balaguer-Romano, R., Sañé, A., Martin-StPaul, N., Ruffault, J., Gabriel, E., Castro, X., Pimont, F., Liu, X., Druel, A., Delzon, S. and De Cáceres, M. (2026), Key sources of uncertainty in process-based modeling of live fuel moisture content. New Phytologist",
                 DOI = "https://doi.org/10.1111/nph.71286",
