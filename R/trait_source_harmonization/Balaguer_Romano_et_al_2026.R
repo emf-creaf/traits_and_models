@@ -31,7 +31,7 @@ db_var <- db |>
                 LeafSucculence = as.numeric(LeafSucculence))|>
   dplyr::mutate(Reference = "Balaguer-Romano, R., Sañé, A., Martin-StPaul, N., Ruffault, J., Gabriel, E., Castro, X., Pimont, F., Liu, X., Druel, A., Delzon, S. and De Cáceres, M. (2026), Key sources of uncertainty in process-based modeling of live fuel moisture content. New Phytologist",
                 DOI = "https://doi.org/10.1111/nph.71286",
-                Priority = 1) |>
+                Priority = 2) |>
   dplyr::select(-LMA) |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
