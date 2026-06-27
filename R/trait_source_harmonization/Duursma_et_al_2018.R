@@ -17,7 +17,8 @@ db_var <- db |>
                 OriginalReference = "citation") |>
   dplyr::mutate(Trait = "Gswmin",
                 Value = Value/1000, # From mmol to mol
-                Units = "mol s-1 m-2") |> 
+                Units = "mol s-1 m-2",
+                Level = "population") |> 
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""))|>
   dplyr::mutate(Reference = "Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705",

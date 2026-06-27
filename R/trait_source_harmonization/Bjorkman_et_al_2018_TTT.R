@@ -13,37 +13,56 @@ ttt_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Bjorkman_et_al
 
 # LDMC --------------------------------------------------
 db_var <- ttt_db |>
-  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
+  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk", "ValueKindName") |>
   dplyr::filter(Trait == "Leaf dry mass per leaf fresh mass (Leaf dry matter content, LDMC)")|>
   dplyr::mutate(Trait = "LDMC",
                 Value = as.numeric(Value)) |>
   dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
-  dplyr::rename(originalName = "AccSpeciesName")|>
+  dplyr::rename(originalName = "AccSpeciesName",
+                Level = "ValueKindName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = bjorkman_ref,
                 DOI = bjorkman_doi,
-                Priority = 3)
+                Priority = 3) |>
+  dplyr::mutate(
+    Level = dplyr::case_when(Level == "Individual Mean" ~ "individual",
+                             Level == "Maximum in plot" ~ "population",
+                             Level == "Plot mean" ~ "population",
+                             Level == "Site specific mean" ~ "population",
+                             Level == "Single" ~ "individual")
+  )
 # Check units (mg g-1)
 table(db_var$Units)
 db_var <- db_var |>
   dplyr::mutate(Value = Value*1000,
                 Units = "mg g-1")
+
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+
 traits4models::check_harmonized_trait(db_post)
+
 saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LDMC.rds")
 
 # SeedMass --------------------------------------------------
 db_var <- ttt_db |>
-  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
+  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk", "ValueKindName") |>
   dplyr::filter(Trait == "Seed dry mass")|>
   dplyr::mutate(Trait = "SeedMass",
                 Value = as.numeric(Value)) |>
   dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
-  dplyr::rename(originalName = "AccSpeciesName")|>
+  dplyr::rename(originalName = "AccSpeciesName",
+                Level = "ValueKindName")|>
   dplyr::select(-ErrorRisk)|>
-  dplyr::arrange(originalName) |>
+  dplyr::arrange(originalName)|>
+  dplyr::mutate(
+    Level = dplyr::case_when(Level == "Individual Mean" ~ "individual",
+                             Level == "Maximum in plot" ~ "population",
+                             Level == "Plot mean" ~ "population",
+                             Level == "Site specific mean" ~ "population",
+                             Level == "Single" ~ "individual")
+  ) |>
   dplyr::mutate(Reference = bjorkman_ref,
                 DOI = bjorkman_doi,
                 Priority = 3)
@@ -56,14 +75,22 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_SeedMass.rds
 
 # RootingDepth --------------------------------------------------
 db_var <- ttt_db |>
-  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
+  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk", "ValueKindName") |>
   dplyr::filter(Trait == "Rooting depth")|>
   dplyr::mutate(Trait = "Z95",
                 Value = as.numeric(Value)) |>
   dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
-  dplyr::rename(originalName = "AccSpeciesName")|>
+  dplyr::rename(originalName = "AccSpeciesName",
+                Level = "ValueKindName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
+  dplyr::mutate(
+    Level = dplyr::case_when(Level == "Individual Mean" ~ "individual",
+                             Level == "Maximum in plot" ~ "population",
+                             Level == "Plot mean" ~ "population",
+                             Level == "Site specific mean" ~ "population",
+                             Level == "Single" ~ "individual")
+  )|>
   dplyr::mutate(Reference = bjorkman_ref,
                 DOI = bjorkman_doi,
                 Priority = 3)
@@ -79,14 +106,22 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Z95.rds")
 
 # Hact --------------------------------------------------
 db_var <- ttt_db |>
-  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
+  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk", "ValueKindName") |>
   dplyr::filter(Trait == "Plant height, vegetative")|>
   dplyr::mutate(Trait = "Hact",
                 Value = as.numeric(Value)) |>
   dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
-  dplyr::rename(originalName = "AccSpeciesName")|>
+  dplyr::rename(originalName = "AccSpeciesName",
+                Level ="ValueKindName")|>
   dplyr::select(-ErrorRisk)|>
-  dplyr::arrange(originalName) |>
+  dplyr::arrange(originalName)|>
+  dplyr::mutate(
+    Level = dplyr::case_when(Level == "Individual Mean" ~ "individual",
+                             Level == "Maximum in plot" ~ "population",
+                             Level == "Plot mean" ~ "population",
+                             Level == "Site specific mean" ~ "population",
+                             Level == "Single" ~ "individual")
+  ) |>
   dplyr::mutate(Reference = bjorkman_ref,
                 DOI = bjorkman_doi,
                 Priority = 3)
@@ -102,14 +137,22 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Hact.rds")
 
 # Nleaf --------------------------------------------------
 db_var <- ttt_db |>
-  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
+  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk", "ValueKindName") |>
   dplyr::filter(Trait == "Leaf nitrogen (N) content per leaf dry mass")|>
   dplyr::mutate(Trait = "Nleaf",
                 Value = as.numeric(Value)) |>
   dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
-  dplyr::rename(originalName = "AccSpeciesName")|>
+  dplyr::rename(originalName = "AccSpeciesName",
+                Level ="ValueKindName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
+  dplyr::mutate(
+    Level = dplyr::case_when(Level == "Individual Mean" ~ "individual",
+                             Level == "Maximum in plot" ~ "population",
+                             Level == "Plot mean" ~ "population",
+                             Level == "Site specific mean" ~ "population",
+                             Level == "Single" ~ "individual")
+  ) |>
   dplyr::mutate(Reference = bjorkman_ref,
                 DOI = bjorkman_doi,
                 Priority = 3)
@@ -124,14 +167,22 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_Nleaf.rds")
 
 # LeafArea --------------------------------------------------
 db_var <- ttt_db |>
-  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
+  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk", "ValueKindName") |>
   dplyr::filter(Trait == "Leaf area")|>
   dplyr::mutate(Trait = "LeafArea",
                 Value = as.numeric(Value)) |>
   dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
-  dplyr::rename(originalName = "AccSpeciesName")|>
+  dplyr::rename(originalName = "AccSpeciesName",
+                Level ="ValueKindName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
+  dplyr::mutate(
+    Level = dplyr::case_when(Level == "Individual Mean" ~ "individual",
+                             Level == "Maximum in plot" ~ "population",
+                             Level == "Plot mean" ~ "population",
+                             Level == "Site specific mean" ~ "population",
+                             Level == "Single" ~ "individual")
+  ) |>
   dplyr::mutate(Reference = bjorkman_ref,
                 DOI = bjorkman_doi,
                 Priority = 3)
@@ -144,14 +195,22 @@ saveRDS(db_post, "data/harmonized_trait_sources/Bjorkman_et_al_2018_LeafArea.rds
 
 # SLA --------------------------------------------------
 db_var <- ttt_db |>
-  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk") |>
+  dplyr::select("AccSpeciesName", "Trait", "Value", "Units", "ErrorRisk", "ValueKindName") |>
   dplyr::filter(Trait == "Leaf area per leaf dry mass (specific leaf area, SLA)")|>
   dplyr::mutate(Trait = "SLA",
                 Value = as.numeric(Value)) |>
   dplyr::filter(!is.na(Value), ErrorRisk < 3) |>
-  dplyr::rename(originalName = "AccSpeciesName")|>
+  dplyr::rename(originalName = "AccSpeciesName",
+                Level ="ValueKindName")|>
   dplyr::select(-ErrorRisk)|>
   dplyr::arrange(originalName) |>
+  dplyr::mutate(
+    Level = dplyr::case_when(Level == "Individual Mean" ~ "individual",
+                             Level == "Maximum in plot" ~ "population",
+                             Level == "Plot mean" ~ "population",
+                             Level == "Site specific mean" ~ "population",
+                             Level == "Single" ~ "individual")
+  ) |>
   dplyr::mutate(Reference = bjorkman_ref,
                 DOI = bjorkman_doi,
                 Priority = 3)

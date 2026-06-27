@@ -24,9 +24,16 @@ db_var <- db |>
 # Check units
 table(db_var$Units)
 traits4models::check_harmonized_trait(db_var)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) 
+
+db_post <- db_post |>
+  dplyr::mutate(Level = "taxon") |>
+  dplyr::relocate(Level, .after = Units)|>
   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+
 traits4models::check_harmonized_trait(db_post)
+
 saveRDS(db_post, "data/harmonized_trait_sources/00_compilation_Flammability_HeatContent.rds")
 
 # SAV --------------------------------------------------
@@ -46,9 +53,15 @@ db_var <- db |>
 table(db_var$Units)
 db_var <- db_var |>
   dplyr::mutate(Units = "m2 m-3")
-traits4models::check_harmonized_trait(db_var)
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) 
+
+db_post <- db_post |>
+  dplyr::mutate(Level = "taxon") |>
+  dplyr::relocate(Level, .after = Units)|>
   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+
 traits4models::check_harmonized_trait(db_post)
+
 saveRDS(db_post, "data/harmonized_trait_sources/00_compilation_Flammability_SAV.rds")
 

@@ -14,7 +14,8 @@ db_var <- db |>
   dplyr::rename(Value = "Angle_degree")|>
   dplyr::mutate(Trait = "LeafAngle",
                 Value = as.numeric(Value),
-                Units = "degree") |>
+                Units = "degree",
+                Level = "individual") |>
   tidyr::replace_na(list(Species = ""))|>
   dplyr::mutate(originalName = stringr::str_c(Genus, Species, sep = " "))|>
   dplyr::mutate(originalName = stringr::str_trim(originalName, side = "right"))|>

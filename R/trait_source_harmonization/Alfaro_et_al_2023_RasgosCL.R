@@ -35,11 +35,16 @@ db_var <- db_var |>
   dplyr::mutate(Value = Value * 100,
                 Units = "cm")
 # Harmonize taxonomy
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
-traits4models::check_harmonized_trait(db_post)
-saveRDS(db_post, "data/harmonized_trait_sources/Alfaro_et_al_2023_Hmax.rds")
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) 
 
+db_post <- db_post |>
+  dplyr::mutate(Level = "taxon") |>
+  dplyr::relocate(Level, .after = Units)|>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+
+traits4models::check_harmonized_trait(db_post)
+
+saveRDS(db_post, "data/harmonized_trait_sources/Alfaro_et_al_2023_Hmax.rds")
 
 
 # SeedMass --------------------------------------------------
@@ -64,9 +69,15 @@ db_var <- rasgoscl_db |>
 table(db_var$Units)
 # OK!
 # Harmonize taxonomy
-db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) 
+
+db_post <- db_post |>
+  dplyr::mutate(Level = "taxon") |>
+  dplyr::relocate(Level, .after = Units)|>
   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+
 traits4models::check_harmonized_trait(db_post)
+
 saveRDS(db_post, "data/harmonized_trait_sources/Alfaro_et_al_2023_SeedMass.rds")
 
 
