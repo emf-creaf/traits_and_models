@@ -11,13 +11,19 @@ db <- read.csv2(paste0(DB_path, "data-raw/raw_trait_data/Zhao_et_al_inreview_KPL
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
-  dplyr::select(pl_species_corrected, "k_plant_leaf", "PaperDOI") |>
+  dplyr::select(pl_species_corrected, "k_plant_leaf","Aggregation" , "PaperDOI") |>
   dplyr::rename(originalName = pl_species_corrected,
                 Value = "k_plant_leaf",
+                Level = "Aggregation",
                 OriginalReference = "PaperDOI") |>
   dplyr::mutate(Trait = "kplant",
                 Value = as.numeric(Value)*(1e6/18.0), # From kg m-2 s-1 MPa-1 to mmol m-2 s-1 MPa-1
                 Units = "mmol m-2 s-1 MPa-1")|>
+  dplyr::mutate(
+    Level = dplyr::case_when(Level == "individual" ~ "individual",
+                             Level == "stand" ~ "population",
+                             Level == "temporal" ~ "individual"),
+    Level = ifelse(!is.na(Level), Level, "individual"))|>
   dplyr::filter(!is.na(Value),
                 Value < 100.0) |> # Filter outliers?
   dplyr::mutate(Reference = "Zhao, Y., Mencuccini, M., Acuña-Míguez, B., Adet, L., Amin, S., Anadon-Rosell, A., Anderegg, L., Anderegg, W., Aranda, I., Bachofen, C., Bittencourt, P., Binks, O., De Cáceres, M., Carminati, A., Castells, E., Chaparro, D., Cochard, H., Creek, D., David, T., … Flo, V. (2026). KPLANT (V1.0) [Data set]. Zenodo.",
