@@ -14,7 +14,8 @@ db_var <- cstd_db |>
   dplyr::select("Species_accepted", "Trait", "Value", "Unit", "Reference") |>
   dplyr::filter(Trait == "Seed mass")|>
   dplyr::mutate(Trait = "SeedMass",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(Units = "Unit")|>
   dplyr::rename(OriginalReferenceID = "Reference")|>
   dplyr::rename(originalName = "Species_accepted")|>
@@ -41,7 +42,8 @@ db_var <- cstd_db |>
   dplyr::select("Species_accepted", "Trait", "Value", "Unit", "Reference") |>
   dplyr::filter(Trait == "Seed longevity")|>
   dplyr::mutate(Trait = "SeedLongevity",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(Units = "Unit")|>
   dplyr::rename(OriginalReferenceID = "Reference")|>
   dplyr::rename(originalName = "Species_accepted")|>

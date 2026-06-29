@@ -15,6 +15,8 @@ db_var <- db |>
   dplyr::mutate(Trait = "Ptlp",
                 Value = as.numeric(Value),
                 Units = "MPa",
+                Level = "population",
+                Method = "pressure-volume",
                 Reference = "Vilagrosa et al. (2014). Physiological differences explain the co-existence of different
 regeneration strategies in Mediterranean ecosystems. New Phytologist 201: 1277-1288",
                 DOI = "10.1111/nph.12584",

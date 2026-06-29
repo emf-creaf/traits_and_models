@@ -35,8 +35,14 @@ db_var <- db |>
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
 
+db_post <- db_post |>
+  dplyr::mutate(Level = "individual") |>
+  dplyr::relocate(Level, .after = Units)|>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+
 # Checking ----------------------------------------------------------------
 traits4models::check_harmonized_trait(db_post)
+
 
 # Storing -----------------------------------------------------------------
 saveRDS(db_post, "data/harmonized_trait_sources/Yebra_et_al_2024_LFMC.rds")

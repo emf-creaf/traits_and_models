@@ -15,7 +15,8 @@ db_var <- db |>
                 Value = "gmin") |>
   dplyr::mutate(Trait = "Gswmin",
                 Value = as.numeric(Value)/1000,
-                Units = "mol s-1 m-2")|>
+                Units = "mol s-1 m-2",
+                Level = "taxon")|>
   dplyr::mutate(Reference = "Trueba et al. (2026) Ecological drivers and phylogenetic patterns of leaf minimum
 conductance variability in vascular plants. New Phytologist 250: 3716-3731",
                 DOI = "10.1111/nph.71166",

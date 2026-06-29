@@ -16,7 +16,8 @@ db_var <- db |>
                 OriginalReference = "Kleaf source") |>
   dplyr::mutate(Trait = "kleaf",
                 Value = as.numeric(Value),
-                Units = "mmol m-2 s-1 MPa-1") |>
+                Units = "mmol m-2 s-1 MPa-1",
+                Level = "population") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Wolfe et al. (2022). Leaves as bottlenecks: The contribution of tree leaves to hydraulic resistance within the soil−plant−atmosphere continuum. Plant Cell & Env. 46: 736-746",
@@ -38,7 +39,8 @@ db_var <- db |>
                 OriginalReference = "Ktotal source") |>
   dplyr::mutate(Trait = "kplant",
                 Value = as.numeric(Value),
-                Units = "mmol m-2 s-1 MPa-1") |>
+                Units = "mmol m-2 s-1 MPa-1",
+                Level = "population") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = "Wolfe et al. (2022). Leaves as bottlenecks: The contribution of tree leaves to hydraulic resistance within the soil−plant−atmosphere continuum. Plant Cell & Env. 46: 736-746",
