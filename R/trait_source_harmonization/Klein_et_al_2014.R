@@ -18,7 +18,8 @@ db_var <- db |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Trait = "Gs_P50",
                 Value = as.numeric(Value),
-                Units = "MPa") |>
+                Units = "MPa",
+                Level = "individual") |>
   dplyr::filter(!is.na(Value)) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::relocate(originalName, .before = Value) |>

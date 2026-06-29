@@ -19,8 +19,9 @@ db_var <- groot_db |>
                 Value = "traitValue",
                 OriginalReference = references)|>
   dplyr::mutate(Trait = "Z95",
-                Value = as.numeric(Value)*1000,
-                Units = "mm") |> # from m to mm
+                Value = as.numeric(Value)*1000, # from m to mm
+                Units = "mm",
+                Level = "individual") |> 
   tidyr::replace_na(list(species = "", infraspecific = ""))|>
   dplyr::mutate(originalName = stringr::str_c(genus, species, infraspecific, sep = " "))|>
   dplyr::mutate(originalName = stringr::str_trim(originalName, side = "right"))|>
@@ -46,7 +47,8 @@ db_var <- groot_db |>
                 OriginalReference = references)|>
   dplyr::mutate(Trait = "SRL",
                 Value = as.numeric(Value)*100,# from m/g to cm/g
-                Units = "cm g-1") |>
+                Units = "cm g-1",
+                Level = "individual") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::relocate(Units, .after = Value) |>
   tidyr::replace_na(list(species = "", infraspecific = ""))|>
@@ -62,6 +64,7 @@ db_var <- groot_db |>
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Guerrero_Ramirez_et_al_2021_GRooT_SRL.rds")
 
@@ -74,7 +77,8 @@ db_var <- groot_db |>
                 OriginalReference = references)|>
   dplyr::mutate(Trait = "FineRootDensity",
                 Value = as.numeric(Value),
-                Units = "g cm-3") |>
+                Units = "g cm-3",
+                Level = "individual") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::relocate(Units, .after = Value) |>
   tidyr::replace_na(list(species = "", infraspecific = ""))|>
@@ -90,6 +94,7 @@ db_var <- groot_db |>
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Guerrero_Ramirez_et_al_2021_GRooT_FineRootDensity.rds")
 
@@ -103,7 +108,8 @@ db_var <- groot_db |>
                 OriginalReference = references)|>
   dplyr::mutate(Trait = "Nfineroot",
                 Value = as.numeric(Value),
-                Units = "mg g-1") |>
+                Units = "mg g-1",
+                Level = "individual") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::relocate(Units, .after = Value) |>
   tidyr::replace_na(list(species = "", infraspecific = ""))|>
