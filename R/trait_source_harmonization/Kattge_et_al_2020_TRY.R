@@ -770,6 +770,58 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafWidth.rds")
 
+# StomatalDensity- TRY_63 ----------------------------------------------------------------
+db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_63.rds"))|>
+  dplyr::mutate(
+    Trait = "StomatalDensity",
+    Value = as.numeric(StdValue)) |>
+  dplyr::filter(
+    !is.na(Value),
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
+  ) |>
+  dplyr::select(
+    AccSpeciesName,
+    Trait,
+    Value,
+    UnitName,
+    ValueKindName,
+    Reference
+  )|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
+  dplyr::rename(originalName = AccSpeciesName,
+                OriginalReference = Reference)|>
+  dplyr::mutate(
+    originalName = gsub("\u0081|", "", originalName), 
+    Level = dplyr::case_when(
+      Level=="Single" ~ "individual",
+      Level=="Mean" ~ "population",
+      TRUE ~ "population"
+    )) |>
+  dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+  dplyr::arrange(originalName)|>
+  dplyr::mutate(Reference = kattge_ref,
+                DOI = kattge_doi,
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI)
+#Check level
+table(db_var$Level)
+#Check units (1/mm2)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Units = "mm-2")
+traits4models::check_harmonized_trait(db_var)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_StomatalDensity.rds")
+
 # SRL - TRY_614 ----------------------------------------------------------------
 db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_614.rds"))|>
   dplyr::mutate(
@@ -1075,20 +1127,28 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
-    originalName = gsub("\u0081|", "", originalName)) |>
+    originalName = gsub("\u0081|", "", originalName), 
+    Level = dplyr::case_when(
+      Level=="Single" ~ "individual",
+      Level=="Mean" ~ "population",
+      TRUE ~ "population"
+    )) |>
   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -1100,6 +1160,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
                 DOI = kattge_doi,
                 Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = DOI)
+#Check level
+table(db_var$Level)
 #Check units (umol m-2 s-1)
 table(db_var$Units)
 db_var <- db_var |>
@@ -1117,20 +1179,28 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
-    originalName = gsub("\u0081|", "", originalName)) |>
+    originalName = gsub("\u0081|", "", originalName), 
+    Level = dplyr::case_when(
+      Level=="Single" ~ "individual",
+      Level=="Mean" ~ "population",
+      TRUE ~ "population"
+    )) |>
   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -1142,6 +1212,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
                 DOI = kattge_doi,
                 Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = DOI)
+#Check levels
+table(db_var$Level)
 #Check units (umol m-2 s-1)
 table(db_var$Units)
 db_var <- db_var |>

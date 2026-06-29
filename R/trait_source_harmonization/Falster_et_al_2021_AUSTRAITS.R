@@ -22,9 +22,11 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "life_form")|>
-  dplyr::rename(Value = "value")|>
+  dplyr::rename(Value = "value",
+                Level = "entity_type")|>
+  dplyr::filter(Level != "unknown") |>
   dplyr::mutate(
     Trait = "LifeForm",
     Value = dplyr::case_when(
@@ -36,6 +38,13 @@ db_var <- aus_db |>
       stringr::str_detect(tolower(Value), stringr::regex("(?i)(phaner|shrub|tree)")) ~ "Phanerophyte",
       stringr::str_detect(tolower(Value), stringr::regex("(?i)(thero|tero)")) ~ "Therophyte",
       TRUE ~ Value
+    ),
+    Level = dplyr::case_when(
+      Level=="individual" ~ "individual",
+      Level=="metapopulation" ~ "population",
+      Level=="population" ~ "population",
+      Level=="species" ~ "taxon",
+      TRUE ~ "taxon"
     ),
     Units = as.character(NA)
   ) |>
@@ -66,9 +75,10 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "leaf_shape")|>
-  dplyr::rename(Value = "value")|>
+  dplyr::rename(Value = "value",
+                Level = "entity_type")|>
   dplyr::mutate(
     Trait = "LeafShape",
     Value = dplyr::case_when(
@@ -113,10 +123,11 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "leaf_lifespan")|>
   dplyr::rename(Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "LeafDuration",
                 Value = as.numeric(Value)) |> # From mo to yr
   dplyr::relocate(Trait, .before = Value) |>
@@ -152,12 +163,20 @@ db_methods <- methods_db |>
   dplyr::rename(OriginalReference = "source_primary_citation") |>
   unique()
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "leaf_area")|>
   dplyr::rename(Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "LeafArea",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                )) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::select(-trait_name)|>
@@ -187,12 +206,21 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "leaf_inclination_angle")|>
-  dplyr::rename(Value = "value")|>
+  dplyr::rename(Value = "value",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "LeafAngle",
                 Value = as.numeric(Value),
-                Units = "degree") |>
+                Units = "degree",
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::select(-trait_name)|>
@@ -221,13 +249,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "root_specific_root_length")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait  = "SRL",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -259,13 +296,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "stem_specific_hydraulic_conductivity")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "Ks",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::left_join(db_methods, by = "dataset_id")|>
@@ -291,13 +337,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "xylem_modulus_of_elasticity")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "StemEPS",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::left_join(db_methods, by = "dataset_id")|>
@@ -322,13 +377,22 @@ db_methods <- methods_db |>
   dplyr::rename(OriginalReference = "source_primary_citation") |>
   unique()
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "wood_density")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "WoodDensity",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::left_join(db_methods, by = "dataset_id")|>
@@ -354,13 +418,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "leaf_density")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "LeafDensity",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::left_join(db_methods, by = "dataset_id")|>
@@ -386,13 +459,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "leaf_width")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "LeafWidth",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -416,6 +498,98 @@ db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
 traits4models::check_harmonized_trait(db_post)
 saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_LeafWidth.rds")
 
+# Stomatal density --------------------------------------------------
+db_methods <- methods_db |>
+  dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
+  dplyr::filter(trait_name == "leaf_stomatal_density_average")|>
+  dplyr::select(-trait_name) |>
+  dplyr::rename(OriginalReference = "source_primary_citation")
+db_var <- aus_db |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
+  dplyr::filter(trait_name == "leaf_stomatal_density_average")|>
+  dplyr::rename(Trait = "trait_name",
+                Value = "value",
+                Units = "unit",
+                Level = "entity_type")|>
+  dplyr::mutate(Trait = "StomatalDensity",
+                Value = as.numeric(Value), 
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
+  dplyr::rename(originalName = "taxon_name")|>
+  dplyr::arrange(originalName) |>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+  dplyr::left_join(db_methods, by = "dataset_id")|>
+  dplyr::select(-dataset_id)|>
+  dplyr::mutate(Reference = falster_ref,
+                DOI = falster_doi,
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI)
+# Check units (mm-2)
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value*2,#From average to total (abaxial-adaxial)
+                Units = "mm-2")
+traits4models::check_harmonized_trait(db_var)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_StomatalDensity.rds")
+
+
+# Maximum stomatal conductance --------------------------------------------------
+db_methods <- methods_db |>
+  dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
+  dplyr::filter(trait_name == "leaf_transpiration_per_area_at_Amax")|>
+  dplyr::select(-trait_name) |>
+  dplyr::rename(OriginalReference = "source_primary_citation")
+db_var <- aus_db |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
+  dplyr::filter(trait_name == "leaf_transpiration_per_area_at_Amax")|>
+  dplyr::rename(Trait = "trait_name",
+                Value = "value",
+                Units = "unit",
+                Level = "entity_type")|>
+  dplyr::mutate(Trait = "Gswmax",
+                Value = as.numeric(Value), 
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
+  dplyr::rename(originalName = "taxon_name")|>
+  dplyr::arrange(originalName) |>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+  dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+  dplyr::left_join(db_methods, by = "dataset_id")|>
+  dplyr::select(-dataset_id)|>
+  dplyr::mutate(Reference = falster_ref,
+                DOI = falster_doi,
+                Priority = 1) |>
+  dplyr::relocate(OriginalReference, .after = DOI)
+# Check units (mmol m-2 s-1) 
+table(db_var$Units)
+db_var <- db_var |>
+  dplyr::mutate(Value = Value,
+                Units = "mol s-1 m-2") # Real units seem to be mol, not mmol
+traits4models::check_harmonized_trait(db_var)
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+  dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+traits4models::check_harmonized_trait(db_post)
+saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Gswmax.rds")
 
 # Seed mass --------------------------------------------------
 db_methods <- methods_db |>
@@ -424,13 +598,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "seed_dry_mass")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "SeedMass",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -459,13 +642,22 @@ db_methods <- methods_db |>
   dplyr::rename(OriginalReference = "source_primary_citation")|>
   unique()
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "leaf_mass_per_area")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "SLA",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -496,13 +688,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "plant_height")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "Hact",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -535,13 +736,22 @@ db_methods <- methods_db |>
   dplyr::rename(OriginalReference = "source_primary_citation")|>
   unique()
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "huber_value")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "Al2As",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -572,13 +782,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "water_potential_50percent_lost_conductivity")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "VCstem_P50",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -606,13 +825,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "water_potential_12percent_lost_conductivity")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "VCstem_P12",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -641,13 +869,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "water_potential_88percent_lost_conductivity")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "VCstem_P88",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -676,13 +913,21 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "stem_N_per_dry_mass")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "Nsapwood",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                )) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -712,13 +957,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "osmotic_potential_at_full_turgor")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "LeafPI0",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -746,13 +1000,22 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "bulk_modulus_of_elasticity")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "LeafEPS",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                ),
+                Method = NA) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -780,13 +1043,21 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "leaf_photosynthesis_Vcmax_per_area_25C")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "Vmax",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                )) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -816,13 +1087,21 @@ db_methods <- methods_db |>
   dplyr::select(-trait_name) |>
   dplyr::rename(OriginalReference = "source_primary_citation")
 db_var <- aus_db |>
-  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id") |>
+  dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
   dplyr::filter(trait_name == "leaf_photosynthesis_Jmax_per_area_25C")|>
   dplyr::rename(Trait = "trait_name",
                 Value = "value",
-                Units = "unit")|>
+                Units = "unit",
+                Level = "entity_type")|>
   dplyr::mutate(Trait = "Jmax",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = dplyr::case_when(
+                  Level=="individual" ~ "individual",
+                  Level=="metapopulation" ~ "population",
+                  Level=="population" ~ "population",
+                  Level=="species" ~ "taxon",
+                  TRUE ~ "taxon"
+                )) |>
   dplyr::rename(originalName = "taxon_name")|>
   dplyr::arrange(originalName) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
