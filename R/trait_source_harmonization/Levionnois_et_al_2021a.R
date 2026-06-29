@@ -17,7 +17,8 @@ db_var <- db |>
                 Units = "g cm-3")|>
   dplyr::mutate(Reference = "Levionnois et al. (2021a) Linking drought-induced xylem embolism resistance to wood anatomical traits in Neotropical trees. New Phytologist 299: 1453-1466",
                 DOI = "https://doi.org/10.1111/nph.16942",
-                Priority = 1) |>
+                Priority = 1,
+                Level = "population") |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
 traits4models::check_harmonized_trait(db_var)

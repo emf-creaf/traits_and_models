@@ -18,6 +18,8 @@ db_var <- db |>
   dplyr::mutate(Trait = "Ptlp",
                 Value = as.numeric(Value),
                 Units = "MPa",
+                Method = "osmotic",
+                Level = "individual",
                 Reference = "Kunert N, Tomaskova I (2020) Leaf turgor loss point at full hydration for 41 native and introduced tree and shrub species from Central Europe. J Plant Ecol
 13:754–756.",
                 DOI = "10.1093/jpe/rtaa059",

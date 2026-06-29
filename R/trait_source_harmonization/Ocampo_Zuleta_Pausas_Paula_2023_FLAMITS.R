@@ -21,7 +21,8 @@ db_var <- flamits_db |>
   dplyr::rename(Value = "var_value")|>
   dplyr::mutate(Trait = "HeatContent",
                 Value = 4.18400*as.numeric(Value), 
-                Units = "kJ kg-1") |> # From kcal/kg to kJ/kg
+                Units = "kJ kg-1", # From kcal/kg to kJ/kg
+                Level = "individual") |> 
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::left_join(flamits_ref[,c("source_ID", "reference")], by="source_ID") |>
   dplyr::select(-source_ID) |>

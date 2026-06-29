@@ -18,7 +18,8 @@ db_var <- db |>
   dplyr::filter(!is.na(Value)) |>
   dplyr::mutate(Trait = "conduit2sapwood",
                 Value = 1 - (Value/100),
-                Units = as.character(NA)) |>
+                Units = as.character(NA),
+                Level = "population") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, " sp", ""))|>

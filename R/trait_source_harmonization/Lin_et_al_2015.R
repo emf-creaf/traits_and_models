@@ -14,7 +14,8 @@ db_var <- db |>
   dplyr::arrange(originalName) |>
   dplyr::mutate(Trait = "g1_Medlyn",
                 Value = as.numeric(g1_Medlyn),
-                Units = as.character(NA)) |>
+                Units = as.character(NA),
+                Level = "taxon") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::select(-g1_Medlyn) |>
   dplyr::mutate(Reference = "Lin et al. (2015) Optimal stomatal behaviour around the world. Nature Climate Change",
