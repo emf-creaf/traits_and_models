@@ -13,7 +13,8 @@ db_var <- db |>
   dplyr::rename(Value = "measurement")|>
   dplyr::mutate(Trait = "LeafAngle",
                 Value = as.numeric(Value),
-                Units = "degree") |>
+                Units = "degree",
+                Level = "individual") |>
   dplyr::rename(originalName = "Species")|>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::relocate(Units, .before = Reference) |>

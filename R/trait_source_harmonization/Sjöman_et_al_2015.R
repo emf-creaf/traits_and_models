@@ -14,7 +14,9 @@ db_var <- db |>
   dplyr::rename(originalName = Species,
                 Value = "TLP") |>
   dplyr::mutate(Trait = "Ptlp",
-                Units = "MPa") |>
+                Units = "MPa",
+                Level = "population",
+                Method = "osmotic") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()

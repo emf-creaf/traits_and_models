@@ -14,7 +14,9 @@ db_var <- db |>
   dplyr::rename(originalName = Species,
                 Value = "TLP") |>
   dplyr::mutate(Trait = "Ptlp",
-                Units = "MPa") |>
+                Units = "MPa",
+                Level = "population",
+                Method = "osmotic") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::mutate(Reference = "Sjöman et al. (2018) Improving confidence in tree species selection for challenging urban sites: a role for leaf turgor loss. Urban Tree 21:1171-1188",
                 DOI = "10.1007/s11252-018-0791-5",

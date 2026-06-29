@@ -18,7 +18,8 @@ db_var <- db |>
                 OriginalReference = "Reference")|>
   dplyr::mutate(Trait = "Gswmin",
                 Value = as.numeric(Value),
-                Units = "mmol m-2 s-1")|> 
+                Units = "mmol m-2 s-1",
+                Level = "population")|> 
   dplyr::filter(!is.na(Value),
                 originalName!="Eucalyptus clones")|>
   dplyr::relocate(Trait, Value, Units, .after = originalName) |>

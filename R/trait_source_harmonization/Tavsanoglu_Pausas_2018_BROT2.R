@@ -17,7 +17,8 @@ db_var <- brot_db |>
   dplyr::filter(Trait == "LDMC")|>
   dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
-  dplyr::mutate(Value = as.numeric(Value)) |>
+  dplyr::mutate(Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(originalName = "Taxon")|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -44,7 +45,8 @@ db_var <- brot_db |>
   dplyr::filter(Trait == "SLA")|>
   dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
-  dplyr::mutate(Value = as.numeric(Value)) |>
+  dplyr::mutate(Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(originalName = "Taxon")|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -72,7 +74,8 @@ db_var <- brot_db |>
   dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::mutate(Trait = "Hact",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(originalName = "Taxon")|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -101,7 +104,8 @@ db_var <- brot_db |>
   dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::filter(Units=="mg")|>
-  dplyr::mutate(Value = as.numeric(Value)) |>
+  dplyr::mutate(Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(originalName = "Taxon")|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -127,7 +131,8 @@ db_var <- brot_db |>
   dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::mutate(Trait = "WoodDensity",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(originalName = "Taxon")|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -155,7 +160,8 @@ db_var <- brot_db |>
   dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::mutate(Trait = "Z95",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(originalName = "Taxon")|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -185,7 +191,8 @@ db_var <- brot_db |>
   dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::mutate(Trait = "LeafDuration",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(originalName = "Taxon")|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -215,7 +222,8 @@ db_var <- brot_db |>
   dplyr::rename(Value = "Data",
                 OriginalReferenceID = SourceID)|>
   dplyr::filter(Units=="mm2")|>
-  dplyr::mutate(Value = as.numeric(Value)) |>
+  dplyr::mutate(Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(originalName = "Taxon")|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -243,7 +251,8 @@ db_var <- brot_db |>
                 OriginalReferenceID = SourceID)|>
   dplyr::filter(Units=="%")|>
   dplyr::mutate(Trait = "pDead",
-                Value = as.numeric(Value)) |>
+                Value = as.numeric(Value),
+                Level = "population") |>
   dplyr::rename(originalName = "Taxon")|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -290,6 +299,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)|>
+  dplyr::mutate(Level = "population")|>
   dplyr::mutate(Reference = "Tavşanoǧlu & Pausas (2018) A functional trait database for Mediterranean Basin plants. Scientific Data 5,1-18") |>
   dplyr::mutate(DOI = "10.1038/sdata.2018.135")  |>
   dplyr::left_join(brot_ref, by = c("OriginalReferenceID" = "ID")) |>
@@ -324,6 +334,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)|>
+  dplyr::mutate(Level = "population")|>
   dplyr::mutate(Reference = "Tavşanoǧlu & Pausas (2018) A functional trait database for Mediterranean Basin plants. Scientific Data 5,1-18") |>
   dplyr::mutate(DOI = "10.1038/sdata.2018.135")  |>
   dplyr::left_join(brot_ref, by = c("OriginalReferenceID" = "ID")) |>
@@ -357,6 +368,7 @@ db_var <- brot_db |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
   dplyr::arrange(originalName)|>
+  dplyr::mutate(Level = "population")|>
   dplyr::mutate(Reference = "Tavşanoǧlu & Pausas (2018) A functional trait database for Mediterranean Basin plants. Scientific Data 5,1-18") |>
   dplyr::mutate(DOI = "10.1038/sdata.2018.135")  |>
   dplyr::left_join(brot_ref, by = c("OriginalReferenceID" = "ID")) |>
