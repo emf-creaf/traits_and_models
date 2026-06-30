@@ -249,7 +249,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait = "LeafArea",
     Value = StdValue) |>
   dplyr::filter(
-    !is.na(Value)
+    !is.na(Value),
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::arrange(AccSpeciesName) |>
   dplyr::select(
@@ -257,9 +258,11 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
@@ -269,7 +272,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (mm2)
 table(db_var$Units)
@@ -347,7 +355,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Units = as.character(NA)
   ) |>
   dplyr::filter(!is.na(Value),
-                Value %in% c("C3", "C4", "CAM"))|>
+                Value %in% c("C3", "C4", "CAM"),
+                !ValueKindName %in% c("Maximum", "Minimum"))|>
   dplyr::select(
     AccSpeciesName,
     Trait,
@@ -380,7 +389,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = OrigValueStr,
     Units = as.character(NA)
   ) |>
-  dplyr::filter(!is.na(Value))|>
+  dplyr::filter(!is.na(Value),
+                !ValueKindName %in% c("Maximum", "Minimum"))|>
   dplyr::select(
     AccSpeciesName,
     Trait,
@@ -440,11 +450,13 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     OriglName,
     StdValue,
     UnitName,
+    ValueKindName,
     ErrorRisk,
     Reference) |>
   dplyr::filter(
     !is.na(StdValue),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::mutate(
     Trait = "Hact",
@@ -456,10 +468,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     Units,
+    ValueKindName,
     Reference
   )|>
   dplyr::rename(originalName = AccSpeciesName,
-                OriginalReference = Reference)|>
+                OriginalReference = Reference,
+                Level = ValueKindName)|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
@@ -467,7 +481,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 traits4models::check_harmonized_trait(db_var)
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
@@ -482,7 +501,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait = "LeafDuration",
     Value = StdValue) |>
   dplyr::filter(
-    !is.na(Value)
+    !is.na(Value),
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::arrange(AccSpeciesName) |>
   dplyr::select(
@@ -490,9 +510,11 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
@@ -504,7 +526,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 
 #Check units (year)
@@ -525,7 +552,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait = "Z95",
     Value = StdValue) |>
   dplyr::filter(
-    !is.na(Value)
+    !is.na(Value),
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::arrange(AccSpeciesName) |>
   dplyr::select(
@@ -533,9 +561,11 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
@@ -547,7 +577,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 
 #Check units (mm)
@@ -569,7 +604,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = StdValue) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::arrange(AccSpeciesName) |>
   dplyr::select(
@@ -577,9 +613,11 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
@@ -591,7 +629,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (mm2 mg-1)
 table(db_var$Units)
@@ -608,7 +651,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = StdValue) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::arrange(AccSpeciesName) |>
   dplyr::select(
@@ -616,9 +660,11 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
@@ -630,7 +676,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (g cm-3)
 table(db_var$Units)
@@ -651,7 +702,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::filter(
     !is.na(Value),
     ErrorRisk < 3,
-    !is.na(AccSpeciesName)
+    !is.na(AccSpeciesName),
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::arrange(AccSpeciesName) |>
   dplyr::select(
@@ -659,9 +711,11 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::filter(originalName != "Tilia \xd7moltkei") |>
@@ -676,7 +730,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (g cm-3)
 table(db_var$Units)
@@ -735,7 +794,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = StdValue) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::arrange(AccSpeciesName) |>
   dplyr::select(
@@ -743,9 +803,11 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::filter(originalName != "Jasminum meyeri\xfbjohannis") |>
@@ -760,7 +822,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (cm)
 table(db_var$Units)
@@ -829,7 +896,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = StdValue) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::arrange(AccSpeciesName) |>
   dplyr::select(
@@ -837,13 +905,20 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
-    originalName = gsub("\u0081|", "", originalName)) |>
+    originalName = gsub("\u0081|", "", originalName), 
+    Level = dplyr::case_when(
+      Level=="Single" ~ "individual",
+      Level=="Mean" ~ "population",
+      TRUE ~ "population"
+    )) |>
   dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
   dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
@@ -872,7 +947,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::arrange(AccSpeciesName) |>
   dplyr::select(
@@ -880,9 +956,11 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -896,7 +974,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (cm g-1)
 table(db_var$Units)
@@ -916,15 +999,18 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(OrigValueStr)) |>
   dplyr::filter(
     !is.na(Value),
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -938,7 +1024,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (MPa)
 table(db_var$Units)
@@ -957,16 +1048,19 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -980,7 +1074,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units ()
 table(db_var$Units)
@@ -1000,16 +1099,19 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference) |>
   dplyr::filter(originalName != "Sorghum \xd7 drummondii") |>
@@ -1024,7 +1126,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (mg g-1)
 table(db_var$Units)
@@ -1043,16 +1150,19 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -1066,7 +1176,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (mg g-1)
 table(db_var$Units)
@@ -1085,16 +1200,19 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -1108,7 +1226,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (mg g-1)
 table(db_var$Units)
@@ -1232,16 +1355,19 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -1255,7 +1381,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (mg g-1)
 table(db_var$Units)
@@ -1276,16 +1407,19 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = "AccSpeciesName",
                 OriginalReference = "Reference")|>
   dplyr::mutate(
@@ -1299,7 +1433,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
     dplyr::mutate(Reference = kattge_ref,
                   DOI = kattge_doi,
-                  Priority = 1) |>
+                  Priority = 1, 
+                  Level = dplyr::case_when(
+                    Level=="Single" ~ "individual",
+                    Level=="Mean" ~ "population",
+                    TRUE ~ "population"
+                  )) |>
     dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (g g-1 day-1)
 table(db_var$Units)
@@ -1320,16 +1459,19 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -1343,7 +1485,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (mg)
 table(db_var$Units)
@@ -1360,15 +1507,18 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(OrigValueStr)) |>
   dplyr::filter(!is.na(Value),
                 Value >= 0,
-                Value <=90) |>
+                Value <=90,
+                !ValueKindName %in% c("Maximum", "Minimum")) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -1382,7 +1532,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (degree)
 table(db_var$Units)
@@ -1403,16 +1558,19 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(StdValue)) |>
   dplyr::filter(
     !is.na(Value),
-    ErrorRisk < 3
+    ErrorRisk < 3,
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
     Trait,
     Value,
     UnitName,
+    ValueKindName,
     Reference
   )|>
-  dplyr::rename(Units = UnitName)|>
+  dplyr::rename(Units = UnitName,
+                Level = ValueKindName)|>
   dplyr::rename(originalName = AccSpeciesName,
                 OriginalReference = Reference)|>
   dplyr::mutate(
@@ -1426,7 +1584,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName) |>
   dplyr::mutate(Reference = kattge_ref,
                   DOI = kattge_doi,
-                  Priority = 1) |>
+                  Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (year)
 table(db_var$Units)
@@ -1444,7 +1607,8 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
     Value = as.numeric(OrigValueStr),
     Units = as.character(NA)) |>
   dplyr::filter(
-    !is.na(Value)
+    !is.na(Value),
+    !ValueKindName %in% c("Maximum", "Minimum")
   ) |>
   dplyr::select(
     AccSpeciesName,
@@ -1466,7 +1630,12 @@ db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY
   dplyr::arrange(originalName)|>
   dplyr::mutate(Reference = kattge_ref,
                 DOI = kattge_doi,
-                Priority = 1) |>
+                Priority = 1, 
+                Level = dplyr::case_when(
+                  Level=="Single" ~ "individual",
+                  Level=="Mean" ~ "population",
+                  TRUE ~ "population"
+                )) |>
   dplyr::relocate(OriginalReference, .after = DOI)
 #Check units (0-5)
 db_var <- db_var |>
