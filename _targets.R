@@ -29,6 +29,11 @@ tar_source("R/trait_source_harmonization/De_Caceres_et_al_2019_CR_pDead.R")
 tar_source("R/trait_source_harmonization/Diaz_et_al_2022.R")
 tar_source("R/trait_source_harmonization/Duursma_et_al_2018.R")
 tar_source("R/trait_source_harmonization/Eisley&Wolfe_2024.R")
+tar_source("R/trait_source_harmonization/Falster_et_al_2021_AUSTRAITS.R")
+tar_source("R/trait_source_harmonization/Guerrero_Ramirez_et_al_2021_GRooT.R")
+tar_source("R/trait_source_harmonization/Guillemot_et_al_2022.R")
+tar_source("R/trait_source_harmonization/He_et_al_2019.R")
+tar_source("R/trait_source_harmonization/Henry_et_al_2019.R")
 tar_source("R/trait_source_harmonization/Vilagrosa_et_al_2014.R")
 
 
@@ -82,10 +87,11 @@ list(
     name = DeCaceres_et_al_2019,
     command = harmonize_DeCaceres_et_al_2019(checkVersion = checkVersion)
   ),
-  tar_target(
-    name = Diaz_et_al_2022,
-    command = harmonize_Diaz_et_al_2022(checkVersion = checkVersion)
-  ),
+  # IN SERVER
+  # tar_target(
+  #   name = Diaz_et_al_2022,
+  #   command = harmonize_Diaz_et_al_2022(checkVersion = checkVersion)
+  # ),
   tar_target(
     name = Duursma_et_al_2018,
     command = harmonize_Duursma_et_al_2018(checkVersion = checkVersion)
@@ -93,6 +99,28 @@ list(
   tar_target(
     name = Eisley_Wolfe_2024,
     command = harmonize_Eisley_Wolfe_2024(checkVersion = checkVersion)
+  ),
+  # IN SERVER
+  # tar_target(
+  #   name = Falster_et_al_2021_AUSTRAITS,
+  #   command = harmonize_Falster_et_al_2021_AUSTRAITS(checkVersion = checkVersion)
+  # ),
+  # IN SERVER
+  # tar_target(
+  #   name = GuerreroRamirez_et_al_2021,
+  #   command = harmonize_GuerreroRamirez_et_al_2021(checkVersion = checkVersion)
+  # ),
+  tar_target(
+    name = Guillemot_et_al_2022,
+    command = harmonize_Guillemot_et_al_2022(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = He_et_al_2019,
+    command = harmonize_He_et_al_2019(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Henry_et_al_2019,
+    command = harmonize_Henry_et_al_2019(checkVersion = checkVersion)
   ),
   tar_target(
     name = Vilagrosa_et_al_2014,
