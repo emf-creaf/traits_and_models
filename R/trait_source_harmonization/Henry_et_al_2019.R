@@ -35,7 +35,7 @@ harmonize_Henry_et_al_2019 <- function(DB_path = "./", checkVersion = as.charact
   
   # Taxonomic harmonization -----------------------------------------------
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
-    dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+    dplyr::mutate(checkVersion = checkVersion)
   
   # Checking ----------------------------------------------------------------
   traits4models::check_harmonized_trait(db_post)
