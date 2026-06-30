@@ -64,7 +64,7 @@ If a data base contains more than one trait, steps [1-5] can be conducted as sho
 
 The output of harmonization should be stored as an *.rds* or *.csv* file in *data/harmonized_trait_sources* (e.g. *data/harmonized_trait_sources/Bartlett_et_al_2016.rds*).
 
-**IMPORTANT NOTE**: Harmonized trait data not be stored in the GitHub repository (i.e. *data-raw/raw_trait_data* is listed in the *.gitignore* file). They are meant to be stored locally but can be exchanged between users of the repository by contacting the person who performed the harmonization.
+**IMPORTANT NOTE**: Harmonized trait data not be stored in the GitHub repository (i.e. *data/harmonized_trait_sources* is listed in the *.gitignore* file). They are meant to be stored locally but can be exchanged between users of the repository by contacting the person who performed the harmonization.
 
 Current scripts have been harmonized following the requirements of **traits4models** ver. **`r as.character(packageVersion("traits4models"))`**.
 
