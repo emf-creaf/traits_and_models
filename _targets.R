@@ -15,6 +15,10 @@ tar_option_set(
 )
 
 # Small data sets
+tar_source("R/trait_source_harmonization/00_Compilation_FineFuelRatio.R")
+tar_source("R/trait_source_harmonization/00_Compilation_Flammability.R")
+tar_source("R/trait_source_harmonization/00_Compilation_ConstructionCosts.R")
+tar_source("R/trait_source_harmonization/00_Compilation_Phenology.R")
 tar_source("R/trait_source_harmonization/Augustine_McCulloh_2024.R")
 tar_source("R/trait_source_harmonization/Avila-Lovera_Winter_2024.R")
 tar_source("R/trait_source_harmonization/Balaguer_Romano_et_al_2026.R")
@@ -33,6 +37,17 @@ tar_source("R/trait_source_harmonization/Huang_et_al_2024.R")
 tar_source("R/trait_source_harmonization/Journe_et_al_2024.R")
 tar_source("R/trait_source_harmonization/Klein_et_al_2014.R")
 tar_source("R/trait_source_harmonization/Krober_et_al_2014.R")
+tar_source("R/trait_source_harmonization/Kunert_Tomaskova_2020.R")
+tar_source("R/trait_source_harmonization/Larter_et_al_2026.R")
+tar_source("R/trait_source_harmonization/Lens_et_al_2016.R")
+tar_source("R/trait_source_harmonization/Levionnois_et_al_2020.R")
+tar_source("R/trait_source_harmonization/Levionnois_et_al_2021a.R")
+tar_source("R/trait_source_harmonization/Levionnois_et_al_2021b.R")
+tar_source("R/trait_source_harmonization/Lin_et_al_2015.R")
+tar_source("R/trait_source_harmonization/Liu_et_al_2019.R")
+tar_source("R/trait_source_harmonization/Loram-Lourenco_et_al_2022.R")
+tar_source("R/trait_source_harmonization/MartinStPaul_et_al_2017.R")
+tar_source("R/trait_source_harmonization/Morris_et_al_2016.R")
 tar_source("R/trait_source_harmonization/Vilagrosa_et_al_2014.R")
 
 # Large data sets (to be run in a server)
@@ -53,6 +68,22 @@ list(
   ),
   
   # Small data sets
+  tar_target(
+    name = Compilation_FineFuelRatio,
+    command = harmonize_00_Compilation_FineFuelRatio(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Compilation_Flammability,
+    command = harmonize_00_Compilation_Flammability(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Compilation_Phenology,
+    command = harmonize_00_Compilation_Phenology(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Compilation_ConstructionCosts,
+    command = harmonize_00_Compilation_ConstructionCosts(checkVersion = checkVersion)
+  ),
   tar_target(
     name = Alfaro_et_al_2023,
     command = harmonize_Alfaro_et_al_2023(checkVersion = checkVersion)
@@ -128,6 +159,50 @@ list(
   tar_target(
     name = Krober_et_al_2014,
     command = harmonize_Krober_et_al_2014(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Kunert_Tomaskova_2020,
+    command = harmonize_Kunert_Tomaskova_2020(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Larter_et_al_2026,
+    command = harmonize_Larter_et_al_2026(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Lens_et_al_2016,
+    command = harmonize_Lens_et_al_2016(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Levionnois_et_al_2020,
+    command = harmonize_Levionnois_et_al_2020(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Levionnois_et_al_2021a,
+    command = harmonize_Levionnois_et_al_2021a(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Levionnois_et_al_2021b,
+    command = harmonize_Levionnois_et_al_2021b(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Lin_et_al_2015,
+    command = harmonize_Lin_et_al_2015(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Liu_et_al_2019,
+    command = harmonize_Liu_et_al_2019(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = LoramLourenco_et_al_2022,
+    command = harmonize_LoramLourenco_et_al_2022(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = MartinStPaul_et_al_2017,
+    command = harmonize_MartinStPaul_et_al_2017(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Morris_et_al_2016,
+    command = harmonize_Morris_et_al_2016(checkVersion = checkVersion)
   ),
   tar_target(
     name = Vilagrosa_et_al_2014,

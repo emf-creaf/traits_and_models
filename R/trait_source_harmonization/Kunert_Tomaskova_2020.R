@@ -1,0 +1,40 @@
+#
+# Kunert & Tomaskova (2020)
+#
+
+harmonize_Kunert_Tomaskova_2020 <- function(DB_path = "./", checkVersion = as.character(packageVersion("traits4models"))) {
+  WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
+  
+  # Read database -----------------------------------------------------------
+  db <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Kunert_Tomaskova_2020/Kunert_TLP_DB2020.xlsx"), sheet = 1)
+  db_ref <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_trait_data/Kunert_Tomaskova_2020/Kunert_TLP_DB2020.xlsx"), sheet = 2)
+  db <- db |>
+    dplyr::left_join(db_ref)
+  # Variable harmonization --------------------------------------------------
+  db_var <- db |>
+    dplyr::select(Species.name, TLP_Mpa) |>
+    dplyr::rename(originalName = "Species.name",
+                  Value = "TLP_Mpa") |>
+    dplyr::mutate(Trait = "Ptlp",
+                  Value = as.numeric(Value),
+                  Units = "MPa",
+                  Method = "osmotic",
+                  Level = "individual",
+                  Reference = "Kunert N, Tomaskova I (2020) Leaf turgor loss point at full hydration for 41 native and introduced tree and shrub species from Central Europe. J Plant Ecol
+13:754–756.",
+                  DOI = "10.1093/jpe/rtaa059",
+                  Priority = 1)|>
+    dplyr::relocate(Trait, .before = Value) |>
+    tibble::as_tibble()
+  traits4models::check_harmonized_trait(db_var)
+  # Taxonomic harmonization -----------------------------------------------
+  db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+    dplyr::mutate(checkVersion = checkVersion)
+  
+  # Checking ----------------------------------------------------------------
+  traits4models::check_harmonized_trait(db_post)
+  
+  # Storing -----------------------------------------------------------------
+  saveRDS(db_post, "data/harmonized_trait_sources/Kunert_Tomaskova_2020.rds")
+}
+
