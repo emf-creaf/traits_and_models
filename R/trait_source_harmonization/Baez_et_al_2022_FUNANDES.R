@@ -42,7 +42,7 @@ harmonize_Baez_et_al_2022_FUNANDES <- function(DB_path = "./", checkVersion = as
   
   
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-    dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+    dplyr::mutate(checkVersion = checkVersion)
   
   traits4models::check_harmonized_trait(db_post)
   
@@ -76,7 +76,7 @@ harmonize_Baez_et_al_2022_FUNANDES <- function(DB_path = "./", checkVersion = as
   table(db_var$Level)
   
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-    dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+    dplyr::mutate(checkVersion = checkVersion)
   
   traits4models::check_harmonized_trait(db_post)
   
@@ -114,7 +114,7 @@ harmonize_Baez_et_al_2022_FUNANDES <- function(DB_path = "./", checkVersion = as
   
   
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-    dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+    dplyr::mutate(checkVersion = checkVersion)
   
   traits4models::check_harmonized_trait(db_post)
   
@@ -153,7 +153,7 @@ harmonize_Baez_et_al_2022_FUNANDES <- function(DB_path = "./", checkVersion = as
   table(db_var$Level)
   
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-    dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+    dplyr::mutate(checkVersion = checkVersion)
   
   traits4models::check_harmonized_trait(db_post)
   
@@ -188,7 +188,7 @@ harmonize_Baez_et_al_2022_FUNANDES <- function(DB_path = "./", checkVersion = as
   table(db_var$Level)
   
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-    dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+    dplyr::mutate(checkVersion = checkVersion)
   
   traits4models::check_harmonized_trait(db_post)
   
@@ -258,7 +258,7 @@ harmonize_Baez_et_al_2022_FUNANDES <- function(DB_path = "./", checkVersion = as
   table(db_var$Level)
   
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-    dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+    dplyr::mutate(checkVersion = checkVersion)
   
   traits4models::check_harmonized_trait(db_post)
   saveRDS(db_post, "data/harmonized_trait_sources/Baez_et_al_2022_LeafArea.rds")
@@ -300,7 +300,7 @@ harmonize_Baez_et_al_2022_FUNANDES <- function(DB_path = "./", checkVersion = as
   table(db_var$Level)
   
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
-    dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+    dplyr::mutate(checkVersion = checkVersion)
   
   traits4models::check_harmonized_trait(db_post)
   
