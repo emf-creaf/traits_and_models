@@ -39,7 +39,8 @@ db_var <- db_pgs90 |>
                 OriginalReference = "REFERENCES") |>
   dplyr::mutate(Trait = "Gs_P90",
                 Value = as.numeric(Value),
-                Units = "MPa") |>
+                Units = "MPa",
+                Level = "individual") |>
   dplyr::relocate(Trait, .before = Value) |>
   dplyr::filter(!is.na(Value)) |>
   dplyr::mutate(Reference = "Martin-StPaul et al. (2017) Plant resistance to drought depends on timely stomatal closure. Ecology Letters 20, 1437-1447",
