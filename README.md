@@ -112,7 +112,7 @@ users of the repository by contacting the person who performed the
 harmonization.
 
 Current scripts have been harmonized following the requirements of
-**traits4models** ver. **0.2.1**.
+**traits4models** ver. **0.3.0**.
 
 ## II. Trait-trait relationships
 
