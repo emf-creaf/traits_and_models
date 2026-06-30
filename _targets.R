@@ -11,7 +11,7 @@ library(tidyr)
 # Set target options:
 tar_option_set(
   packages = c("traits4models", "openxlsx", "readxl", "dplyr", "cli", "readr", "sf"),
-  controller = crew::crew_controller_local(workers = 5)
+  controller = crew::crew_controller_local(workers = 8)
 )
 
 # Smaller data sets
@@ -61,7 +61,6 @@ tar_source("R/trait_source_harmonization/Sjöman_et_al_2015.R")
 tar_source("R/trait_source_harmonization/Sjöman_et_al_2018.R")
 tar_source("R/trait_source_harmonization/Tavares_et_al_2023.R")
 tar_source("R/trait_source_harmonization/Trueba_et_al_2026.R")
-tar_source("R/trait_source_harmonization/TumberDavila_et_al_2022.R")
 tar_source("R/trait_source_harmonization/Vilagrosa_et_al_2014.R")
 tar_source("R/trait_source_harmonization/Wang_et_al_2024.R")
 tar_source("R/trait_source_harmonization/Wittemann_et_al_2020.R")
@@ -85,6 +84,7 @@ tar_source("R/trait_source_harmonization/Kattge_et_al_2020_TRY_numeric.R")
 tar_source("R/trait_source_harmonization/Kattge_et_al_2020_TRY_categorical.R")
 tar_source("R/trait_source_harmonization/Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS.R")
 tar_source("R/trait_source_harmonization/Tavsanoglu_Pausas_2018_BROT2.R")
+tar_source("R/trait_source_harmonization/TumberDavila_et_al_2022.R")
 tar_source("R/trait_source_harmonization/Wang_et_al_2022_CPTD2.R")
 tar_source("R/trait_source_harmonization/Wang_et_al_2025_CSTD.R")
 tar_source("R/trait_source_harmonization/XFT_processing.R")
@@ -98,7 +98,7 @@ list(
   ),
   
   #
-  # Small data sets
+  # Smaller data sets
   #
   tar_target(
     name = Compilation_FineFuelRatio,
@@ -289,10 +289,6 @@ list(
     command = harmonize_Trueba_et_al_2026(checkVersion = checkVersion)
   ),
   tar_target(
-    name = TumberDavila_et_al_2022,
-    command = harmonize_TumberDavila_et_al_2022(checkVersion = checkVersion)
-  ),
-  tar_target(
     name = Vilagrosa_et_al_2014,
     command = harmonize_Vilagrosa_et_al_2024(checkVersion = checkVersion)
   ),
@@ -347,45 +343,49 @@ list(
   tar_target(
     name = Choat_et_al_2012_XFT,
     command = harmonize_Choat_et_al_2012_XFT(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Diaz_et_al_2022,
+    command = harmonize_Diaz_et_al_2022(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Falster_et_al_2021_AUSTRAITS,
+    command = harmonize_Falster_et_al_2021_AUSTRAITS(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = GuerreroRamirez_et_al_2021,
+    command = harmonize_GuerreroRamirez_et_al_2021(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Kattge_et_al_2020_TRY_numeric,
+    command = harmonize_Kattge_et_al_2020_TRY_numeric(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Kattge_et_al_2020_TRY_categorical,
+    command = harmonize_Kattge_et_al_2020_TRY_categorical(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = OcampoZuleta_et_al_2023_FLAMITS,
+    command = harmonize_OcampoZuleta_et_al_2023_FLAMITS(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Tavsanoglu_Pausas_2018_BROT,
+    command = harmonize_Tavsanoglu_Pausas_2018_BROT(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = TumberDavila_et_al_2022,
+    command = harmonize_TumberDavila_et_al_2022(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Wang_et_al_2022_CPTD2,
+    command = harmonize_Wang_et_al_2022_CPTD2(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Wang_et_al_2025_CSTD,
+    command = harmonize_Wang_et_al_2025_CSTD(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Yebra_et_al_2024_GlobeLFMC,
+    command = harmonize_Yebra_et_al_2024_GlobeLFMC(checkVersion = checkVersion)
   )
-  # tar_target(
-  #   name = Diaz_et_al_2022,
-  #   command = harmonize_Diaz_et_al_2022(checkVersion = checkVersion)
-  # ),
-  # tar_target(
-  #   name = Falster_et_al_2021_AUSTRAITS,
-  #   command = harmonize_Falster_et_al_2021_AUSTRAITS(checkVersion = checkVersion)
-  # ),
-  # tar_target(
-  #   name = GuerreroRamirez_et_al_2021,
-  #   command = harmonize_GuerreroRamirez_et_al_2021(checkVersion = checkVersion)
-  # )
-  # tar_target(
-  #   name = Kattge_et_al_2020_TRY_numeric,
-  #   command = harmonize_Kattge_et_al_2020_TRY_numeric(checkVersion = checkVersion)
-  # ),
-  # tar_target(
-  #   name = Kattge_et_al_2020_TRY_categorical,
-  #   command = harmonize_Kattge_et_al_2020_TRY_categorical(checkVersion = checkVersion)
-  # ),
-  # tar_target(
-  #   name = OcampoZuleta_et_al_2023_FLAMITS,
-  #   command = harmonize_OcampoZuleta_et_al_2023_FLAMITS(checkVersion = checkVersion)
-  # ),
-  # tar_target(
-  #   name = Tavsanoglu_Pausas_2018_BROT,
-  #   command = harmonize_Tavsanoglu_Pausas_2018_BROT(checkVersion = checkVersion)
-  # ),
-  # tar_target(
-  #   name = Wang_et_al_2022_CPTD2,
-  #   command = harmonize_Wang_et_al_2022_CPTD2(checkVersion = checkVersion)
-  # ),
-  # tar_target(
-  #   name = Wang_et_al_2025_CSTD,
-  #   command = harmonize_Wang_et_al_2025_CSTD(checkVersion = checkVersion)
-  # ),
-  # tar_target(
-  #   name = Yebra_et_al_2024_GlobeLFMC,
-  #   command = harmonize_Yebra_et_al_2024_GlobeLFMC(checkVersion = checkVersion)
-  # )
 )
