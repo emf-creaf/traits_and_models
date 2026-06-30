@@ -67,6 +67,12 @@ tar_source("R/trait_source_harmonization/Wang_et_al_2024.R")
 tar_source("R/trait_source_harmonization/Wittemann_et_al_2020.R")
 tar_source("R/trait_source_harmonization/Wolfe_et_al_2023.R")
 tar_source("R/trait_source_harmonization/Yan_et_al_2020.R")
+tar_source("R/trait_source_harmonization/Zhao_et_al_2026.R")
+tar_source("R/trait_source_harmonization/Zhu_et_al_2016.R")
+tar_source("R/trait_source_harmonization/Zhu_et_al_2018.R")
+tar_source("R/trait_source_harmonization/Ziegler_et_al_2019.R")
+tar_source("R/trait_source_harmonization/Ziegler_et_al_2024.R")
+
 
 # Larger data sets (to be run in a server)
 tar_source("R/trait_source_harmonization/Alfaro_et_al_2023_RasgosCL.R")
@@ -306,7 +312,26 @@ list(
     name = Yan_et_al_2020,
     command = harmonize_Yan_et_al_2020(checkVersion = checkVersion)
   ),
-  
+  tar_target(
+    name = Zhao_et_al_2026,
+    command = harmonize_Zhao_et_al_2026(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Zhu_et_al_2016,
+    command = harmonize_Zhu_et_al_2016(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Zhu_et_al_2018,
+    command = harmonize_Zhu_et_al_2018(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Ziegler_et_al_2019,
+    command = harmonize_Ziegler_et_al_2019(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Ziegler_et_al_2024,
+    command = harmonize_Ziegler_et_al_2024(checkVersion = checkVersion)
+  ),
   
   #
   # Larger data sets (to be run in a server)
