@@ -14,7 +14,7 @@ tar_option_set(
   controller = crew::crew_controller_local(workers = 5)
 )
 
-# Small data sets
+# Smaller data sets
 tar_source("R/trait_source_harmonization/00_Compilation_FineFuelRatio.R")
 tar_source("R/trait_source_harmonization/00_Compilation_Flammability.R")
 tar_source("R/trait_source_harmonization/00_Compilation_ConstructionCosts.R")
@@ -53,9 +53,22 @@ tar_source("R/trait_source_harmonization/Ochoa_et_al_2024.R")
 tar_source("R/trait_source_harmonization/Pan_et_al_2026.R")
 tar_source("R/trait_source_harmonization/Peters_et_al_2020.R")
 tar_source("R/trait_source_harmonization/Petruzzellis_et_al_2021.R")
+tar_source("R/trait_source_harmonization/Pisek_Adamson_2020.R")
+tar_source("R/trait_source_harmonization/Ramirez_Valiente_et_al_2020.R")
+tar_source("R/trait_source_harmonization/Rimer&McAdam_2024.R")
+tar_source("R/trait_source_harmonization/Rimer&McAdam_2025.R")
+tar_source("R/trait_source_harmonization/Sjöman_et_al_2015.R")
+tar_source("R/trait_source_harmonization/Sjöman_et_al_2018.R")
+tar_source("R/trait_source_harmonization/Tavares_et_al_2023.R")
+tar_source("R/trait_source_harmonization/Trueba_et_al_2026.R")
+tar_source("R/trait_source_harmonization/TumberDavila_et_al_2022.R")
 tar_source("R/trait_source_harmonization/Vilagrosa_et_al_2014.R")
+tar_source("R/trait_source_harmonization/Wang_et_al_2024.R")
+tar_source("R/trait_source_harmonization/Wittemann_et_al_2020.R")
+tar_source("R/trait_source_harmonization/Wolfe_et_al_2023.R")
+tar_source("R/trait_source_harmonization/Yan_et_al_2020.R")
 
-# Large data sets (to be run in a server)
+# Larger data sets (to be run in a server)
 tar_source("R/trait_source_harmonization/Alfaro_et_al_2023_RasgosCL.R")
 tar_source("R/trait_source_harmonization/Baez_et_al_2022_FUNANDES.R")
 tar_source("R/trait_source_harmonization/Bjorkman_et_al_2018_TTT.R")
@@ -65,6 +78,11 @@ tar_source("R/trait_source_harmonization/Guerrero_Ramirez_et_al_2021_GRooT.R")
 tar_source("R/trait_source_harmonization/Kattge_et_al_2020_TRY_numeric.R")
 tar_source("R/trait_source_harmonization/Kattge_et_al_2020_TRY_categorical.R")
 tar_source("R/trait_source_harmonization/Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS.R")
+tar_source("R/trait_source_harmonization/Tavsanoglu_Pausas_2018_BROT2.R")
+tar_source("R/trait_source_harmonization/Wang_et_al_2022_CPTD2.R")
+tar_source("R/trait_source_harmonization/Wang_et_al_2025_CSTD.R")
+tar_source("R/trait_source_harmonization/XFT_processing.R")
+tar_source("R/trait_source_harmonization/Yebra_et_al_2024_GlobeLFMC.R")
 
 # Replace the target list below with your own:
 list(
@@ -73,7 +91,9 @@ list(
     command = as.character(packageVersion("traits4models"))
   ),
   
+  #
   # Small data sets
+  #
   tar_target(
     name = Compilation_FineFuelRatio,
     command = harmonize_00_Compilation_FineFuelRatio(checkVersion = checkVersion)
@@ -231,11 +251,66 @@ list(
     command = harmonize_Petruzzelis_et_al_2021(checkVersion = checkVersion)
   ),
   tar_target(
+    name = Pisek_Adamson_2020,
+    command = harmonize_Pisek_Adamson_2020(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = RamirezValiente_et_al_2020,
+    command = harmonize_RamirezValiente_et_al_2020(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Rimer_McAdam_2024,
+    command = harmonize_Rimer_McAdam_2024(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Rimer_McAdam_2025,
+    command = harmonize_Rimer_McAdam_2025(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Sjoman_et_al_2015,
+    command = harmonize_Sjoman_et_al_2015(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Sjoman_et_al_2018,
+    command = harmonize_Sjoman_et_al_2018(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Tavares_et_al_2023,
+    command = harmonize_Tavares_et_al_2023(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Trueba_et_al_2026,
+    command = harmonize_Trueba_et_al_2026(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = TumberDavila_et_al_2022,
+    command = harmonize_TumberDavila_et_al_2022(checkVersion = checkVersion)
+  ),
+  tar_target(
     name = Vilagrosa_et_al_2014,
     command = harmonize_Vilagrosa_et_al_2024(checkVersion = checkVersion)
   ),
+  tar_target(
+    name = Wang_et_al_2024,
+    command = harmonize_Wang_et_al_2024(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Wittemann_et_al_2020,
+    command = harmonize_Wittemann_et_al_2020(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Wolfe_et_al_2023,
+    command = harmonize_Wolfe_et_al_2023(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Yan_et_al_2020,
+    command = harmonize_Yan_et_al_2020(checkVersion = checkVersion)
+  ),
   
-  # Large data sets (to be run in a server)
+  
+  #
+  # Larger data sets (to be run in a server)
+  #
   tar_target(
     name = Baez_et_al_2022_FUNANDES,
     command = harmonize_Baez_et_al_2022_FUNANDES(checkVersion = checkVersion)
@@ -244,6 +319,10 @@ list(
     name = Bjorkman_et_al_2018_TTT,
     command = harmonize_Bjorkman_et_al_2018_TTT(checkVersion = checkVersion)
   ),
+  tar_target(
+    name = Choat_et_al_2012_XFT,
+    command = harmonize_Choat_et_al_2012_XFT(checkVersion = checkVersion)
+  )
   # tar_target(
   #   name = Diaz_et_al_2022,
   #   command = harmonize_Diaz_et_al_2022(checkVersion = checkVersion)
@@ -264,8 +343,24 @@ list(
   #   name = Kattge_et_al_2020_TRY_categorical,
   #   command = harmonize_Kattge_et_al_2020_TRY_categorical(checkVersion = checkVersion)
   # ),
-  tar_target(
-    name = OcampoZuleta_et_al_2023_FLAMITS,
-    command = harmonize_OcampoZuleta_et_al_2023_FLAMITS(checkVersion = checkVersion)
-  )
+  # tar_target(
+  #   name = OcampoZuleta_et_al_2023_FLAMITS,
+  #   command = harmonize_OcampoZuleta_et_al_2023_FLAMITS(checkVersion = checkVersion)
+  # ),
+  # tar_target(
+  #   name = Tavsanoglu_Pausas_2018_BROT,
+  #   command = harmonize_Tavsanoglu_Pausas_2018_BROT(checkVersion = checkVersion)
+  # ),
+  # tar_target(
+  #   name = Wang_et_al_2022_CPTD2,
+  #   command = harmonize_Wang_et_al_2022_CPTD2(checkVersion = checkVersion)
+  # ),
+  # tar_target(
+  #   name = Wang_et_al_2025_CSTD,
+  #   command = harmonize_Wang_et_al_2025_CSTD(checkVersion = checkVersion)
+  # ),
+  # tar_target(
+  #   name = Yebra_et_al_2024_GlobeLFMC,
+  #   command = harmonize_Yebra_et_al_2024_GlobeLFMC(checkVersion = checkVersion)
+  # )
 )
