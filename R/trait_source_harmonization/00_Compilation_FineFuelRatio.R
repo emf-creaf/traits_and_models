@@ -12,10 +12,15 @@ db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/00_compilation_
 db_var <- db |>
   dplyr::select(Species, r635, Source) |>
   dplyr::rename(originalName = Species,
+                Value = r635,
                 Reference = Source) |>
   dplyr::arrange(originalName) |>
-  dplyr::mutate(DOI = as.character(NA),
+  dplyr::mutate(Trait = "r635",
+                Units = NA,
+                Level = "population",
+                DOI = as.character(NA),
                 Priority = 1) |>
+  dplyr::relocate(Trait, .before = Value) |>
   tibble::as_tibble()
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
