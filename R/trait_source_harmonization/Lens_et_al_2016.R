@@ -1,25 +1,42 @@
 #
 # Lens et al. (2016)
 #
+# We remove values from Choat et al. 2012 (XFT) to avoid duplicate records
 
 DB_path <- "./"
 WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 # Read database -----------------------------------------------------------
 db <- readxl::read_excel(paste0(DB_path,"data-raw/raw_trait_data/Lens_et_al_2016/Lens_2016_P50_all_species_updated_FINAL_version3.xlsx"))
+# Add measurement method from table S1
+Table_S1_FULL <- readr::read_csv("data-raw/raw_trait_data/Lens_et_al_2016/Table_S1_FULL.csv")
+db <- db |>
+  dplyr::left_join(Table_S1_FULL[,c("Species", "Method used")], by=c("species...4" = "Species"))
 
 # Variable harmonization --------------------------------------------------
 db_var <- db |>
-  dplyr::select("species...4", "P50", "reference") |>
+  dplyr::filter(reference != "Choat et al. 2012") |> # We remove values from Choat et al. 2012 (XFT) to avoid duplicate records
+  dplyr::select("species...4", "P50", "reference", "Method used") |>
   dplyr::rename(originalName = "species...4",
                 Value = "P50",
-                OriginalReference = "reference") |>
+                OriginalReference = "reference",
+                Method = "Method used") |>
   dplyr::mutate(Trait = "VCstem_P50",
-                Units = "MPa") |>
+                Units = "MPa",
+                Level = "population", 
+                Method = dplyr::case_when(
+                  Method=="acoustic emission" ~ "AE",
+                  Method=="bench dehydration" ~ "DH",
+                  Method=="cavitron" ~ "CA",
+                  Method=="static centrifuge" ~ "CE",
+                  Method=="whole shoot vacuum pressure" ~ NA,
+                  TRUE ~ NA
+                )) |>
   dplyr::relocate(Trait, .before = Value) |>
+  dplyr::relocate(Method, .after = Units) |>
   dplyr::mutate(Reference = "Lens et al. (2016) Herbaceous angiosperms are not more vulnerable to drought-induced embolism than angiosperm trees. Plant Physiology 172, 661-667",
                 DOI = "10.1104/pp.16.00829",
-                Priority = 2) |>
+                Priority = 1) |>
   dplyr::relocate(OriginalReference, .after = "DOI")|>
   dplyr::arrange(originalName) |>
   tibble::as_tibble()
