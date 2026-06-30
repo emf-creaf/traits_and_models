@@ -48,6 +48,11 @@ tar_source("R/trait_source_harmonization/Liu_et_al_2019.R")
 tar_source("R/trait_source_harmonization/Loram-Lourenco_et_al_2022.R")
 tar_source("R/trait_source_harmonization/MartinStPaul_et_al_2017.R")
 tar_source("R/trait_source_harmonization/Morris_et_al_2016.R")
+tar_source("R/trait_source_harmonization/Nadal_et_al_2023.R")
+tar_source("R/trait_source_harmonization/Ochoa_et_al_2024.R")
+tar_source("R/trait_source_harmonization/Pan_et_al_2026.R")
+tar_source("R/trait_source_harmonization/Peters_et_al_2020.R")
+tar_source("R/trait_source_harmonization/Petruzzellis_et_al_2021.R")
 tar_source("R/trait_source_harmonization/Vilagrosa_et_al_2014.R")
 
 # Large data sets (to be run in a server)
@@ -59,6 +64,7 @@ tar_source("R/trait_source_harmonization/Diaz_et_al_2022.R")
 tar_source("R/trait_source_harmonization/Guerrero_Ramirez_et_al_2021_GRooT.R")
 tar_source("R/trait_source_harmonization/Kattge_et_al_2020_TRY_numeric.R")
 tar_source("R/trait_source_harmonization/Kattge_et_al_2020_TRY_categorical.R")
+tar_source("R/trait_source_harmonization/Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS.R")
 
 # Replace the target list below with your own:
 list(
@@ -205,6 +211,26 @@ list(
     command = harmonize_Morris_et_al_2016(checkVersion = checkVersion)
   ),
   tar_target(
+    name = Nadal_et_al_2023,
+    command = harmonize_Nadal_et_al_2023(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Ochoa_et_al_2024,
+    command = harmonize_Ochoa_et_al_2024(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Pan_et_al_2026,
+    command = harmonize_Pan_et_al_2026(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Peters_et_al_2020,
+    command = harmonize_Peters_et_al_2020(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Petruzzelis_et_al_2021,
+    command = harmonize_Petruzzelis_et_al_2021(checkVersion = checkVersion)
+  ),
+  tar_target(
     name = Vilagrosa_et_al_2014,
     command = harmonize_Vilagrosa_et_al_2024(checkVersion = checkVersion)
   ),
@@ -217,7 +243,7 @@ list(
   tar_target(
     name = Bjorkman_et_al_2018_TTT,
     command = harmonize_Bjorkman_et_al_2018_TTT(checkVersion = checkVersion)
-  )
+  ),
   # tar_target(
   #   name = Diaz_et_al_2022,
   #   command = harmonize_Diaz_et_al_2022(checkVersion = checkVersion)
@@ -238,4 +264,8 @@ list(
   #   name = Kattge_et_al_2020_TRY_categorical,
   #   command = harmonize_Kattge_et_al_2020_TRY_categorical(checkVersion = checkVersion)
   # ),
+  tar_target(
+    name = OcampoZuleta_et_al_2023_FLAMITS,
+    command = harmonize_OcampoZuleta_et_al_2023_FLAMITS(checkVersion = checkVersion)
+  )
 )
