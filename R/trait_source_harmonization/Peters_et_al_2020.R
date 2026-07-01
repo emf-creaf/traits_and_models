@@ -49,7 +49,8 @@ harmonize_Peters_et_al_2020 <- function(DB_path = "./", checkVersion = as.charac
     dplyr::relocate(Value, .after = Trait) |>
     dplyr::relocate(Level, .after = Value) |>
     dplyr::relocate(Method, .after = Level) |>
-    dplyr::mutate(Reference = "Peters et al. (2020) Non-invasive imaging reveals convergence in root and stem vulnerability to cavitation across five tree species. Journal of Experimental Botany  71: 6623-6637",
+    dplyr::mutate(Value = as.numeric(Value),
+                  Reference = "Peters et al. (2020) Non-invasive imaging reveals convergence in root and stem vulnerability to cavitation across five tree species. Journal of Experimental Botany  71: 6623-6637",
                   DOI = "10.1111/plb.13355",
                   Priority = 1,
                   Method = dplyr::case_when(Method == "IM" ~ "OV", # IM/OV=imaging
