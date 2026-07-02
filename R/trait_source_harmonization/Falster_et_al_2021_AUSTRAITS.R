@@ -93,6 +93,13 @@ harmonize_Falster_et_al_2021_AUSTRAITS <- function(DB_path = "./", checkVersion 
         stringr::str_detect(tolower(Value), stringr::regex("(?i)(spines)")) ~ "Spines",
         stringr::str_detect(tolower(Value), stringr::regex("(?i)(succulent)")) ~ "Succulent"
       ),
+      Level = dplyr::case_when(
+        Level=="individual" ~ "individual",
+        Level=="metapopulation" ~ "population",
+        Level=="population" ~ "population",
+        Level=="species" ~ "taxon",
+        TRUE ~ "taxon"
+      ),
       Units = as.character(NA)
     ) |>
     dplyr::relocate(Trait, .before = Value) |>

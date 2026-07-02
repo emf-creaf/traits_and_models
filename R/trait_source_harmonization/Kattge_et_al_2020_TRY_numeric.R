@@ -587,7 +587,8 @@ harmonize_Kattge_et_al_2020_TRY_numeric <- function(DB_path = "./", checkVersion
     dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
     dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
     dplyr::arrange(originalName)|>
-    dplyr::mutate(Reference = kattge_ref,
+    dplyr::mutate(Method = NA,
+                  Reference = kattge_ref,
                   DOI = kattge_doi,
                   Priority = 1, 
                   Level = dplyr::case_when(
@@ -601,10 +602,10 @@ harmonize_Kattge_et_al_2020_TRY_numeric <- function(DB_path = "./", checkVersion
   db_var <- db_var |>
     dplyr::mutate(Value = -1*Value,
                   Units = "MPa") # From -MPa to MPa
-  traits4models::check_harmonized_trait(db_var)
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
     dplyr::mutate(checkVersion = checkVersion)
-  traits4models::check_harmonized_trait(db_post)
+  
+  if(!traits4models::check_harmonized_trait(db_post)) stop("Not valid")
   saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafPI0.rds")
   
   # LeafEPS - TRY_190 ----------------------------------------------------------------
@@ -637,7 +638,8 @@ harmonize_Kattge_et_al_2020_TRY_numeric <- function(DB_path = "./", checkVersion
     dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
     dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
     dplyr::arrange(originalName)|>
-    dplyr::mutate(Reference = kattge_ref,
+    dplyr::mutate(Method = NA,
+                  Reference = kattge_ref,
                   DOI = kattge_doi,
                   Priority = 1, 
                   Level = dplyr::case_when(
@@ -653,7 +655,7 @@ harmonize_Kattge_et_al_2020_TRY_numeric <- function(DB_path = "./", checkVersion
   traits4models::check_harmonized_trait(db_var)
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
     dplyr::mutate(checkVersion = checkVersion)
-  traits4models::check_harmonized_trait(db_post)
+  if(!traits4models::check_harmonized_trait(db_post)) stop("Not valid")
   saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_LeafEPS.rds")
   
   # LigninPercent - TRY_87 ----------------------------------------------------------------
@@ -1230,10 +1232,12 @@ harmonize_Kattge_et_al_2020_TRY_numeric <- function(DB_path = "./", checkVersion
       Trait,
       Value,
       Units,
+      ValueKindName,
       Reference
     )|>
     dplyr::rename(originalName = AccSpeciesName,
-                  OriginalReference = Reference)|>
+                  OriginalReference = Reference,
+                  Level = ValueKindName)|>
     dplyr::mutate(
       originalName = gsub("\u0081|", "", originalName)) |>
     dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
@@ -1255,10 +1259,11 @@ harmonize_Kattge_et_al_2020_TRY_numeric <- function(DB_path = "./", checkVersion
   #Check units (0-5)
   db_var <- db_var |>
     dplyr::filter(Value>=0 & Value <=5)
-  traits4models::check_harmonized_trait(db_var)
+  # traits4models::check_harmonized_trait(db_var)
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
     dplyr::mutate(checkVersion = checkVersion)
-  traits4models::check_harmonized_trait(db_post)
+  
+  if(!traits4models::check_harmonized_trait(db_post)) stop("Not valid")
   saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_ShadeTol.rds")
 }
 

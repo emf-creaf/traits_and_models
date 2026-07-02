@@ -301,10 +301,9 @@ harmonize_Kattge_et_al_2020_TRY_categorical <- function(DB_path = "./", checkVer
                   DOI = kattge_doi,
                   Priority = 1) |>
     dplyr::relocate(OriginalReference, .after = DOI)
-  traits4models::check_harmonized_trait(db_var)
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
     dplyr::mutate(checkVersion = checkVersion)
-  traits4models::check_harmonized_trait(db_post)
+  if(!traits4models::check_harmonized_trait(db_post)) stop("Not valid")
   saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_PhenologyType.rds")
   
   
@@ -332,14 +331,14 @@ harmonize_Kattge_et_al_2020_TRY_categorical <- function(DB_path = "./", checkVer
     dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
     dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
     dplyr::arrange(originalName)|>
-    dplyr::mutate(Reference = kattge_ref,
+    dplyr::mutate(Level = "taxon", 
+                  Reference = kattge_ref,
                   DOI = kattge_doi,
                   Priority = 1) |>
     dplyr::relocate(OriginalReference, .after = DOI)
-  traits4models::check_harmonized_trait(db_var)
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
     dplyr::mutate(checkVersion = checkVersion)
-  traits4models::check_harmonized_trait(db_post)
+  if(!traits4models::check_harmonized_trait(db_post)) stop("Not valid")
   saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_PhotosyntheticPathway.rds")
   
   
@@ -396,10 +395,9 @@ harmonize_Kattge_et_al_2020_TRY_categorical <- function(DB_path = "./", checkVer
                   Priority = 1) |>
     dplyr::relocate(OriginalReference, .after = DOI)
   
-  traits4models::check_harmonized_trait(db_var)
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
     dplyr::mutate(checkVersion = checkVersion)
-  traits4models::check_harmonized_trait(db_post)
+  if(!traits4models::check_harmonized_trait(db_post)) stop("Not valid")
   saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_WoodPorosityType.rds")
 
 }
