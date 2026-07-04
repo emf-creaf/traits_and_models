@@ -60,6 +60,7 @@ tar_source("R/trait_source_harmonization/Rimer&McAdam_2025.R")
 tar_source("R/trait_source_harmonization/Sjöman_et_al_2015.R")
 tar_source("R/trait_source_harmonization/Sjöman_et_al_2018.R")
 tar_source("R/trait_source_harmonization/Tavares_et_al_2023.R")
+tar_source("R/trait_source_harmonization/Tavares_et_al_2026.R")
 tar_source("R/trait_source_harmonization/Trueba_et_al_2026.R")
 tar_source("R/trait_source_harmonization/Vilagrosa_et_al_2014.R")
 tar_source("R/trait_source_harmonization/Wang_et_al_2024.R")
@@ -283,6 +284,10 @@ list(
   tar_target(
     name = Tavares_et_al_2023,
     command = harmonize_Tavares_et_al_2023(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Tavares_et_al_2026,
+    command = harmonize_Tavares_et_al_2026(checkVersion = checkVersion)
   ),
   tar_target(
     name = Trueba_et_al_2026,
