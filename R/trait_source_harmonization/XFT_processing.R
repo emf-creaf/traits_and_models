@@ -230,6 +230,24 @@ harmonize_Choat_et_al_2012_XFT <- function(DB_path = "./", checkVersion = as.cha
     dplyr::filter(Value <= 0)|>
     tibble::as_tibble()
   
+  # VCstem_slope --------------------------------------------------
+  db_VCstem_slope <- db |>
+    dplyr::filter(Plant.organ %in% c("s", "S", "T")) |>
+    dplyr::select(Genus, Species, "P12","P88", "P50.method", "Reference...DOI.number") |>
+    dplyr::rename(OriginalReference = "Reference...DOI.number",
+                  Method = "P50.method") |>
+    dplyr::mutate(Trait = "VCstem_slope",
+                  Value = (88 - 12)/(abs(P88) - abs(P12)),
+                  Units = "%/MPa", 
+                  Level = "individual",
+                  Priority = 1) |> 
+    dplyr::relocate(Trait, .before = Value) |>
+    dplyr::relocate(Units, .after = Value) |>
+    dplyr::relocate(Method, .after = Units) |>
+    dplyr::relocate(Level, .after = Method) |>
+    dplyr::filter(!is.na(Value))|>
+    dplyr::select(-P88, -P12) |>
+    tibble::as_tibble()
   
   # VCleaf_P50 --------------------------------------------------
   db_VCleaf_P50 <- db |>
@@ -291,6 +309,25 @@ harmonize_Choat_et_al_2012_XFT <- function(DB_path = "./", checkVersion = as.cha
     dplyr::filter(Value <= 0)|>
     tibble::as_tibble()
   
+  # VCleaf_slope --------------------------------------------------
+  db_VCleaf_slope <- db |>
+    dplyr::filter(Plant.organ %in% c("l", "L")) |>
+    dplyr::select(Genus, Species, "P12","P88", "P50.method", "Reference...DOI.number") |>
+    dplyr::rename(OriginalReference = "Reference...DOI.number",
+                  Method = "P50.method") |>
+    dplyr::mutate(Trait = "VCleaf_slope",
+                  Value = (88 - 12)/(abs(P88) - abs(P12)),
+                  Units = "%/MPa", 
+                  Level = "individual",
+                  Priority = 1) |> 
+    dplyr::relocate(Trait, .before = Value) |>
+    dplyr::relocate(Units, .after = Value) |>
+    dplyr::relocate(Method, .after = Units) |>
+    dplyr::relocate(Level, .after = Method) |>
+    dplyr::filter(!is.na(Value))|>
+    dplyr::select(-P88, -P12) |>
+    tibble::as_tibble()
+  
   # VCroot_P50 --------------------------------------------------
   db_VCroot_P50 <- db |>
     dplyr::filter(Plant.organ %in% c("r", "R")) |>
@@ -350,6 +387,26 @@ harmonize_Choat_et_al_2012_XFT <- function(DB_path = "./", checkVersion = as.cha
     dplyr::filter(!is.na(Value))|>
     dplyr::filter(Value <= 0)|>
     tibble::as_tibble()
+
+  # VCroot_slope --------------------------------------------------
+  db_VCleaf_slope <- db |>
+    dplyr::filter(Plant.organ %in% c("r", "R")) |>
+    dplyr::select(Genus, Species, "P12","P88", "P50.method", "Reference...DOI.number") |>
+    dplyr::rename(OriginalReference = "Reference...DOI.number",
+                  Method = "P50.method") |>
+    dplyr::mutate(Trait = "VCroot_slope",
+                  Value = (88 - 12)/(abs(P88) - abs(P12)),
+                  Units = "%/MPa", 
+                  Level = "individual",
+                  Priority = 1) |> 
+    dplyr::relocate(Trait, .before = Value) |>
+    dplyr::relocate(Units, .after = Value) |>
+    dplyr::relocate(Method, .after = Units) |>
+    dplyr::relocate(Level, .after = Method) |>
+    dplyr::filter(!is.na(Value))|>
+    dplyr::select(-P88, -P12) |>
+    tibble::as_tibble()
+  
   
 
   db_var <- dplyr::bind_rows(db_Hmax,
@@ -364,12 +421,15 @@ harmonize_Choat_et_al_2012_XFT <- function(DB_path = "./", checkVersion = as.cha
                              db_VCstem_P12,
                              db_VCstem_P50,
                              db_VCstem_P88,
+                             db_VCstem_slope,
                              db_VCleaf_P12,
                              db_VCleaf_P50,
                              db_VCleaf_P88,
+                             db_VCleaf_slope,
                              db_VCroot_P12,
                              db_VCroot_P50,
-                             db_VCroot_P88)|>
+                             db_VCroot_P88,
+                             db_VCroot_slope)|>
     dplyr::arrange(Genus, Species) |>
     dplyr::filter(!(Species %in% c("spp.", "sp", "sp."))) |>
     dplyr::mutate(originalName = paste0(Genus, " ", Species)) |>
