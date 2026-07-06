@@ -11,7 +11,7 @@ library(tidyr)
 # Set target options:
 tar_option_set(
   packages = c("rdacca.hp"),
-  controller = crew::crew_controller_local(workers = 3)
+  controller = crew::crew_controller_local(workers = 8)
 )
 
 
@@ -24,22 +24,22 @@ tar_source("R/trait_analysis/trait_taxonomic_partitioning.R")
 # Replace the target list below with your own:
 list(
   ## Trait analysis
-  # tar_target(
-  #   name = SLA_part,
-  #   command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "SLA")
-  # ),
-  # tar_target(
-  #   name = LeafDensity_part,
-  #   command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "LeafDensity")
-  # ),
-  # tar_target(
-  #   name = WoodDensity_part,
-  #   command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "WoodDensity")
-  # ),
-  # tar_target(
-  #   name = WoodC_part,
-  #   command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "WoodC")
-  # ),
+  tar_target(
+    name = SLA_part,
+    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "SLA")
+  ),
+  tar_target(
+    name = LeafDensity_part,
+    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "LeafDensity")
+  ),
+  tar_target(
+    name = WoodDensity_part,
+    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "WoodDensity")
+  ),
+  tar_target(
+    name = WoodC_part,
+    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "WoodC")
+  ),
   tar_target(
     name = Al2As_part,
     command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Al2As")
