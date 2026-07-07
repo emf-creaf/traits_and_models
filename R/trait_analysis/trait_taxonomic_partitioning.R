@@ -30,5 +30,6 @@ summarize_partitioning <-function(...) {
     df[i,"genus"] = args[[i]]$result$Hier.part[2,3]
     df[i, "total"] = args[[i]]$result$Total_explained_variation
   }
+  saveRDS(df, "data/taxonomic_partitioning.rds")
   return(df)
 }

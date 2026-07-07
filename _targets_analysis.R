@@ -16,7 +16,7 @@ harmonized_trait_path <- paste0(DB_path,"data/harmonized_trait_sources")
 # Set target options:
 tar_option_set(
   packages = c("rdacca.hp"),
-  controller = crew::crew_controller_local(workers = 1)
+  controller = crew::crew_controller_local(workers = 2)
 )
 
 tar_source("R/trait_analysis/trait_taxonomic_partitioning.R")
@@ -24,8 +24,9 @@ tar_source("R/trait_analysis/trait_taxonomic_partitioning.R")
 
 values <- tibble(
   trait = c("SLA", "WoodC", "LeafWidth",
-            "LeafDensity", "WoodDensity", "r635",
-            "Al2As", "Ks","VCstem_P50", "VCleaf_P50", "VCroot_P50",
+            "LeafDensity", "WoodDensity", "FineRootDensity", "r635",
+            "conduit2sapwood", "Al2As", "Ks",
+            "VCstem_P50", "VCleaf_P50", "VCroot_P50",
             "LeafPI0", "LeafEPS", "LeafAF",  "Ptlp",
             "Gswmin", "Gswmax", "Vmax", "Jmax",
             "Nleaf", "Nsapwood", "Nfineroot")

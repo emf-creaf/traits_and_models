@@ -8,4 +8,5 @@ data-raw/raw_trait_data
 data-raw/raw_allometry_data
 data/harmonized_trait_sources
 data/harmonized_allometry_sources
+data/*.rds
 traits_and_models.Rproj
