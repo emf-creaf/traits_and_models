@@ -7,97 +7,37 @@
 library(targets)
 library(tarchetypes)
 library(tidyr)
-
-# Set target options:
-tar_option_set(
-  packages = c("rdacca.hp"),
-  controller = crew::crew_controller_local(workers = 8)
-)
-
+library(tibble)
 
 WFO_file <- "./data-raw/wfo_backbone/classification.csv"
 DB_path <- "./"
 harmonized_trait_path <- paste0(DB_path,"data/harmonized_trait_sources")
 
+# Set target options:
+tar_option_set(
+  packages = c("rdacca.hp"),
+  controller = crew::crew_controller_local(workers = 1)
+)
+
 tar_source("R/trait_analysis/trait_taxonomic_partitioning.R")
 
-# Replace the target list below with your own:
-list(
-  ## Trait analysis
-  tar_target(
-    name = SLA_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "SLA")
-  ),
-  tar_target(
-    name = LeafDensity_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "LeafDensity")
-  ),
-  tar_target(
-    name = WoodDensity_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "WoodDensity")
-  ),
-  tar_target(
-    name = WoodC_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "WoodC")
-  ),
-  tar_target(
-    name = Al2As_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Al2As")
-  ),
-  tar_target(
-    name = Ptlp_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Ptlp")
-  ),
-  tar_target(
-    name = VCstem_P50_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "VCstem_P50")
-  ),
-  tar_target(
-    name = VCleaf_P50_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "VCleaf_P50")
-  ),
-  tar_target(
-    name = LeafPI0_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "LeafPI0")
-  ),
-  tar_target(
-    name = LeafEPS_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "LeafEPS")
-  ),
-  tar_target(
-    name = LeafAF_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "LeafAF")
-  ),
-  tar_target(
-    name = Gswmin_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Gswmin")
-  ),
-  tar_target(
-    name = Gswmax_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Gswmax")
-  ),
-  tar_target(
-    name = Ks_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Ks")
-  ),
-  tar_target(
-    name = Nleaf_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Nleaf")
-  ),
-  tar_target(
-    name = Nsapwood_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Nsapwood")
-  ),
-  tar_target(
-    name = Nfineroot_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Nfineroot")
-  ),
-  tar_target(
-    name = Vmax_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Vmax")
-  ),
-  tar_target(
-    name = Jmax_part,
-    command = trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, "Jmax")
-  )
+
+values <- tibble(
+  trait = c("SLA", "WoodC", "LeafWidth",
+            "LeafDensity", "WoodDensity", "r635",
+            "Al2As", "Ks","VCstem_P50", "VCleaf_P50", "VCroot_P50",
+            "LeafPI0", "LeafEPS", "LeafAF",  "Ptlp",
+            "Gswmin", "Gswmax", "Vmax", "Jmax",
+            "Nleaf", "Nsapwood", "Nfineroot")
 )
+
+trait_analysis_targets <- tar_map(
+  values = values,
+  tar_target(name = analysis, trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, trait))
+)
+combined <- tar_combine(
+  combined_summaries,
+  trait_analysis_targets[["analysis"]],
+  command = summarize_partitioning(!!!.x)
+)
+list(trait_analysis_targets, combined)

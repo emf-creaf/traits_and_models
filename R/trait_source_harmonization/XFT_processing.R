@@ -389,7 +389,7 @@ harmonize_Choat_et_al_2012_XFT <- function(DB_path = "./", checkVersion = as.cha
     tibble::as_tibble()
 
   # VCroot_slope --------------------------------------------------
-  db_VCleaf_slope <- db |>
+  db_VCroot_slope <- db |>
     dplyr::filter(Plant.organ %in% c("r", "R")) |>
     dplyr::select(Genus, Species, "P12","P88", "P50.method", "Reference...DOI.number") |>
     dplyr::rename(OriginalReference = "Reference...DOI.number",
