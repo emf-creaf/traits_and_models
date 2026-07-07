@@ -20,15 +20,17 @@ tar_option_set(
 )
 
 tar_source("R/trait_analysis/trait_taxonomic_partitioning.R")
+tar_source("R/trait_analysis/trait_coordination.R")
 
 
 values <- tibble(
   trait = c("SLA", "WoodC", "LeafWidth",
             "LeafDensity", "WoodDensity", "FineRootDensity", "r635",
-            "conduit2sapwood", "Al2As", "Ks",
+            "conduit2sapwood", "Al2As", "Ks", "kleaf", 
+            "SRL",
             "VCstem_P50", "VCleaf_P50", "VCroot_P50",
             "LeafPI0", "LeafEPS", "LeafAF",  "Ptlp",
-            "Gswmin", "Gswmax", "Vmax", "Jmax",
+            "StomatalDensity", "Gswmin", "Gswmax", "Vmax", "Jmax",
             "Nleaf", "Nsapwood", "Nfineroot")
 )
 
@@ -41,4 +43,10 @@ combined <- tar_combine(
   trait_analysis_targets[["analysis"]],
   command = summarize_partitioning(!!!.x)
 )
-list(trait_analysis_targets, combined)
+
+list(trait_analysis_targets, 
+     combined,
+     tar_target(
+       name = trait_coordination_analysis,
+       command = trait_coordination(harmonized_trait_path)
+     ))

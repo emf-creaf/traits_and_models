@@ -246,6 +246,7 @@ harmonize_Choat_et_al_2012_XFT <- function(DB_path = "./", checkVersion = as.cha
     dplyr::relocate(Method, .after = Units) |>
     dplyr::relocate(Level, .after = Method) |>
     dplyr::filter(!is.na(Value))|>
+    dplyr::filter(Value>=0)|>
     dplyr::select(-P88, -P12) |>
     tibble::as_tibble()
   
