@@ -539,7 +539,7 @@ harmonize_Kattge_et_al_2020_TRY_numeric <- function(DB_path = "./", checkVersion
     dplyr::mutate(Method = NA,
                   Reference = kattge_ref,
                   DOI = kattge_doi,
-                  Priority = 1, 
+                  Priority = 2, 
                   Level = dplyr::case_when(
                     Level=="Single" ~ "individual",
                     Level=="Mean" ~ "population",
