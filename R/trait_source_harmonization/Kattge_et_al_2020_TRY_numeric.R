@@ -554,7 +554,7 @@ harmonize_Kattge_et_al_2020_TRY_numeric <- function(DB_path = "./", checkVersion
       Units=="milli mol m-2 s-1" ~ Value/1000, # From mmol to mol
       TRUE ~ NA
     ),
-    Units = "mol s-1  m-2") 
+    Units = "mol s-1 m-2") 
   
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
     dplyr::mutate(checkVersion = checkVersion)
