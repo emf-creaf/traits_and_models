@@ -504,6 +504,64 @@ harmonize_Kattge_et_al_2020_TRY_numeric <- function(DB_path = "./", checkVersion
   traits4models::check_harmonized_trait(db_post)
   saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_StomatalDensity.rds")
   
+  # Stomatal conductance (Gsw) - TRY_45 ----------------------------------------------------------------
+  db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_45.rds"))|>
+    dplyr::mutate(
+      Trait = "Gsw",
+      Value = as.numeric(StdValue)) |>
+    dplyr::filter(
+      !is.na(Value),
+      ErrorRisk < 3,
+      !ValueKindName %in% c("Maximum", "Minimum")
+    ) |>
+    dplyr::arrange(AccSpeciesName) |>
+    dplyr::select(
+      AccSpeciesName,
+      Trait,
+      Value,
+      UnitName,
+      ValueKindName,
+      Reference
+    )|>
+    dplyr::rename(Units = UnitName,
+                  Level = ValueKindName)|>
+    dplyr::rename(originalName = AccSpeciesName,
+                  OriginalReference = Reference)|>
+    dplyr::mutate(
+      originalName = gsub("\u0081|", "", originalName)) |>
+    dplyr::mutate(originalName = paste0(substring(originalName,1,1), tolower(substring(originalName, 2)))) |>
+    dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+    dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+    dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ ssp\\.", ""))|>
+    dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+    dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+    dplyr::arrange(originalName)|>
+    dplyr::mutate(Method = NA,
+                  Reference = kattge_ref,
+                  DOI = kattge_doi,
+                  Priority = 1, 
+                  Level = dplyr::case_when(
+                    Level=="Single" ~ "individual",
+                    Level=="Mean" ~ "population",
+                    TRUE ~ "population"
+                  )) |>
+    dplyr::relocate(OriginalReference, .after = DOI)
+  #Check units (mol s-1  m-2)
+  table(db_var$Units)
+  db_var <- db_var |>
+    dplyr::mutate(Value = dplyr::case_when(
+      Units=="mol m-2 s-1" ~ Value,
+      Units=="milli mol m-2 s-1" ~ Value/1000, # From mmol to mol
+      TRUE ~ NA
+    ),
+    Units = "mol s-1  m-2") 
+  
+  db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file) |>
+    dplyr::mutate(checkVersion = checkVersion)
+  
+  if(!traits4models::check_harmonized_trait(db_post)) stop("Not valid")
+  saveRDS(db_post, "data/harmonized_trait_sources/Kattge_et_al_2020_Gsw.rds")
+  
   # SRL - TRY_614 ----------------------------------------------------------------
   db_var <- readRDS(paste0(DB_path, "data-raw/raw_trait_data/Kattge_et_al_2020_TRY/TRY_traits/TRY_614.rds"))|>
     dplyr::mutate(
