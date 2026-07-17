@@ -34,6 +34,7 @@ tar_source("R/trait_source_harmonization/He_et_al_2019.R")
 tar_source("R/trait_source_harmonization/Henry_et_al_2019.R")
 tar_source("R/trait_source_harmonization/Hoshika_et_al_2018.R")
 tar_source("R/trait_source_harmonization/Huang_et_al_2024.R")
+tar_source("R/trait_source_harmonization/Huang_et_al_2026.R")
 tar_source("R/trait_source_harmonization/Journe_et_al_2024.R")
 tar_source("R/trait_source_harmonization/Klein_et_al_2014.R")
 tar_source("R/trait_source_harmonization/Krober_et_al_2014.R")
@@ -180,6 +181,10 @@ list(
   tar_target(
     name = Huang_et_al_2024,
     command = harmonize_Huang_et_al_2024(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Huang_et_al_2026,
+    command = harmonize_Huang_et_al_2026(checkVersion = checkVersion)
   ),
   tar_target(
     name = Journe_et_al_2024,
