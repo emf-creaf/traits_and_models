@@ -92,6 +92,18 @@ tar_source("R/trait_source_harmonization/Wang_et_al_2025_CSTD.R")
 tar_source("R/trait_source_harmonization/XFT_processing.R")
 tar_source("R/trait_source_harmonization/Yebra_et_al_2024_GlobeLFMC.R")
 
+# Allometric datasets
+tar_source("R/allometry_source_harmonization/TreeBarkThicknessAllometries_AllometrApp.R")
+tar_source("R/allometry_source_harmonization/TreeCrownRatioAllometries.R")
+tar_source("R/allometry_source_harmonization/TreeCrownWidthAllometries.R")
+tar_source("R/allometry_source_harmonization/TreeFoliarAllometries_AllometrApp.R")
+tar_source("R/allometry_source_harmonization/TreeFoliarAllometries_CalvoAlvarado_et_al_2008.R")
+tar_source("R/allometry_source_harmonization/TreeFoliarAllometries_Eslamdoust_et_al_2017.R")
+tar_source("R/allometry_source_harmonization/TreeFoliarAllometries_Thom_et_al_2024.R")
+tar_source("R/allometry_source_harmonization/ShrubCrownAreaAllometries_AllometrApp.R")
+tar_source("R/allometry_source_harmonization/ShrubFineFuelBiomassAllometries_AllometrApp.R")
+tar_source("R/allometry_source_harmonization/ShrubTotalBiomassAllometries_AllometrApp.R")
+
 # Replace the target list below with your own:
 list(
   tar_target(
@@ -397,5 +409,47 @@ list(
   tar_target(
     name = Yebra_et_al_2024_GlobeLFMC,
     command = harmonize_Yebra_et_al_2024_GlobeLFMC(checkVersion = checkVersion)
+  ),
+  
+  ## Allometric datasets
+  tar_target(
+    name = TreeBarkThicknessAllometries_AllometrApp,
+    command = harmonize_TreeBarkThicknessAllometries_AllometrApp(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = TreeCrownRatioAllometries_AllometrApp,
+    command = harmonize_TreeCrownRatioAllometries_AllometrApp(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = TreeCrownWidthAllometries_AllometrApp,
+    command = harmonize_TreeCrownWidthAllometries_AllometrApp(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = TreeFoliarAllometries_AllometrApp,
+    command = harmonize_TreeFoliarAllometries_AllometrApp(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = TreeFoliarAllometries_CalvoAlvarado_et_al_2008,
+    command = harmonize_TreeFoliarAllometries_CalvoAlvarado_et_al_2008(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = TreeFoliarAllometries_Eslamdoust_et_al_2017,
+    command = harmonize_TreeFoliarAllometries_Eslamdoust_et_al_2017(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = TreeFoliarAllometries_Thom_et_al_2024,
+    command = harmonize_TreeFoliarAllometries_Thom_et_al_2024(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = ShrubCrownAreaAllometries_AllometrApp,
+    command = harmonize_ShrubCrownAreaAllometries_AllometrApp(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = ShrubFineFuelBiomassAllometries_AllometrApp,
+    command = harmonize_ShrubFineFuelBiomassAllometries_AllometrApp(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = ShrubTotalBiomassAllometries_AllometrApp,
+    command = harmonize_ShrubTotalBiomassAllometries_AllometrApp(checkVersion = checkVersion)
   )
 )
