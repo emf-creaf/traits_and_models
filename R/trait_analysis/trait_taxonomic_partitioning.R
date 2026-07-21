@@ -1,11 +1,11 @@
 trait_taxonomic_partitioning<- function(harmonized_trait_path, WFO_file,
                                         trait_name) {
-  if(trait_name=="Gsw_q95") {
+  if(trait_name=="Gsw_q99") {
     species_means <- traits4models::taxon_trait_summary(harmonized_trait_path, traits ="Gsw",
-                                                        summary_function = "weightedquantile", summary_params = list("prob" = 0.95), verbose = FALSE, progress = FALSE) |>
+                                                        summary_function = "weightedquantile", summary_params = list("prob" = 0.99), verbose = FALSE, progress = FALSE) |>
       dplyr::rename(originalName = acceptedName) |>
       dplyr::filter(!is.na(.data[["Gsw"]]), !is.infinite(.data[["Gsw"]])) |>
-      dplyr::rename("Gsw_q95" = "Gsw")
+      dplyr::rename("Gsw_q99" = "Gsw")
   } else {
     species_means <- traits4models::taxon_trait_summary(harmonized_trait_path, traits =trait_name,
                                                         summary_function = "weightedmean", verbose = FALSE, progress = FALSE) |>

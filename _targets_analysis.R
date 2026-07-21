@@ -30,7 +30,7 @@ values <- tibble(
             "SRL",
             "VCstem_P50", "VCleaf_P50", "VCroot_P50",
             "LeafPI0", "LeafEPS", "LeafAF",  "Ptlp",
-            "StomatalDensity", "Gswmin", "Gswmax", "Gsw_q95", "Vmax", "Jmax",
+            "StomatalDensity", "Gswmin", "Gswmax", "Gsw_q99", "Vmax", "Jmax",
             "Nleaf", "Nsapwood", "Nfineroot")
 )
 
