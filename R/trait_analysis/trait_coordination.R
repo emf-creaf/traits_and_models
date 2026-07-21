@@ -8,7 +8,7 @@ trait_coordination <- function(harmonized_trait_path) {
                                                             "VCroot_P50", "VCroot_P12", "VCroot_P88",
                                                             "VCstem_P50", "VCstem_P12", "VCstem_P88"))
 
-  nrel = 12
+  nrel = 11
   n = rep(NA, nrel)
   p = rep(NA, nrel)
   responses = rep("", nrel)
@@ -180,28 +180,28 @@ trait_coordination <- function(harmonized_trait_path) {
   param2[cnt] = coef(m)[[2]]
   r2i[cnt] <- r2(df_sub$kleaf, exp(predict(m)))
   r2adj[cnt] <- 1 - (1-r2i[cnt])*((n[cnt]-1)/(n[cnt] - p[cnt] - 1))
-  ggplot(df_sub, aes(x=p50log, y = kleaflog)) +
-    geom_point()+
-    geom_smooth(method = lm, formula = y ~ x)
+  # ggplot(df_sub, aes(x=p50log, y = kleaflog)) +
+  #   geom_point()+
+  #   geom_smooth(method = lm, formula = y ~ x)
   
   
   ## Gswmax ~ kleaf
-  cnt <- cnt + 1
-  df_sub <- df_means |>
-    dplyr::select(Gswmax, kleaf) |>
-    dplyr::filter(!is.na(Gswmax), !is.na(kleaf))  |>
-    dplyr::filter(Gswmax<1)
-  n[cnt] <- nrow(df_sub)
-  p[cnt] <- 2
-  responses[cnt] <- "Gswmax"
-  formulae[cnt] <- "Gswmax = a + b * kleaf"
-  m <- lm(kleaflog ~ p50log, data = df_sub)
-  param1[cnt] = coef(m)[[1]]
-  param2[cnt] = coef(m)[[2]]
-  r2i[cnt] <- r2(df_sub$kleaf, exp(predict(m)))
-  r2adj[cnt] <- 1 - (1-r2i[cnt])*((n[cnt]-1)/(n[cnt] - p[cnt] - 1))
-  ggplot(df_sub, aes(x=Gswmax, y = kleaf)) +
-    geom_point()
+  # cnt <- cnt + 1
+  # df_sub <- df_means |>
+  #   dplyr::select(Gswmax, kleaf) |>
+  #   dplyr::filter(!is.na(Gswmax), !is.na(kleaf))  |>
+  #   dplyr::filter(Gswmax<1)
+  # n[cnt] <- nrow(df_sub)
+  # p[cnt] <- 2
+  # responses[cnt] <- "Gswmax"
+  # formulae[cnt] <- "Gswmax = a + b * kleaf"
+  # m <- lm(kleaflog ~ p50log, data = df_sub)
+  # param1[cnt] = coef(m)[[1]]
+  # param2[cnt] = coef(m)[[2]]
+  # r2i[cnt] <- r2(df_sub$kleaf, exp(predict(m)))
+  # r2adj[cnt] <- 1 - (1-r2i[cnt])*((n[cnt]-1)/(n[cnt] - p[cnt] - 1))
+  # ggplot(df_sub, aes(x=Gswmax, y = kleaf)) +
+  #   geom_point()
   # Merge
   df <- data.frame(response = responses,
                    formula = formulae,
