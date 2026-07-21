@@ -15,7 +15,7 @@ harmonized_trait_path <- paste0(DB_path,"data/harmonized_trait_sources")
 
 # Set target options:
 tar_option_set(
-  packages = c("rdacca.hp"),
+  packages = c("rdacca.hp", "ggplot2"),
   controller = crew::crew_controller_local(workers = 2)
 )
 
