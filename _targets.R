@@ -83,6 +83,7 @@ tar_source("R/trait_source_harmonization/Falster_et_al_2021_AUSTRAITS.R")
 tar_source("R/trait_source_harmonization/Diaz_et_al_2022.R")
 tar_source("R/trait_source_harmonization/Guerrero_Ramirez_et_al_2021_GRooT.R")
 tar_source("R/trait_source_harmonization/Kattge_et_al_2020_TRY_numeric.R")
+tar_source("R/trait_source_harmonization/Kattge_et_al_2020_TRY_by_trait.R")
 tar_source("R/trait_source_harmonization/Kattge_et_al_2020_TRY_categorical.R")
 tar_source("R/trait_source_harmonization/Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS.R")
 tar_source("R/trait_source_harmonization/Tavsanoglu_Pausas_2018_BROT2.R")
@@ -385,6 +386,22 @@ list(
   tar_target(
     name = Kattge_et_al_2020_TRY_categorical,
     command = harmonize_Kattge_et_al_2020_TRY_categorical(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Kattge_et_al_2020_TRY_LeafVeinDensity,
+    command = harmonize_Kattge_et_al_2020_TRY_LeafVeinDensity(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Kattge_et_al_2020_TRY_StomatalArea,
+    command = harmonize_Kattge_et_al_2020_TRY_StomatalArea(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Kattge_et_al_2020_TRY_StomatalLength,
+    command = harmonize_Kattge_et_al_2020_TRY_StomatalLength(checkVersion = checkVersion)
+  ),
+  tar_target(
+    name = Kattge_et_al_2020_TRY_StomatalWidth,
+    command = harmonize_Kattge_et_al_2020_TRY_StomatalWidth(checkVersion = checkVersion)
   ),
   tar_target(
     name = OcampoZuleta_et_al_2023_FLAMITS,
