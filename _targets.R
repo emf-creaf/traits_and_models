@@ -376,6 +376,10 @@ list(
     command = harmonize_Falster_et_al_2021_AUSTRAITS(checkVersion = checkVersion)
   ),
   tar_target(
+    name = Falster_et_al_2021_AUSTRAITS_Gsw,
+    command = harmonize_Falster_et_al_2021_AUSTRAITS_Gsw(checkVersion = checkVersion)
+  ),
+  tar_target(
     name = GuerreroRamirez_et_al_2021,
     command = harmonize_GuerreroRamirez_et_al_2021(checkVersion = checkVersion)
   ),

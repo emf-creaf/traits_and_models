@@ -1,6 +1,16 @@
 #
 # Falster et al. (2021) - AUSTRAITS
 #
+
+get_falster_ref <- function() {
+  falster_ref <- "Falster et al. (2021) AusTraits, a curated plant trait database for the Australian flora. Scientific Data 8:254"
+  return(falster_ref)
+}
+get_falster_doi <- function() {
+  falster_doi <- "10.1038/s41597-021-01006-6"
+  return(falster_doi)
+}
+
 harmonize_Falster_et_al_2021_AUSTRAITS <- function(DB_path = "./", checkVersion = as.character(packageVersion("traits4models"))) {
   WFO_path <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
   
@@ -1131,3 +1141,59 @@ harmonize_Falster_et_al_2021_AUSTRAITS <- function(DB_path = "./", checkVersion 
   saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Jmax.rds")
   
 }
+
+harmonize_Falster_et_al_2021_AUSTRAITS_Gsw <- function(DB_path = "./", checkVersion = as.character(packageVersion("traits4models"))) {
+  WFO_path <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
+  
+  aus_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Falster_et_al_2021_AusTraits/austraits-5.0.0/traits.csv"))
+  methods_db <- readr::read_csv(paste0(DB_path,"data-raw/raw_trait_data/Falster_et_al_2021_AusTraits/austraits-5.0.0/methods.csv"))
+  
+  falster_ref <- "Falster et al. (2021) AusTraits, a curated plant trait database for the Australian flora. Scientific Data 8:254"
+  falster_doi <- "10.1038/s41597-021-01006-6"
+  
+  db_methods <- methods_db |>
+    dplyr::select("dataset_id", "trait_name", "source_primary_citation") |>
+    dplyr::filter(trait_name == "leaf_transpiration_per_area_ambient")|>
+    dplyr::select(-trait_name) |>
+    dplyr::rename(OriginalReference = "source_primary_citation")
+  db_var <- aus_db |>
+    dplyr::select("taxon_name", "trait_name", "value", "unit", "dataset_id", "entity_type") |>
+    dplyr::filter(trait_name == "leaf_transpiration_per_area_ambient")|>
+    dplyr::rename(Trait = "trait_name",
+                  Value = "value",
+                  Units = "unit",
+                  Level = "entity_type")|>
+    dplyr::mutate(Trait = "Gsw",
+                  Value = as.numeric(Value), 
+                  Level = dplyr::case_when(
+                    Level=="individual" ~ "individual",
+                    Level=="metapopulation" ~ "population",
+                    Level=="population" ~ "population",
+                    Level=="species" ~ "taxon",
+                    TRUE ~ "taxon"
+                  ),
+                  Method = NA) |>
+    dplyr::rename(originalName = "taxon_name")|>
+    dplyr::arrange(originalName) |>
+    dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ sp\\.", ""))|>
+    dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ spp\\.", ""))|>
+    dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ subsp\\.", ""))|>
+    dplyr::mutate(originalName = stringr::str_replace(originalName, "\\ var\\.", ""))|>
+    dplyr::left_join(db_methods, by = "dataset_id")|>
+    dplyr::select(-dataset_id)|>
+    dplyr::mutate(Reference = get_falster_ref(),
+                  DOI = get_falster_doi(),
+                  Priority = 1) |>
+    dplyr::relocate(OriginalReference, .after = DOI)
+  # Check units (mmol m-2 s-1) 
+  table(db_var$Units)
+  db_var <- db_var |>
+    dplyr::mutate(Value = Value,
+                  Units = "mol s-1 m-2") # Real units seem to be mol, not mmol
+  traits4models::check_harmonized_trait(db_var)
+  db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_path) |>
+    dplyr::mutate(checkVersion = checkVersion)
+  traits4models::check_harmonized_trait(db_post)
+  saveRDS(db_post, "data/harmonized_trait_sources/Falster_et_al_2021_Gsw.rds")
+}
+

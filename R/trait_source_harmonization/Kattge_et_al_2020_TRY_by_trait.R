@@ -8,7 +8,7 @@ get_kattge_ref <- function() {
   return(kattge_ref)
 }
 get_kattge_doi <- function() {
-  kattge_doi <- "10.1038/s41597-021-01006-6"
+  kattge_doi <- "10.1111/gcb.14904"
   return(kattge_doi)
 }
 
