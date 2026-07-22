@@ -21,6 +21,7 @@ tar_option_set(
 
 tar_source("R/trait_analysis/trait_taxonomic_partitioning.R")
 tar_source("R/trait_analysis/trait_coordination.R")
+tar_source("R/trait_analysis/trait_info.R")
 
 
 values <- tibble(
@@ -36,6 +37,7 @@ values <- tibble(
 
 trait_analysis_targets <- tar_map(
   values = values,
+  tar_target(name = info, trait_info(harmonized_trait_path, WFO_file, trait)),
   tar_target(name = analysis, trait_taxonomic_partitioning(harmonized_trait_path, WFO_file, trait))
 )
 combined <- tar_combine(
